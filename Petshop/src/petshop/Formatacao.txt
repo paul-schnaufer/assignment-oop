@@ -1,0 +1,132 @@
+# Google Java Style Guide - Resumo Completo das Regras Relevantes
+
+## Estrutura Geral de Arquivo
+
+```
+// Importações (estáticas depois das normais)
+package com.exemplo.minhapasta;
+
+import java.util.List;
+import static java.lang.Math.PI;
+
+/** Comentário de classe com Javadoc. */
+public class MinhaClasse {
+  
+  // Constantes
+  private static final int COLUNA_MAXIMA = 100;
+
+  // Atributos
+  private int idade;
+
+  // Contrutores, métodos, etc.
+}
+```
+
+## Recuo, Espacços e Quebras de Linha
+
+Regra | Exemplo
+Indentação de 2 espaços - Java tradicional usa 4, mas Google prefere 2 espaços, sem ```Tab```
+Linhas com máx. 100 colunas - Limite de comprimento de linha.
+Quebra após vírgula ou operadores - Quebra sempre depois de vírgula ou operador, nunca antes.
+
+```
+// Quebra correta:
+metodoQualquer(param1, param2, param3,
+    param4, param5);
+```
+
+## Nomenclatura (Naming Conventions)
+
+Elemento | Convenção | Exemplo
+Classes - ```PascalCase``` - Cliente, PetShopManager
+Métodos - ```camelCase``` - consultarCliente, getEmail()
+Variáveis - ```camelCase``` - numeroTelefone
+Constantes - ```UPPER_CASE_SNAKE``` - TAXA_DESCONTO_MAXIMA
+Pacotes - ```lowercase.completo``` - br.com.uem.petshop
+
+## Comentários
+
+- **Use Javadoc** para classes públicas, métodos e contrutores.
+- **Comentários de linha** (//) devem ser claros, objetivos, e não redundantes.
+
+```
+/**
+ * Retorna o nome do cliente.
+ * @return nome
+ */
+public String getNome() {
+  return nome;
+}
+```
+
+## Ordem dos Elementos da Classe
+
+Ordem recomendada:
+1. Variáveis *static final* (constantes)
+2. Variáveis *static*
+3. Variáveis de instância
+4. Construtores
+5. Métodos públicos
+6. Métodos privados
+7. Classes internas
+
+## Uso de **this**
+
+- Use ```this.``` **apenas quando necessário** (como para evitar ambiguidade com parâmetros).
+
+```
+public void setNome(String nome) {
+  this.nome = nome;
+}
+```
+
+## Imports
+- **Sem * (wildcard):** Sempre use imports explícitos.
+- **Ordem:** Primeiro Java SE, depois bibliotecas externas, depois pacotes do projeto.
+- **Import estático** depois dos imports normais.
+
+```
+import java.util.List;
+import org.joda.time.DateTime;
+import static java.lang.Math.PI;
+```
+
+## Braces/Chaves
+
+- Sempre use chaves, mesmo em blocos de uma linha:
+
+```
+if (condicao) {
+  fazerAlgo();
+} else {
+  fazerOutraCoisa();
+}
+```
+
+## Espaços
+
+Recomendado | Evitar
+if (x == y) - if(x==y)
+a + b - a+b
+String s = "Hello"; - String s="Hello";
+
+## Formatação de Métodos e Classes
+
+**Declaração de métodos:**
+
+```
+public void meuMetodo(
+  int parametro1,
+  int parametro2,
+  String outro
+) {
+    // corpo
+}
+```
+
+**Declaração de classes longas:**
+
+```
+public class Cliente implements Serializable,
+                                 Comparable<Cliente> {
+}
