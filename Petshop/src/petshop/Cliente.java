@@ -17,7 +17,6 @@ public class Cliente {
     private String cpf;
     
     //Construtores 
-
     public Cliente(String nome, String telefone, String email, String rg, String cpf) {
         this.nome = nome;
         this.telefone = telefone;

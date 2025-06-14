@@ -33,7 +33,7 @@ public class Funcionario {
       + this.qualificacao + "\nDescrição da Função Executada: " 
       + this.descricaoFuncao + "\nCarga Horária Semanal de Trabalho: " 
       + this.cargaHorariaSemanal + " horas");
-    }                         
+    }
     
   public void alterarCadastro(String nome, String matricula, String qualificacao,
       String descricaoFuncao,float cargaHorariaSemanal){

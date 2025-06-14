@@ -26,39 +26,28 @@ public class Petshop {
 
                 switch (acao) {
                     case 1 -> {
-                        System.out.println("Insira o Nome");
-                        String nome = leia.nextLine();
-                        System.out.println("Insira o telefone");
-                        String telefone = leia.nextLine();
-                        System.out.println("Insira o e-mail"); 
-                        String email = leia.nextLine();
-                        System.out.println("Insira o RG"); 
-                        String rg = leia.nextLine();
-                        System.out.println("Insira o CPF");
-                        String cpf = leia.nextLine();
+                        // Colocar o 
 
-                        clientes.put(cpf, new Cliente(nome, telefone, email, rg, cpf));
-                        clientes.get(cpf).consultarCliente();
                     }
-
-                    case 2 -> {
-                        System.out.println("Insira o Nome");
-                        String nome = leia.nextLine();
-                        System.out.println("Insira a Matrícula");
-                        String matricula = leia.nextLine();
-                        System.out.println("Insira a Qualificação"); 
-                        String qualificacao = leia.nextLine();
-                        System.out.println("Insira a Descrição da Função Realizada"); 
-                        String descricaoFuncao = leia.nextLine();
-                        System.out.println("Insira a Carga Horária Semanal");
-                        float cargaHoraria = Float.parseFloat(leia.nextLine());
+                }
+            case 2 -> {
+                System.out.println("Insira o Nome");
+                String nome = leia.nextLine();
+                System.out.println("Insira a Matrícula");
+                String matricula = leia.nextLine();
+                System.out.println("Insira a Qualificação"); 
+                String qualificacao = leia.nextLine();
+                System.out.println("Insira a Descrição da Função Realizada"); 
+                String descricaoFuncao = leia.nextLine();
+                System.out.println("Insira a Carga Horária Semanal");
+                float cargaHoraria = Float.parseFloat(leia.nextLine());
                        
-                        funcionarios.put(matricula, new Funcionario(nome, matricula, qualificacao, descricaoFuncao, cargaHoraria));
-                        funcionarios.get(matricula).consultarFuncionario();
+                funcionarios.put(matricula, new Funcionario(nome, matricula, qualificacao, descricaoFuncao, cargaHoraria));
+                funcionarios.get(matricula).consultarFuncionario();
                
             }
-                }
             }
+        }
             case 2 -> {
             }
         }
