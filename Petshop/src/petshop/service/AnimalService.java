@@ -24,7 +24,7 @@ public class AnimalService implements Service {
 
         String chave = nome + " — " + cpfDono; // Chave única para o animal
         animais.put(chave, new Animal(nome, peso, altura, cpfDono));
-        animais.get(cpfDono).consultarAnimal();
+        System.out.println("Animal cadastrado com sucesso!");
     }
 
     @Override
@@ -45,21 +45,22 @@ public class AnimalService implements Service {
         if (encontrados.isEmpty()) {
             System.out.println("Nenhum animal encontrado com o nome: " + nome);
         } else if (encontrados.size() == 1) {
-            encontrados.get(0).consultarAnimal();
+            Animal animalEncontrado = encontrados.get(0);
+            System.out.println(animalEncontrado.toStringDetalhado());
         } else {
             System.out.println("Foram encontrados múltiplos animais com esse nome: " + nome);
             for (int i = 0; i < encontrados.size(); i++) {
                 System.out.println((i + 1) + " — Dono CPF: " + encontrados.get(i).getCpfDono());
             }
 
+            // Solicita ao usuário que escolha um animal da lista
             int escolha;
             System.out.println("Escolha o número correspondente: ");
             escolha = VerificaEntrada.lerInteiroValido(leia, 1, encontrados.size());
-            
-            Animal animalEscolhido = encontrados.get(escolha - 1);
-            
-            String informacao = Animal.toStringDetalhado(animalEscolhido);
 
+            // Exibe os detalhes do animal escolhido
+            Animal animalEscolhido = encontrados.get(escolha - 1);
+            System.out.println(animalEscolhido.toStringDetalhado());
         }
 }
 
@@ -73,6 +74,9 @@ public class AnimalService implements Service {
         // Lógica para remover um animal
     }
 
-    public void capturaInformacoes()
+    public void capturaInformacoes() {
+        // Método para capturar informações de um animal
+        return null
+    }
 }   
 

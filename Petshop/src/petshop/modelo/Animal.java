@@ -54,10 +54,10 @@ public class Animal {
      * Método que retorna uma representação detalhada do animal.
      * @return String com detalhes do animal.
      */
-    public String toStringDetalhado(Animal animal) {
-        return "Nome: " + animal.getNome() + 
-               "\nPeso: " + animal.getPeso() + " kg" + 
-               "\nAltura: " + animal.getAltura() + " cm" + 
-               "\nCPF do Dono: " + animal.getCpfDono();
+    public String toStringDetalhado() {
+        return  "Nome: " + nome + 
+                "\nPeso: " + peso + " kg" + 
+                "\nAltura: " + altura + " cm" + 
+                "\nCPF do Dono: " + cpfDono;
     }
 }
