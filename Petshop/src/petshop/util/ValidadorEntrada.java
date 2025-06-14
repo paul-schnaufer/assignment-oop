@@ -1,13 +1,13 @@
-package petshop.utils;
+package petshop.util;
 
 import java.util.Scanner;
 import java.util.Map;
 import java.util.HashMap;
 
-import petshop.modelo.Animal;
-import petshop.modelo.Atendimento;
-import petshop.modelo.Cliente;
-import petshop.modelo.Funcionario;
+import petshop.model.Animal;
+import petshop.model.Atendimento;
+import petshop.model.Cliente;
+import petshop.model.Funcionario;
 
 import petshop.util.BancoDeDadosEmMemoria;
 
@@ -48,11 +48,11 @@ public class ValidadorEntrada {
      * @param cpf O CPF a ser verificado.
      * @return true se o CPF for válido, false caso contrário.
      */
-    public static String lerCpfValido() {
+    public static String lerCpfValido(Scanner leia) {
         String cpf;
         while (true) {
             System.out.println("Digite o CPF (11 dígitos, apenas números): ");
-            String cpf = leia.nextLine();
+            cpf = leia.nextLine();
             if (cpf.matches("\\d{11}")) {
                 break;
             } else {
@@ -84,7 +84,9 @@ public class ValidadorEntrada {
      * @return true se a entrada for válida, false caso contrário.
      */
     public static boolean validarEntradaEmBancoDeDados(String entrada) {
-        BancoDeDadosEmMemoria
+        
+        return false;
+        
     }
 
     /**

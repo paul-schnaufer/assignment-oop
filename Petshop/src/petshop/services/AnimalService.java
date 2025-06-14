@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import petshop.model.Animal;
-import petshop.utils.ValidadorEntrada;
+import petshop.util.ValidadorEntrada;
 
 /**
  * Classe responsável por gerenciar as operações relacionadas aos animais do petshop.

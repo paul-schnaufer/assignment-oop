@@ -1,4 +1,4 @@
-package petshop.utils;
+package petshop.util;
 
 import java.util.HashMap;
 import java.util.Map;
