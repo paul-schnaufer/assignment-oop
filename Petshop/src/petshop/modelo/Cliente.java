@@ -71,4 +71,12 @@ public class Cliente extends Pessoa {
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }
+
+    public String toStringDetalhado() {
+        return "Nome: " + nome + 
+               "\nTelefone: " + telefone + 
+               "\nE-mail: " + email + 
+               "\nRG: " + rg + 
+               "\nCPF: " + cpf;
+    }
 }

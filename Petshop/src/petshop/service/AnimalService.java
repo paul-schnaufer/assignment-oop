@@ -67,6 +67,8 @@ public class AnimalService implements Service {
     @Override
     public void alterar(Scanner leia) {
         // Lógica para alterar os dados de um animal
+        // Quando alterar os dados referentes à chave,
+        // deve-se remover o animal antigo e cadastrar um novo com a chave atualizada
     }
 
     @Override
@@ -76,7 +78,7 @@ public class AnimalService implements Service {
 
     public void capturaInformacoes() {
         // Método para capturar informações de um animal
-        return null
+        return;
     }
 }   
 
