@@ -6,7 +6,7 @@ import java.util.Scanner;
  * Esta classe pode conter métodos estáticos para validação de entradas,
  * como verificar se um CPF é válido, se um nome não está vazio, etc.
  */
-public class VerificaEntrada {
+public class ValidadorEntrada {
     // Métodos estáticos para validação de entradas podem ser adicionados aqui.
     /**
      * Verifica se o nome fornecido não está vazio.
