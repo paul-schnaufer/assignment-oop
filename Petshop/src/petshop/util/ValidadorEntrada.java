@@ -35,7 +35,9 @@ public class ValidadorEntrada {
      * @return true se a entrada for válida, false caso contrário.
      */
     public static boolean validarEntradaEmBancoDeDados(String entrada) {
-        BancoDeDadosEmMemoria
+        
+        return false;
+        
     }
 
     /**
