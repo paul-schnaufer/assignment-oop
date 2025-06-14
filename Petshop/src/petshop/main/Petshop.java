@@ -1,10 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
-package petshop;
+package petshop.main;
 
 import java.util.Scanner;
+
+import petshop.modelo.Cliente;
+import petshop.modelo.Funcionario;
+import petshop.service.ClienteService;
+
 import java.util.Map;
 import java.util.HashMap;
 
@@ -26,13 +27,15 @@ public class Petshop {
                 leia.nextLine(); //Consumir a quebra de linha
                 Map<String, Cliente> clientes = new HashMap<>();
                 Map<String, Funcionario> funcionarios = new HashMap<>();
-
+                
                 switch (acao) {
                     case 1 -> {
-                        // Colocar o 
+                        ClienteService clienteService = new ClienteService(clientes);
+                        clienteService.cadastrar(leia);
                     }
                 }
             }
+
             case 2 -> {
                 System.out.println("Insira o Nome");
                 String nome = leia.nextLine();
@@ -44,11 +47,10 @@ public class Petshop {
                 String descricaoFuncao = leia.nextLine();
                 System.out.println("Insira a Carga Horária Semanal");
                 float cargaHoraria = Float.parseFloat(leia.nextLine());
-                       
+
                 funcionarios.put(matricula, new Funcionario(nome, matricula, qualificacao, descricaoFuncao, cargaHoraria));
                 funcionarios.get(matricula).consultarFuncionario();
-               
             }
-            }
+        }
     }
 }
