@@ -11,4 +11,5 @@ public interface Service {
     void consultar(Scanner leia);
     void alterar(Scanner leia);
     void remover(Scanner leia);
+    void listar(Scanner leia);
 }
