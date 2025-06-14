@@ -7,8 +7,14 @@ import java.util.List;
 import petshop.modelo.Animal;
 import petshop.util.ValidadorEntrada;
 
+/**
+ * Classe responsável por gerenciar as operações relacionadas aos animais do petshop.
+ * Implementa a interface Service para fornecer funcionalidades de cadastro, consulta,
+ * alteração, remoção e listagem de animais.
+ */
 public class AnimalService implements Service {
     private Map<String, Animal> animais;
+
     public AnimalService(Map<String, Animal> animais) {
         this.animais = animais;
     }
@@ -151,9 +157,29 @@ public class AnimalService implements Service {
         }
     }
 
+    /**
+     * Método para remover um animal do sistema.
+     * Solicita ao usuário o nome do animal e remove o animal correspondente.
+     * Se não encontrar o animal, informa ao usuário.
+     *
+     * @param leia Scanner para ler a entrada do usuário
+     */
     @Override
     public void remover(Scanner leia) {
-        // Lógica para remover um animal
+        // Método para remover um animal do sistema
+        System.out.println("Nome do animal a ser removido: ");
+        String nome = leia.nextLine();
+
+        Animal animalSelecionado = selecionarAnimalPorNome(leia, nome);
+
+        if (animalSelecionado == null) {
+            System.out.println("Nenhum animal encontrado com o nome: " + nome);
+            return;
+        }
+
+        String chave = animalSelecionado.getNome() + " — " + animalSelecionado.getCpfDono();
+        animais.remove(chave);
+        System.out.println("Animal removido com sucesso!");
     }
 
     @Override
@@ -164,7 +190,7 @@ public class AnimalService implements Service {
             return;
         } else {
             System.out.println("\n=== RELATÓRIO DE ANIMAIS ===");
-
+            System.out.println("Total de animais cadastrados: " + animais.size());
             int contador = 1;
             for (Animal animal : animais.values()) {
                 System.out.println(contador + ". Animal: ");
@@ -175,9 +201,22 @@ public class AnimalService implements Service {
         }
     }
 
-
+    /**
+     * Método auxiliar para selecionar um animal pelo nome.
+     * Se houver múltiplos animais com o mesmo nome, solicita ao usuário que escolha qual animal deseja ver os detalhes.
+     *
+     * @param leia Scanner para ler a entrada do usuário
+     * @param nome Nome do animal a ser selecionado
+     * @return O animal selecionado ou null se não encontrado
+     */
     private Animal selecionarAnimalPorNome(Scanner leia, String nome) {
-        List<Animal> animaisEncontrados = buscarAnimaisPorNome(nome);
+        List<Animal> animaisEncontrados = new ArrayList<>();
+    
+        for (Map.Entry<String, Animal> entry : animais.entrySet()) {
+            if (entry.getValue().getNome().equalsIgnoreCase(nome)) {
+                animaisEncontrados.add(entry.getValue());
+            }
+        }
 
         if (animaisEncontrados.isEmpty()) {
             System.out.println("Nenhum animal encontrado com o nome: " + nome);
@@ -199,12 +238,4 @@ public class AnimalService implements Service {
 
         return animaisEncontrados.get(escolhaUsuario - 1);
     }
-
-    public void capturaInformacoes() {
-        // Método para capturar informações de um animal
-        return;
-    }
-
-
-}   
-
+}

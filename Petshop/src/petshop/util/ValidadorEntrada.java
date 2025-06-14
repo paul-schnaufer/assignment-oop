@@ -1,6 +1,8 @@
 package petshop.util;
 
 import java.util.Scanner;
+import petshop.util.BancoDeDadosEmMemoria;
+
 /**
  * Classe utilitária para verificar entradas de dados no sistema de Petshop.
  * Esta classe pode conter métodos estáticos para validação de entradas,
@@ -15,6 +17,25 @@ public class ValidadorEntrada {
      */
     public static boolean validarNome(String nome) {
         return nome != null && !nome.trim().isEmpty();
+    }
+
+    /**
+     * Verifica se o CPF fornecido é válido.
+     * O CPF deve conter exatamente 11 dígitos numéricos.
+     * @param cpf O CPF a ser verificado.
+     * @return true se o CPF for válido, false caso contrário.
+     */
+    public static boolean validarCpf(String cpf) {
+        return cpf != null && cpf.matches("\\d{11}");
+    }
+
+    /**
+     * Verifica se a entrada fornecida existe em um banco de dados.
+     * @param entrada A entrada a ser verificada.
+     * @return true se a entrada for válida, false caso contrário.
+     */
+    public static boolean validarEntradaEmBancoDeDados(String entrada) {
+        BancoDeDadosEmMemoria
     }
 
     /**
