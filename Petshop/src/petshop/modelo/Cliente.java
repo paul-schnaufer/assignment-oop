@@ -71,6 +71,7 @@ public class Cliente extends Pessoa {
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }
+<<<<<<< HEAD
     
     /**
     * Método que retorna uma representação detalhada do cliente.
@@ -82,5 +83,14 @@ public class Cliente extends Pessoa {
                "\nE-mail: " + this.email + 
                "\nRG: " + this.rg +
                "\nCPF" + this.cpf;
+=======
+
+    public String toStringDetalhado() {
+        return "Nome: " + nome + 
+               "\nTelefone: " + telefone + 
+               "\nE-mail: " + email + 
+               "\nRG: " + rg + 
+               "\nCPF: " + cpf;
+>>>>>>> bb785e82d0af1d724ad7874269b4c065c4fc6b9e
     }
 }

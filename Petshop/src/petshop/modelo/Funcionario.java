@@ -70,4 +70,16 @@ public class Funcionario extends Pessoa {
     public void setCargaHorariaSemanal(float cargaHorariaSemanal) {
         this.cargaHorariaSemanal = cargaHorariaSemanal;
     }
+
+    /**
+     * Método que retorna uma representação detalhada do funcionário.
+     * @return String com detalhes do funcionário.
+     */
+    public String toStringDetalhado() {
+        return "Nome: " + nome + 
+               "\nMatrícula: " + matricula + 
+               "\nQualificação: " + qualificacao + 
+               "\nDescrição da Função: " + descricaoFuncao + 
+               "\nCarga Horária Semanal: " + cargaHorariaSemanal + " horas";
+    }
 }
