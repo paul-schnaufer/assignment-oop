@@ -1,11 +1,12 @@
-package petshop.util;
+package petshop.utils;
 
 import java.util.HashMap;
 import java.util.Map;
-import petshop.modelo.Animal;
-import petshop.modelo.Atendimento;
-import petshop.modelo.Cliente;
-import petshop.modelo.Funcionario;
+
+import petshop.model.Animal;
+import petshop.model.Atendimento;
+import petshop.model.Cliente;
+import petshop.model.Funcionario;
 
 /**
  * Classe que simula um banco de dados em memória para armazenar informações

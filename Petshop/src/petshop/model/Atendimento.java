@@ -1,4 +1,4 @@
-package petshop.modelo;
+package petshop.model;
 
 /**
  * Classe que representa um Atendimento no sistema de Petshop.

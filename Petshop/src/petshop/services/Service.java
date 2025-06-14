@@ -1,4 +1,4 @@
-package petshop.service;
+package petshop.services;
 
 import java.util.Scanner;
 

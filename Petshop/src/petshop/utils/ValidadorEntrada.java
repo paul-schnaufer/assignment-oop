@@ -1,4 +1,4 @@
-package petshop.util;
+package petshop.utils;
 
 import java.util.Scanner;
 import java.util.Map;

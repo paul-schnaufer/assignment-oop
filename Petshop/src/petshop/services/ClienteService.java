@@ -1,19 +1,19 @@
-package petshop.service;
+package petshop.services;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
-import petshop.modelo.Cliente;
 
-import petshop.modelo.Cliente;
-import petshop.util.ValidadorEntrada;
+import petshop.model.Cliente;
+import petshop.utils.ValidadorEntrada;
 
 /**
  * Classe responsável por gerenciar as operações relacionadas aos clientes do petshop.
  */
 public class ClienteService implements Service {
     private Map<String, Cliente> clientes;
+
     public ClienteService(Map<String, Cliente> clientes) {
         this.clientes = clientes;
     }

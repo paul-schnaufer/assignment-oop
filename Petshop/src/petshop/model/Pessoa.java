@@ -1,4 +1,4 @@
-package petshop.modelo;
+package petshop.model;
 
 /**
  * Classe abstrata Pessoa que representa uma entidade genérica com um nome.

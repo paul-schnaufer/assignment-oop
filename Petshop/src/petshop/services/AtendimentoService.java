@@ -1,4 +1,4 @@
-package petshop.service;
+package petshop.services;
 
 public class AtendimentoService {
     private Map<String, Atendimento> atendimentos;
