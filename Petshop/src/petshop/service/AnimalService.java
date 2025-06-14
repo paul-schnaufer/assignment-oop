@@ -5,7 +5,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
 import petshop.modelo.Animal;
-import petshop.util.VerificaEntrada;
+import petshop.util.ValidadorEntrada;
 
 public class AnimalService implements Service {
     private Map<String, Animal> animais;
@@ -13,54 +13,78 @@ public class AnimalService implements Service {
         this.animais = animais;
     }
 
+    /**
+     * Método para cadastrar um animal no sistema.
+     * Solicita ao usuário as informações necessárias e cria um novo objeto Animal.
+     * A chave do animal é composta pelo nome e CPF do dono.
+     *
+     * @param leia Scanner para ler a entrada do usuário
+     */
     @Override
     public void cadastrar(Scanner leia) {
         System.out.println("Insira o nome do animal: ");
         String nome = leia.nextLine();
-        float peso = VerificaEntrada.lerFloatPositivo(leia, "Insira o peso do animal: ");
-        float altura = VerificaEntrada.lerFloatPositivo(leia, "Insira a altura do animal: ");
+        float peso = ValidadorEntrada.lerFloatPositivo(leia, "Insira o peso do animal: ");
+        float altura = ValidadorEntrada.lerFloatPositivo(leia, "Insira a altura do animal: ");
         System.out.println("Insira o CPF do dono: ");
         String cpfDono = leia.nextLine();
 
         String chave = nome + " — " + cpfDono; // Chave única para o animal
         animais.put(chave, new Animal(nome, peso, altura, cpfDono));
+
+        System.out.println("Dados do animal cadastrado:");
+        System.out.println(animais.get(chave).toStringDetalhado());
+
+        System.out.println("Os dados estão corretos? (S/N)");
+        String resposta = leia.nextLine().trim().toUpperCase();
+
+        if (!resposta.equals("S")) {
+            System.out.println("Cadastro cancelado.");
+            animais.remove(chave);
+            return;
+        }
+
         System.out.println("Animal cadastrado com sucesso!");
     }
 
+    /**
+     * Método para consultar um animal no sistema.
+     * Solicita ao usuário o nome do animal e busca por animais que começam com esse nome.
+     * Se encontrar múltiplos animais, solicita ao usuário que escolha qual animal deseja ver os detalhes.
+     *
+     * @param leia Scanner para ler a entrada do usuário
+     */
     @Override
     public void consultar(Scanner leia) {
         System.out.println("Nome do animal a ser consultado: ");
         String nome = leia.nextLine();
 
-        List<Animal> encontrados = new ArrayList<>();
+        List<Animal> animaisEncontrados = new ArrayList<>();
 
         // Verifica se o nome do animal começa com o nome fornecido
         for (Map.Entry<String, Animal> entry : animais.entrySet()) {
             if (entry.getKey().startsWith(nome)) {
-                encontrados.add(entry.getValue());
+                animaisEncontrados.add(entry.getValue());
             }
         }
 
-        // Se nenhum animal for encontrado, exibe mensagem apropriada
-        if (encontrados.isEmpty()) {
+        if (animaisEncontrados.isEmpty()) {
             System.out.println("Nenhum animal encontrado com o nome: " + nome);
-        } else if (encontrados.size() == 1) {
-            Animal animalEncontrado = encontrados.get(0);
+        } else if (animaisEncontrados.size() == 1) {
+            Animal animalEncontrado = animaisEncontrados.get(0);
             System.out.println(animalEncontrado.toStringDetalhado());
         } else {
             System.out.println("Foram encontrados múltiplos animais com esse nome: " + nome);
-            for (int i = 0; i < encontrados.size(); i++) {
-                System.out.println((i + 1) + " — Dono CPF: " + encontrados.get(i).getCpfDono());
+
+            for (int i = 0; i < animaisEncontrados.size(); i++) {
+                System.out.println((i + 1) + " — Dono CPF: " + animaisEncontrados.get(i).getCpfDono());
             }
 
-            // Solicita ao usuário que escolha um animal da lista
-            int escolha;
             System.out.println("Escolha o número correspondente: ");
-            escolha = VerificaEntrada.lerInteiroValido(leia, 1, encontrados.size());
+            int escolhaUsuario = ValidadorEntrada.lerInteiroValido(leia, 1, animaisEncontrados.size());
 
-            // Exibe os detalhes do animal escolhido
-            Animal animalEscolhido = encontrados.get(escolha - 1);
-            System.out.println(animalEscolhido.toStringDetalhado());
+            // Exibe o animal escolhido
+            System.out.println(animaisEncontrados.get(escolhaUsuario - 1).toStringDetalhado());
         }
 }
 
