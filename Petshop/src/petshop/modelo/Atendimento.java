@@ -62,4 +62,16 @@ public class Atendimento {
     public void setFuncionario(Funcionario funcionario) {
         this.funcionario = funcionario;
     }
+    
+    /**
+    * Método que retorna uma representação detalhada do atendimento.
+    * @return String com detalhes do atendimento.
+    */
+    public String toStringDetalhado(Atendimento atendimento) {
+        return "Codigo: " + codigo + 
+               "\nData: " + data +
+               "\nCliente: " + cliente + 
+               "\nAnimal: " + animal +
+               "\nFuncionario: " + funcionario;
+    }
 }
