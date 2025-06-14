@@ -12,7 +12,6 @@ import petshop.modelo.Funcionario;
 import petshop.service.AnimalService;
 import petshop.service.AtendimentoService;
 import petshop.service.ClienteService;
-import petshop.service.FuncionarioService;
 
 import petshop.util.BancoDeDadosEmMemoria;
 import petshop.util.ValidadorEntrada;
@@ -23,8 +22,14 @@ import petshop.util.ValidadorEntrada;
  */
 public class Petshop {
     public static void main(String[] args) {
-        Scanner leia = new Scanner(System.in);
-        
+        BancoDeDadosEmMemoria banco = new BancoDeDadosEmMemoria();
+        ValidadorEntrada validador = new ValidadorEntrada(banco.clientes, banco.animais, banco.funcionarios, banco.atendimentos);
+        AnimalService animalService = new AnimalService(banco.animais);
+        ClienteService clienteService = new ClienteService(banco.clientes);
+        FuncionarioService funcionarioService = new FuncionarioService(banco.funcionarios);
+        AtendimentoService atendimentoService = new AtendimentoService(banco.atendimentos, banco.animais, banco.funcionarios);
+
+
         // Loop de menus chamando os serviços normalmente
         int opcao = 0;
 
@@ -80,7 +85,7 @@ public class Petshop {
                         case 4 -> {
                             funcionarioService.remover(leia);
                         }
-                    }
+                    
                 }
 
                 case 3 -> {
