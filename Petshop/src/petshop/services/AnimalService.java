@@ -1,10 +1,11 @@
-package petshop.service;
+package petshop.services;
 
 import java.util.Map;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
-import petshop.modelo.Animal;
+
+import petshop.model.Animal;
 import petshop.util.ValidadorEntrada;
 
 /**

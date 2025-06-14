@@ -1,23 +1,24 @@
-package petshop.service;
+package petshop.services;
 
 import java.util.Map;
 import java.util.Scanner;
-import petshop.modelo.Atendimento;
+import java.util.Set;
+
+import petshop.model.Cliente;
 import petshop.util.ValidadorEntrada;
-import petshop.util.BancoDeDadosEmMemoria;
 
 /**
  * Classe responsável por gerenciar as operações relacionadas aos clientes do petshop.
  */
-public class AtendimentoService implements Service {
-    private Map<String, Atendimento> atendimentos;
+public class ClienteService implements Service {
+    private Map<String, Cliente> clientes;
 
-    public AtendimentoService(Map<String, Atendimento> atendimentos) {
-        this.atendimentos = atendimentos;
+    public ClienteService(Map<String, Cliente> clientes) {
+        this.clientes = clientes;
     }
 
     /**
-     * Método para cadastrar um atendimento no sistema.
+     * Método para cadastrar um cliente no sistema.
      * Solicita ao usuário as informações necessárias e cria um novo objeto Cliente.
      * A chave do cliente é seu CPF.
      *
@@ -25,20 +26,19 @@ public class AtendimentoService implements Service {
      */
     @Override
     public void cadastrar(Scanner leia) {
-        System.out.println("Insira o código do atendimento: ");
-        String codigo = leia.nextLine();
-        System.out.println("Insira a data do atendimento: ");
-        String data = leia.nextLine();
+        System.out.println("Insira o nome do cliente: ");
+        String nome = leia.nextLine();
+        System.out.println("Insira o telefone do cliente: ");
+        String telefone = leia.nextLine();
+        System.out.println("Insira o email do cliente: ");
+        String email = leia.nextLine();
+        System.out.println("Insira o telefone do cliente: ");
+        String rg = leia.nextLine();        
         System.out.println("Insira o CPF do cliente: ");
         String cpf = leia.nextLine();
-        Cliente cliente = clientes.get(cpf);
-        System.out.println("Insira o telefone do animal: ");
-        Animal animal = leia.nextLine();        
-        System.out.println("Insira o CPF do cliente: ");
-        Funcionario funcionario = leia.nextLine();
 
         String chave = cpf;
-        atendimento.put(chave, new Atendimento(codigo, data, cliente, animal, funcionario));
+        clientes.put(chave, new Cliente(nome, telefone, email, rg, cpf));
 
         System.out.println("Dados do cliente cadastrado:");
         System.out.println(clientes.get(chave).toStringDetalhado());
@@ -190,4 +190,3 @@ public class AtendimentoService implements Service {
         }
     }
 } 
-

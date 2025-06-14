@@ -4,10 +4,10 @@ import java.util.Scanner;
 import java.util.Map;
 import java.util.HashMap;
 
-import petshop.modelo.Animal;
-import petshop.modelo.Atendimento;
-import petshop.modelo.Cliente;
-import petshop.modelo.Funcionario;
+import petshop.model.Animal;
+import petshop.model.Atendimento;
+import petshop.model.Cliente;
+import petshop.model.Funcionario;
 
 import petshop.util.BancoDeDadosEmMemoria;
 

@@ -1,4 +1,4 @@
-package petshop.modelo;
+package petshop.model;
 
 /**
  * Classe Funcionario que herda da classe Pessoa.

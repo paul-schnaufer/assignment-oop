@@ -1,9 +1,9 @@
-package petshop.service;
+package petshop.services;
 
 import java.util.Map;
 import java.util.Scanner;
 
-import petshop.modelo.Funcionario;
+import petshop.model.Funcionario;
 
 /**
  * Classe responsável por gerenciar as operações relacionadas aos funcionários do petshop.
