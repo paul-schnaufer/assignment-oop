@@ -1,86 +1,210 @@
 package petshop.service;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
+import petshop.modelo.Cliente;
 
 import petshop.modelo.Cliente;
+import petshop.util.ValidadorEntrada;
 
 /**
  * Classe responsável por gerenciar as operações relacionadas aos clientes do petshop.
  */
 public class ClienteService implements Service {
     private Map<String, Cliente> clientes;
-
     public ClienteService(Map<String, Cliente> clientes) {
         this.clientes = clientes;
     }
 
+    /**
+     * Método para cadastrar um cliente no sistema.
+     * Solicita ao usuário as informações necessárias e cria um novo objeto Cliente.
+     * A chave do cliente é seu CPF.
+     *
+     * @param leia Scanner para ler a entrada do usuário
+     */
     @Override
     public void cadastrar(Scanner leia) {
-        System.out.println("Insira o nome: ");
+        System.out.println("Insira o nome do cliente: ");
         String nome = leia.nextLine();
-        System.out.println("Insira o telefone: ");
+        System.out.println("Insira o telefone do cliente: ");
         String telefone = leia.nextLine();
-        System.out.println("Insira o e-mail: "); 
+        System.out.println("Insira o email do cliente: ");
         String email = leia.nextLine();
-        System.out.println("Insira o RG: ");
-        String rg = leia.nextLine();
-        System.out.println("Insira o CPF: ");
+        System.out.println("Insira o telefone do cliente: ");
+        String rg = leia.nextLine();        
+        System.out.println("Insira o CPF do cliente: ");
         String cpf = leia.nextLine();
 
-        clientes.put(cpf, new Cliente(nome, telefone, email, rg, cpf));
-        
-    }
+        String chave = cpf;
+        clientes.put(chave, new Cliente(nome, telefone, email, rg, cpf));
 
-    @Override
-    public void consultar(Scanner leia) {
-        System.out.println("Insira o CPF do cliente a ser consultado: ");
-        String cpf = leia.nextLine();
+        System.out.println("Dados do cliente cadastrado:");
+        System.out.println(clientes.get(chave).toStringDetalhado());
 
-        if (clientes.containsKey(cpf)) {
-            
+        System.out.println("Os dados estão corretos? (S/N)");
+        String resposta = leia.nextLine().trim().toUpperCase();
+
+        if (!resposta.equals("S")) {
+            System.out.println("Cadastro cancelado.");
+            clientes.remove(chave);
+            return;
+        }
+
+        System.out.println("Cliente cadastrado com sucesso!");
+        System.out.println("Gostaria de cadastrar outro cliente? (S/N)");
+        resposta = leia.nextLine().trim().toUpperCase();
+
+        if (resposta.equals("S")) {
+            cadastrar(leia);
         } else {
-            System.out.println("Cliente não encontrado.");
+            System.out.println("Cadastro finalizado.");
         }
     }
 
+    /**
+     * Método para consultar um cliente no sistema.
+     * Solicita ao usuário o CPF do cliente e busca pelo cliente com esse CPF.
+     *
+     * @param leia Scanner para ler a entrada do usuário
+     */
     @Override
-    public void alterar(Scanner leia) {
-        System.out.println("Insira o CPF do cliente a ser alterado: ");
+    public void consultar(Scanner leia) {
+        System.out.println("CPF do cliente a ser consultado: ");
         String cpf = leia.nextLine();
 
-        if (clientes.containsKey(cpf)) {
-            System.out.println("Novo nome: ");
-            String nome = leia.nextLine();
-            System.out.println("Novo telefone: ");
-            String telefone = leia.nextLine();
-            System.out.println("Novo e-mail: ");
-            String email = leia.nextLine();
-            System.out.println("Novo RG: ");
-            String rg = leia.nextLine();
+        Cliente clienteSelecionado = clientes.get(cpf);
 
-            Cliente cliente = clientes.get(cpf);
-            cliente.setNome(nome);
-            cliente.setTelefone(telefone);
-            cliente.setEmail(email);
-            cliente.setRg(rg);
-            
-            System.out.println("Cliente alterado com sucesso.");
+        if (clienteSelecionado != null) {
+            System.out.println("Dados do cliente selecionado:");
+            System.out.println(clienteSelecionado.toStringDetalhado());
         } else {
-            System.out.println("Cliente não encontrado.");
+            System.out.println("Nenhum cliente encontrado com o CPF: " + cpf);
+        } 
+    }
+
+    /**
+     * Método para alterar os dados de um cliente no sistema.
+     * Solicita ao usuário o CPF do cliente e permite que ele escolha quais dados deseja alterar.
+     * As opções incluem nome, telefone, email, RG, CPF, ou todos os dados.
+     *
+     * @param leia Scanner para ler a entrada do usuário
+     */
+    @Override
+    public void alterar(Scanner leia) {
+        System.out.println("CPF do cliente a ser alterado: ");
+        String cpf = leia.nextLine();
+
+        Cliente clienteSelecionado = clientes.get(cpf);
+
+        if (clienteSelecionado == null) {
+            System.out.println("Nenhum cliente encontrado com o CPF: " + cpf);
+            return;
+        }
+
+        System.out.println("Dados atuais do cliente:");
+        System.out.println(clienteSelecionado.toStringDetalhado());
+
+        System.out.println("Quais dados do cliente você deseja alterar?");
+        System.out.println("1 — Nome");
+        System.out.println("2 — Telefone");
+        System.out.println("3 — E-mail");
+        System.out.println("4 — RG");
+        System.out.println("5 — CPF");
+        System.out.println("6 — Todos os dados");
+
+        int opcao = ValidadorEntrada.lerInteiroValido(leia, 1, 6);
+        System.out.println("Você escolheu a opção: " + opcao);
+
+        switch (opcao) {
+            case 1 -> {
+                System.out.println("Insira o novo nome do cliente: ");
+                String novoNome = leia.nextLine();
+                clienteSelecionado.setNome(novoNome);
+            }
+            case 2 -> {
+                System.out.println("Insira o novo telefone do cliente: ");
+                String novoTelefone = leia.nextLine();
+                clienteSelecionado.setTelefone(novoTelefone);
+            }
+            case 3 -> {
+                System.out.println("Insira o novo e-mail do cliente: ");
+                String novoEmail = leia.nextLine();
+                clienteSelecionado.setEmail(novoEmail);
+            }
+            case 4 -> {
+                System.out.println("Insira o novo RG do cliente: ");
+                String novoRg = leia.nextLine();
+                clienteSelecionado.setRg(novoRg);
+            }
+            case 5 -> {
+                System.out.println("Insira o novo CPF do cliente: ");
+                String novoCpf = leia.nextLine();
+                clienteSelecionado.setCpf(novoCpf);
+                clientes.remove(clienteSelecionado.getCpf());
+                clientes.put(novoCpf, clienteSelecionado);
+            }
+            case 6 -> {
+                cadastrar(leia);
+            }
         }
     }
 
     @Override
     public void remover(Scanner leia) {
-        System.out.println("Insira o CPF do cliente a ser removido: ");
-        String cpf = leia.nextLine();
+        // Lógica para remover um animal
+    }
 
-        if (clientes.containsKey(cpf)) {
-            clientes.remove(cpf);
-            System.out.println("Cliente removido com sucesso.");
+    @Override
+    public void listar(Scanner leia) {
+        // Método para listar todos os animais cadastrados
+        if (animais.isEmpty()) {
+            System.out.println("Nenhum animal cadastrado.");
+            return;
         } else {
-            System.out.println("Cliente não encontrado.");
+            System.out.println("\n=== RELATÓRIO DE ANIMAIS ===");
+
+            int contador = 1;
+            for (Animal animal : animais.values()) {
+                System.out.println(contador + ". Animal: ");
+                System.out.println(animal.toStringDetalhado());
+                System.out.println("--------------------------------");
+                contador++;
+            }
         }
     }
-}
+
+
+    private Animal selecionarAnimalPorNome(Scanner leia, String nome) {
+        List<Animal> animaisEncontrados = buscarAnimaisPorNome(nome);
+
+        if (animaisEncontrados.isEmpty()) {
+            System.out.println("Nenhum animal encontrado com o nome: " + nome);
+            return null;
+        }
+        
+        if (animaisEncontrados.size() == 1) {
+            return animaisEncontrados.get(0);
+        }
+
+        System.out.println("Foram encontrados múltiplos animais com esse nome: " + nome);
+
+        for (int i = 0; i < animaisEncontrados.size(); i++) {
+            System.out.println((i + 1) + " — Dono CPF: " + animaisEncontrados.get(i).getCpfDono());
+        }
+
+        System.out.println("Escolha o número correspondente: ");
+        int escolhaUsuario = ValidadorEntrada.lerInteiroValido(leia, 1, animaisEncontrados.size());
+
+        return animaisEncontrados.get(escolhaUsuario - 1);
+    }
+
+    public void capturaInformacoes() {
+        // Método para capturar informações de um animal
+        return;
+    }
+
+
+} 

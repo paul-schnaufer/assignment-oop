@@ -26,12 +26,6 @@ public class Cliente extends Pessoa {
     
     
     //Métodos
-    public void consultarCliente(Cliente cliente){
-        System.out.println("\n----------Cliente----------\nNome: " + this.nome + "\nTelefone: " + this.telefone + "\nE-mail: " + this.email + "\nRG: " + this.rg + "\nCPF: " + this.cpf);
-        System.out.println(cliente.toStringDetalhado());
-        
-    }
-    
     public void alterarCadastro(String nome, String telefone, String email, String rg, String cpf){
         this.nome = nome;
         this.telefone = telefone;
