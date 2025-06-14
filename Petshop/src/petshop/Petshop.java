@@ -8,7 +8,10 @@ import java.util.Scanner;
 import java.util.Map;
 import java.util.HashMap;
 
-/** Manipula múltiplas classes para administrar um petshop. */
+/**
+ * Classe principal do sistema de gerenciamento de petshop.
+ * Permite a interação com o usuário para realizar diversas operações.
+ */
 public class Petshop {
     public static void main(String[] args) {
         Scanner leia = new Scanner(System.in);
@@ -27,7 +30,6 @@ public class Petshop {
                 switch (acao) {
                     case 1 -> {
                         // Colocar o 
-
                     }
                 }
             case 2 -> {
@@ -37,7 +39,7 @@ public class Petshop {
                 String matricula = leia.nextLine();
                 System.out.println("Insira a Qualificação"); 
                 String qualificacao = leia.nextLine();
-                System.out.println("Insira a Descrição da Função Realizada"); 
+                System.out.println("Insira a Descrição da Função Realizada");
                 String descricaoFuncao = leia.nextLine();
                 System.out.println("Insira a Carga Horária Semanal");
                 float cargaHoraria = Float.parseFloat(leia.nextLine());
