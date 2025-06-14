@@ -30,14 +30,24 @@ public class Petshop {
                 System.out.println("Que ação deseja realizar?\n1 - Cadastro de Cliente\n2 - Consulta de Cliente\n3 - Alteração de Cliente\n4 - Remoção de Cliente");
                 acao = leia.nextInt();
                 leia.nextLine(); //Consumir a quebra de linha
+                ClienteService clienteService = new ClienteService(clientes);
                 
                 switch (acao) {
-                    case 1 -> {
-                        ClienteService clienteService = new ClienteService(clientes);
+                    case 1 -> {                 
                         clienteService.cadastrar(leia);
                     }
                     
+                    case 2 -> {
+                        clienteService.consultar(leia);
+                    }
                     
+                    case 3 -> {
+                        clienteService.alterar(leia);
+                    }
+                    
+                    case 4 -> {
+                        clienteService.remover(leia);
+                    }
                 }
             }
 
