@@ -29,7 +29,7 @@ public class ClienteService implements Service {
         String cpf = leia.nextLine();
 
         clientes.put(cpf, new Cliente(nome, telefone, email, rg, cpf));
-        clientes.get(cpf).consultarCliente();
+        
     }
 
     @Override
@@ -38,7 +38,7 @@ public class ClienteService implements Service {
         String cpf = leia.nextLine();
 
         if (clientes.containsKey(cpf)) {
-            clientes.get(cpf).consultarCliente();
+            
         } else {
             System.out.println("Cliente não encontrado.");
         }
