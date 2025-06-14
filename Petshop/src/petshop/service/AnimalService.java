@@ -28,8 +28,11 @@ public class AnimalService implements Service {
 
     @Override
     public void consultar(Scanner leia) {
+        System.out.println("Insira o CPF do dono do animal a ser consultado: ");
+        String cpfDono = leia.nextLine();
         System.out.println("Insira o nome do animal a ser consultado: ");
         String nome = leia.nextLine();
+        String chave = nome + " — " + cpfDono;
 
         if (animais.containsKey(chave)) {
             animais.get(chave).consultarAnimal();

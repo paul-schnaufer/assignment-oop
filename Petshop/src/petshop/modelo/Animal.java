@@ -11,7 +11,7 @@ public class Animal {
     private float altura;
     private String cpfDono;
 
-    public Animal(String nome, double peso, double altura, String cpfDono) {
+    public Animal(String nome, float peso, float altura, String cpfDono) {
         this.nome = nome;
         this.peso = peso;
         this.altura = altura;
@@ -30,7 +30,7 @@ public class Animal {
         return peso;
     }
 
-    public void setPeso(double peso) {
+    public void setPeso(float peso) {
         this.peso = peso;
     }
 
@@ -38,7 +38,7 @@ public class Animal {
         return altura;
     }
 
-    public void setAltura(double altura) {
+    public void setAltura(float altura) {
         this.altura = altura;
     }
 
