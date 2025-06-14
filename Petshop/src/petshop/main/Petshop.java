@@ -22,12 +22,22 @@ import petshop.util.ValidadorEntrada;
  */
 public class Petshop {
     public static void main(String[] args) {
-        BancoDeDadosEmMemoria banco = new BancoDeDadosEmMemoria();
-        ValidadorEntrada validador = new ValidadorEntrada(banco.clientes, banco.animais, banco.funcionarios, banco.atendimentos);
-        AnimalService animalService = new AnimalService(banco.animais);
-        ClienteService clienteService = new ClienteService(banco.clientes);
-        FuncionarioService funcionarioService = new FuncionarioService(banco.funcionarios);
-        AtendimentoService atendimentoService = new AtendimentoService(banco.atendimentos, banco.animais, banco.funcionarios);
+        Scanner leia = new Scanner(System.in);
+
+        ValidadorEntrada validador = new ValidadorEntrada(
+                BancoDeDadosEmMemoria.clientes,
+                BancoDeDadosEmMemoria.animais,
+                BancoDeDadosEmMemoria.funcionarios,
+                BancoDeDadosEmMemoria.atendimentos);
+
+        AnimalService animalService = new AnimalService(
+            BancoDeDadosEmMemoria.animais);
+        ClienteService clienteService = new ClienteService(
+            BancoDeDadosEmMemoria.clientes);
+        FuncionarioService funcionarioService = new FuncionarioService(
+            BancoDeDadosEmMemoria.funcionarios);
+        AtendimentoService atendimentoService = new AtendimentoService(
+            BancoDeDadosEmMemoria.atendimentos);
 
 
         // Loop de menus chamando os serviços normalmente
