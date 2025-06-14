@@ -55,9 +55,9 @@ public class Animal {
      * @return String com detalhes do animal.
      */
     public String toStringDetalhado() {
-        return  "Nome: " + nome + 
-                "\nPeso: " + peso + " kg" + 
-                "\nAltura: " + altura + " cm" + 
-                "\nCPF do Dono: " + cpfDono;
+        return "Nome: " + nome + 
+               "\nPeso: " + peso + " kg" + 
+               "\nAltura: " + altura + " cm" + 
+               "\nCPF do Dono: " + cpfDono;
     }
 }
