@@ -67,48 +67,44 @@ public class AnimalService implements Service {
         System.out.println("Nome do animal a ser consultado: ");
         String nome = leia.nextLine();
 
-        List<Animal> animaisEncontrados = new ArrayList<>();
+        Animal animalSelecionado = selecionarAnimalPorNome(leia, nome);
 
-        // Verifica se o nome do animal começa com o nome fornecido
-        for (Map.Entry<String, Animal> entry : animais.entrySet()) {
-            if (entry.getKey().startsWith(nome)) {
-                animaisEncontrados.add(entry.getValue());
-            }
-        }
-        
-        if (animaisEncontrados.isEmpty()) {
-            System.out.println("Nenhum animal encontrado com o nome: " + nome);
-        } else if (animaisEncontrados.size() == 1) {
-            Animal animalEncontrado = animaisEncontrados.get(0);
-            System.out.println(animalEncontrado.toStringDetalhado());
+        if (animalSelecionado != null) {
+            System.out.println("Dados do animal selecionado:");
+            System.out.println(animalSelecionado.toStringDetalhado());
         } else {
-            System.out.println("Foram encontrados múltiplos animais com esse nome: " + nome);
+            System.out.println("Nenhum animal encontrado com o nome: " + nome);
+        } 
+    }
 
-            for (int i = 0; i < animaisEncontrados.size(); i++) {
-                System.out.println((i + 1) + " — Dono CPF: " + animaisEncontrados.get(i).getCpfDono());
-            }
-
-            System.out.println("Escolha o número correspondente: ");
-            int escolhaUsuario = ValidadorEntrada.lerInteiroValido(leia, 1, animaisEncontrados.size());
-
-            // Exibe o animal escolhido
-            System.out.println(animaisEncontrados.get(escolhaUsuario - 1).toStringDetalhado());
-        }
-}
-
+    /**
+     * Método para alterar os dados de um animal no sistema.
+     * Solicita ao usuário o nome do animal e permite que ele escolha quais dados deseja alterar.
+     * As opções incluem peso, altura, nome, CPF do dono, ou todos os dados.
+     *
+     * @param leia Scanner para ler a entrada do usuário
+     */
     @Override
     public void alterar(Scanner leia) {
-        // Lógica para alterar os dados de um animal
-        // Quando alterar os dados referentes à chave,
-        // deve-se remover o animal antigo e cadastrar um novo com a chave atualizada
-        consultar(leia);
+        System.out.println("Nome do animal a ser alterado: ");
+        String nome = leia.nextLine();
+
+        Animal animalSelecionado = selecionarAnimalPorNome(leia, nome);
+
+        if (animalSelecionado == null) {
+            System.out.println("Nenhum animal encontrado com o nome: " + nome);
+            return;
+        }
+
+        System.out.println("Dados atuais do animal:");
+        System.out.println(animalSelecionado.toStringDetalhado());
 
         System.out.println("Quais dados do animal você deseja alterar?");
         System.out.println("1 — Peso");
         System.out.println("2 — Altura");
         System.out.println("3 — Nome");
-        System.out.println("4 — CPF do dono");
-        System.out.println("5 — Nome do animal e CPF do dono");
+        System.out.println("4 — Dono (CPF)");
+        System.out.println("5 — Nome do animal e dono (CPF)");
         System.out.println("6 — Todos os dados");
 
         int opcao = ValidadorEntrada.lerInteiroValido(leia, 1, 6);
@@ -117,51 +113,41 @@ public class AnimalService implements Service {
         switch (opcao) {
             case 1:
                 float novoPeso = ValidadorEntrada.lerFloatPositivo(leia, "Insira o novo peso do animal: ");
-                setPeso(novoPeso);
+                animalSelecionado.setPeso(novoPeso);
                 break;
             case 2:
-                alterarAltura(leia);
+                float novaAltura = ValidadorEntrada.lerFloatPositivo(leia, "Insira a nova altura do animal: ");
+                animalSelecionado.setAltura(novaAltura);
                 break;
             case 3:
-                alterarNome(leia);
+                System.out.println("Insira o novo nome do animal: ");
+                String novoNome = leia.nextLine();
+                String cpfDono = animalSelecionado.getCpfDono();
+                animais.remove(animalSelecionado.getNome() + " — " + cpfDono);
+                animalSelecionado.setNome(novoNome);
+                animais.put(novoNome + " — " + cpfDono, animalSelecionado);
                 break;
             case 4:
-                alterarCpfDono(leia);
+                System.out.println("Insira o CPF do novo dono: ");
+                String novoCpfDono = leia.nextLine();
+                String nomeAnimal = animalSelecionado.getNome();
+                animais.remove(nomeAnimal + " — " + animalSelecionado.getCpfDono());
+                animalSelecionado.setCpfDono(novoCpfDono);
+                animais.put(nomeAnimal + " — " + novoCpfDono, animalSelecionado);
                 break;
             case 5:
-                alterarNomeECPF(leia);
+                System.out.println("Insira o novo nome do animal: ");
+                String nomeAlterado = leia.nextLine();
+                System.out.println("Insira o CPF do novo dono: ");
+                String cpfAlterado = leia.nextLine();
+                animais.remove(animalSelecionado.getNome() + " — " + animalSelecionado.getCpfDono());
+                animalSelecionado.setNome(nomeAlterado);
+                animalSelecionado.setCpfDono(cpfAlterado);
+                animais.put(nomeAlterado + " — " + cpfAlterado, animalSelecionado);
                 break;
             case 6:
-                alterarTodosDados(leia);
-                break;
-            default:
-                System.out.println("Opção inválida.");
-        }
-
-        System.out.println("Insira o nome do animal a ser alterado: ");
-        String nome = leia.nextLine();
-        System.out.println("Insira o CPF do dono: ");
-        String cpfDono = leia.nextLine();
-        String chave = nome + " — " + cpfDono;
-
-        if (animais.containsKey(chave)) {
-            Animal animal = animais.get(chave);
-            System.out.println("Dados atuais do animal:");
-            System.out.println(animal.toStringDetalhado());
-
-            System.out.println("Insira o novo nome do animal: ");
-            String novoNome = leia.nextLine();
-            float novoPeso = ValidadorEntrada.lerFloatPositivo(leia, "Insira o novo peso do animal: ");
-            float novaAltura = ValidadorEntrada.lerFloatPositivo(leia, "Insira a nova altura do animal: ");
-
-            // Remove o animal antigo e cadastra um novo com a chave atualizada
-            animais.remove(chave);
-            String novaChave = novoNome + " — " + cpfDono;
-            animais.put(novaChave, new Animal(novoNome, novoPeso, novaAltura, cpfDono));
-
-            System.out.println("Animal alterado com sucesso!");
-        } else {
-            System.out.println("Animal não encontrado.");
+                cadastrar(leia);
+                return;
         }
     }
 
@@ -175,12 +161,43 @@ public class AnimalService implements Service {
         // Método para listar todos os animais cadastrados
         if (animais.isEmpty()) {
             System.out.println("Nenhum animal cadastrado.");
+            return;
         } else {
-            System.out.println("Animais cadastrados:");
+            System.out.println("\n=== RELATÓRIO DE ANIMAIS ===");
+
+            int contador = 1;
             for (Animal animal : animais.values()) {
+                System.out.println(contador + ". Animal: ");
                 System.out.println(animal.toStringDetalhado());
+                System.out.println("--------------------------------");
+                contador++;
             }
         }
+    }
+
+
+    private Animal selecionarAnimalPorNome(Scanner leia, String nome) {
+        List<Animal> animaisEncontrados = buscarAnimaisPorNome(nome);
+
+        if (animaisEncontrados.isEmpty()) {
+            System.out.println("Nenhum animal encontrado com o nome: " + nome);
+            return null;
+        }
+        
+        if (animaisEncontrados.size() == 1) {
+            return animaisEncontrados.get(0);
+        }
+
+        System.out.println("Foram encontrados múltiplos animais com esse nome: " + nome);
+
+        for (int i = 0; i < animaisEncontrados.size(); i++) {
+            System.out.println((i + 1) + " — Dono CPF: " + animaisEncontrados.get(i).getCpfDono());
+        }
+
+        System.out.println("Escolha o número correspondente: ");
+        int escolhaUsuario = ValidadorEntrada.lerInteiroValido(leia, 1, animaisEncontrados.size());
+
+        return animaisEncontrados.get(escolhaUsuario - 1);
     }
 
     public void capturaInformacoes() {
