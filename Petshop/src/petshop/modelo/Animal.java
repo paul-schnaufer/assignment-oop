@@ -7,14 +7,14 @@ package petshop.modelo;
 public class Animal {
     //Atributos
     private String nome;
-    private float peso;
-    private float altura;
+    private float peso; // em quilogramas
+    private float altura; // em centímetros
     private String cpfDono;
 
     public Animal(String nome, float peso, float altura, String cpfDono) {
         this.nome = nome;
-        this.peso = peso;
-        this.altura = altura;
+        this.peso = peso; 
+        this.altura = altura; 
         this.cpfDono = cpfDono;
     }
 
@@ -48,5 +48,16 @@ public class Animal {
 
     public void setCpfDono(String cpfDono) {
         this.cpfDono = cpfDono;
+    }
+
+    /**
+     * Método que retorna uma representação detalhada do animal.
+     * @return String com detalhes do animal.
+     */
+    public String toStringDetalhado(Animal animal) {
+        return "Nome: " + animal.getNome() + 
+               "\nPeso: " + animal.getPeso() + " kg" + 
+               "\nAltura: " + animal.getAltura() + " cm" + 
+               "\nCPF do Dono: " + animal.getCpfDono();
     }
 }
