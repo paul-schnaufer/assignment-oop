@@ -147,64 +147,47 @@ public class ClienteService implements Service {
                 clientes.put(novoCpf, clienteSelecionado);
             }
             case 6 -> {
+                clientes.remove(clienteSelecionado.getCpf());
                 cadastrar(leia);
             }
         }
     }
 
+     /**
+     * Método para remover um cliente do sistema.
+     * Solicita ao usuário o CPF do cliente e remove o cliente com esse CPF.
+     *
+     * @param leia Scanner para ler a entrada do usuário
+     */
     @Override
     public void remover(Scanner leia) {
-        // Lógica para remover um animal
+        System.out.println("CPF do cliente a ser removido: ");
+        String cpf = leia.nextLine();
+
+        Cliente clienteRemovido = clientes.remove(cpf);
+
+        if (clienteRemovido == null) {
+            System.out.println("Nenhum cliente encontrado com o CPF: " + cpf);
+        } else {
+            System.out.println("Cliente removido com sucesso!");
+        } 
     }
 
     @Override
     public void listar(Scanner leia) {
         // Método para listar todos os animais cadastrados
-        if (animais.isEmpty()) {
-            System.out.println("Nenhum animal cadastrado.");
-            return;
+        if (clientes.isEmpty()) {
+            System.out.println("Nenhum cliente cadastrado.");
         } else {
-            System.out.println("\n=== RELATÓRIO DE ANIMAIS ===");
+            System.out.println("\n=== RELATÓRIO DE CLIENTES ===");
 
             int contador = 1;
-            for (Animal animal : animais.values()) {
-                System.out.println(contador + ". Animal: ");
-                System.out.println(animal.toStringDetalhado());
+            for (Cliente cliente : clientes.values()) {
+                System.out.println(contador + ". Cliente: ");
+                System.out.println(cliente.toStringDetalhado());
                 System.out.println("--------------------------------");
                 contador++;
             }
         }
     }
-
-
-    private Animal selecionarAnimalPorNome(Scanner leia, String nome) {
-        List<Animal> animaisEncontrados = buscarAnimaisPorNome(nome);
-
-        if (animaisEncontrados.isEmpty()) {
-            System.out.println("Nenhum animal encontrado com o nome: " + nome);
-            return null;
-        }
-        
-        if (animaisEncontrados.size() == 1) {
-            return animaisEncontrados.get(0);
-        }
-
-        System.out.println("Foram encontrados múltiplos animais com esse nome: " + nome);
-
-        for (int i = 0; i < animaisEncontrados.size(); i++) {
-            System.out.println((i + 1) + " — Dono CPF: " + animaisEncontrados.get(i).getCpfDono());
-        }
-
-        System.out.println("Escolha o número correspondente: ");
-        int escolhaUsuario = ValidadorEntrada.lerInteiroValido(leia, 1, animaisEncontrados.size());
-
-        return animaisEncontrados.get(escolhaUsuario - 1);
-    }
-
-    public void capturaInformacoes() {
-        // Método para capturar informações de um animal
-        return;
-    }
-
-
 } 
