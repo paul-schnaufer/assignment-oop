@@ -32,6 +32,7 @@ public class Petshop {
                         // Colocar o 
                     }
                 }
+            }
             case 2 -> {
                 System.out.println("Insira o Nome");
                 String nome = leia.nextLine();
@@ -49,9 +50,5 @@ public class Petshop {
                
             }
             }
-        }
-            case 2 -> {
-            }
-        }
     }
 }
