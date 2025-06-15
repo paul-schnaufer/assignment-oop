@@ -133,7 +133,9 @@ public class AtendimentoService implements Service {
             case 1 -> {
                 System.out.println("Insira o novo código do atendimento: ");
                 String novoCodigo = leia.nextLine();
+                atendimentos.remove(atendimentoSelecionado.getCodigo());
                 atendimentoSelecionado.setCodigo(novoCodigo);
+                atendimentos.put(novoCodigo, atendimentoSelecionado);
             }
             case 2 -> {
                 System.out.println("Insira a nova data do atendimento: ");
@@ -188,7 +190,7 @@ public class AtendimentoService implements Service {
 
     @Override
     public void listar(Scanner leia) {
-        // Método para listar todos os atendimento cadastrados
+        // Método para listar todos os atendimentos cadastrados
         if (clientes.isEmpty()) {
             System.out.println("Nenhum atendimento cadastrado.");
         } else {

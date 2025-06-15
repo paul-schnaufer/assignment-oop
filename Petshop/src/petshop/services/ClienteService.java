@@ -141,8 +141,8 @@ public class ClienteService implements Service {
             case 5 -> {
                 System.out.println("Insira o novo CPF do cliente: ");
                 String novoCpf = leia.nextLine();
-                clienteSelecionado.setCpf(novoCpf);
                 clientes.remove(clienteSelecionado.getCpf());
+                clienteSelecionado.setCpf(novoCpf);
                 clientes.put(novoCpf, clienteSelecionado);
             }
             case 6 -> {
