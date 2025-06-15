@@ -159,12 +159,14 @@ public class ClienteService implements Service {
 
                 if (clienteRepository.exists(cpfAlterado)) {
                     ui.mostrarMensagem(
-                        "Já existe um cliente cadastrado com o CPF: " + cpfAlterado);
+                        "Já existe um cliente cadastrado com o CPF: " + cpfAlterado
+                        );
                     return;
                 }
 
                 Cliente clienteAlterado = new Cliente(
-                    nomeAlterado, telefoneAlterado, emailAlterado, rgAlterado, cpfAlterado);
+                    nomeAlterado, telefoneAlterado, emailAlterado, rgAlterado, cpfAlterado
+                    );
                 clienteRepository.save(cpfAlterado, clienteAlterado);
                 ui.mostrarMensagem("Dados do cliente alterados com sucesso.");
                 return;
@@ -188,7 +190,9 @@ public class ClienteService implements Service {
             return;
         }
 
-        boolean confirmacao = ui.receberConfirmacao("Você tem certeza que deseja remover o cliente com CPF: " + cpf + "?");
+        boolean confirmacao = ui.receberConfirmacao(
+            "Você tem certeza que deseja remover o cliente com CPF: " + cpf + "?"
+            );
 
         if (confirmacao) {
             clienteRepository.delete(cpf);

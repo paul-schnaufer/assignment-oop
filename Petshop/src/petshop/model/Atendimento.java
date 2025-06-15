@@ -22,7 +22,9 @@ public class Atendimento {
      * @param animal Animal associado ao atendimento.
      * @param funcionario Funcionário responsável pelo atendimento.
      */
-    public Atendimento(String codigo, String data, Cliente cliente, Animal animal, Funcionario funcionario) {
+    public Atendimento(
+        String codigo, String data, Cliente cliente, Animal animal, Funcionario funcionario
+        ) {
         this.codigo = codigo;
         this.data = data;
         this.cliente = cliente;

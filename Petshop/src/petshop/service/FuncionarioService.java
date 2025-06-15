@@ -20,7 +20,9 @@ public class FuncionarioService implements Service {
      * @param ui A interface de usuário para interações com o usuário
      * @param funcionarioRepository O repositório de funcionários para armazenar e recuperar dados
      */
-    public FuncionarioService(FuncionarioConsoleUI ui, FuncionarioRepository funcionarioRepository) {
+    public FuncionarioService(
+        FuncionarioConsoleUI ui, FuncionarioRepository funcionarioRepository
+        ) {
         this.ui = ui;
         this.funcionarioRepository = funcionarioRepository;
     }
@@ -37,7 +39,9 @@ public class FuncionarioService implements Service {
         String chave = matricula;
 
         if (funcionarioRepository.exists(chave)) {
-            ui.mostrarMensagem("Já existe um funcionário cadastrado com a matrícula: " + matricula);
+            ui.mostrarMensagem(
+                "Já existe um funcionário cadastrado com a matrícula: " + matricula
+                );
             return;
         }
 
@@ -47,7 +51,8 @@ public class FuncionarioService implements Service {
         float cargaHoraria = ui.solicitarCargaHorariaFuncionario();
 
         Funcionario novoFuncionario = new Funcionario(
-            nome, matricula, qualificacao, descricaoFuncao, cargaHoraria);
+            nome, matricula, qualificacao, descricaoFuncao, cargaHoraria
+            );
 
         ui.mostrarMensagem("Dados do funcionário cadastrado:");
         ui.mostrarDetalhesFuncionario(novoFuncionario);
@@ -69,8 +74,10 @@ public class FuncionarioService implements Service {
 
     /**
      * Método para consultar um funcionário pelo número de matrícula.
-     * Solicita ao usuário a matrícula do funcionário e exibe os detalhes do funcionário correspondente.
-     * Se o funcionário não for encontrado, exibe uma mensagem informando que não há funcionários com essa matrícula.
+     * Solicita ao usuário a matrícula do funcionário e
+     * exibe os detalhes do funcionário correspondente.
+     * Se o funcionário não for encontrado,
+     * exibe uma mensagem informando que não há funcionários com essa matrícula.
      */
     @Override
     public void consultar() {
@@ -88,7 +95,8 @@ public class FuncionarioService implements Service {
 
     /**
      * Método para consultar os dados de um funcionário no sistema.
-     * Solicita ao usuário a matrícula do funcionário e exibe os detalhes do funcionário correspondente.
+     * Solicita ao usuário a matrícula do funcionário e
+     * exibe os detalhes do funcionário correspondente.
      * Se o funcionário não for encontrado, exibe uma mensagem informando isso.
      */
     @Override
@@ -149,7 +157,9 @@ public class FuncionarioService implements Service {
                 float cargaHorariaAlterada = ui.solicitarCargaHorariaFuncionario();
 
                 if (funcionarioRepository.exists(matriculaAlterada)) {
-                    ui.mostrarMensagem("Já existe um funcionário cadastrado com a matrícula: " + matriculaAlterada);
+                    ui.mostrarMensagem(
+                        "Já existe um funcionário cadastrado com a matrícula: " + matriculaAlterada
+                        );
                     return;
                 }
 
@@ -158,7 +168,8 @@ public class FuncionarioService implements Service {
                     matriculaAlterada,
                     qualificacaoAlterada,
                     descricaoFuncaoAlterada,
-                    cargaHorariaAlterada);
+                    cargaHorariaAlterada
+                    );
                 funcionarioRepository.save(matriculaAlterada, funcionarioAlterado);
                 ui.mostrarMensagem("Dados do funcionário alterados com sucesso.");
                 return;
@@ -182,7 +193,9 @@ public class FuncionarioService implements Service {
             return;
         }
 
-        boolean confirmacao = ui.receberConfirmacao("Tem certeza que deseja remover o funcionário com matrícula: " + matricula + "?");
+        boolean confirmacao = ui.receberConfirmacao(
+            "Tem certeza que deseja remover o funcionário com matrícula: " + matricula + "?"
+            );
 
         if (confirmacao) {
             funcionarioRepository.delete(matricula);
@@ -205,7 +218,9 @@ public class FuncionarioService implements Service {
             return;
         } else {
             ui.mostrarCabecalho("Relatório de Funcionários");
-            ui.mostrarMensagem("Total de funcionários cadastrados: " + funcionarioRepository.size());
+            ui.mostrarMensagem(
+                "Total de funcionários cadastrados: " + funcionarioRepository.size()
+                );
             int contador = 1;
 
             for (Funcionario funcionario : funcionarioRepository.getAll()) {

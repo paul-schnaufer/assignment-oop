@@ -9,8 +9,10 @@ import petshop.model.Funcionario;
 import petshop.util.ValidadorEntrada;
 
 /**
- * Classe que representa a interface de usuário para o gerenciamento de Atendimentos no sistema de Petshop.
- * Esta classe estende BaseConsoleUI e fornece métodos para exibir menus, solicitar entradas do usuário
+ * Classe que representa a interface de usuário para
+ * o gerenciamento de Atendimentos no sistema de Petshop.
+ * Esta classe estende BaseConsoleUI e fornece métodos para exibir menus,
+ * solicitar entradas do usuário
  * e mostrar detalhes dos atendimentos.
  */
 public class AtendimentoConsoleUI extends BaseConsoleUI {
@@ -30,30 +32,33 @@ public class AtendimentoConsoleUI extends BaseConsoleUI {
     public void menuPrincipalAtendimento() {
         mostrarCabecalho("Menu Principal");
         System.out.println(
-            "1 - Cadastrar Atendimento"
-            + "\n2 - Buscar Atendimento por Código"
-            + "\n3 - Atualizar Atendimento"
-            + "\n4 - Remover Atendimento"
-            + "\n5 - Listar Atendimentos"
-            + "\n6 - Sair"
-            + "\n" + SEPARADOR);
+            "1 - Cadastrar Atendimento" +
+            "\n2 - Buscar Atendimento por Código" +
+            "\n3 - Atualizar Atendimento" +
+            "\n4 - Remover Atendimento" +
+            "\n5 - Listar Atendimentos" +
+            "\n6 - Sair" +
+            "\n" + SEPARADOR
+            );
     }
 
     /**
      * Exibe o menu de alteração de atendimentos.
-     * Este método apresenta as opções disponíveis para o usuário alterar os dados de um atendimento.
+     * Este método apresenta as opções disponíveis
+     * para o usuário alterar os dados de um atendimento.
      */
     public void menuAlterarAtendimento() {
         mostrarCabecalho("Menu de Alteração de Atendimento");
         System.out.println(
-            "Quais dados do atendimento você deseja alterar?"
-            + "\n1 - Alterar Data"
-            + "\n2 - Alterar Cliente"
-            + "\n3 - Alterar Animal"
-            + "\n4 - Alterar Funcionário"
-            + "\n5 - Todos os dados"
-            + "\n6 - Voltar"
-            + "\n" + SEPARADOR);
+            "Quais dados do atendimento você deseja alterar?" +
+            "\n1 - Alterar Data" +
+            "\n2 - Alterar Cliente" +
+            "\n3 - Alterar Animal" +
+            "\n4 - Alterar Funcionário" +
+            "\n5 - Todos os dados" +
+            "\n6 - Voltar" +
+            "\n" + SEPARADOR
+            );
     }
 
     /**

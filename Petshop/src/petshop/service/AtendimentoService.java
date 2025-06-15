@@ -40,7 +40,8 @@ public class AtendimentoService implements Service {
             AnimalRepository animalRepository,
             AtendimentoRepository atendimentoRepository,
             ClienteRepository clienteRepository,
-            FuncionarioRepository funcionarioRepository) {
+            FuncionarioRepository funcionarioRepository
+            ) {
         this.ui = ui;
         this.animalRepository = animalRepository;
         this.atendimentoRepository = atendimentoRepository;
@@ -83,7 +84,9 @@ public class AtendimentoService implements Service {
         Funcionario funcionario = funcionarioRepository.getByKey(chaveFuncionario);
 
         if (funcionario == null) {
-            ui.mostrarMensagem("Nenhum funcionário encontrado com a matrícula: " + chaveFuncionario);
+            ui.mostrarMensagem(
+                "Nenhum funcionário encontrado com a matrícula: " + chaveFuncionario
+                );
             return;
         }
 
@@ -110,7 +113,8 @@ public class AtendimentoService implements Service {
 
     /**
      * Método para consultar um atendimento no sistema.
-     * Solicita ao usuário o código do atendimento e exibe os detalhes do atendimento correspondente.
+     * Solicita ao usuário o código do atendimento e
+     * exibe os detalhes do atendimento correspondente.
      */
     @Override
     public void consultar() {
@@ -127,8 +131,8 @@ public class AtendimentoService implements Service {
     }
 
     /**
-     * Método para consultar um atendimento no sistema.
-     * Solicita ao usuário o código do atendimento e exibe os detalhes do atendimento correspondente.
+     * Método para alterar os dados de um atendimento existente.
+     * Solicita ao usuário o código do atendimento e permite a alteração de seus dados.
      */
     @Override
     public void alterar() {
@@ -211,7 +215,9 @@ public class AtendimentoService implements Service {
                 String novoCodigo = ui.solicitarCodigoAtendimento();
 
                 if (atendimentoRepository.exists(novoCodigo)) {
-                    ui.mostrarMensagem("Já existe um atendimento cadastrado com o código: " + novoCodigo);
+                    ui.mostrarMensagem(
+                        "Já existe um atendimento cadastrado com o código: " + novoCodigo
+                        );
                     return;
                 }
 
@@ -236,12 +242,15 @@ public class AtendimentoService implements Service {
                 Funcionario novoFuncionario = funcionarioRepository.getByKey(novaChaveFuncionario);
 
                 if (novoFuncionario == null) {
-                    ui.mostrarMensagem("Nenhum funcionário encontrado com a matrícula: " + novaChaveFuncionario);
+                    ui.mostrarMensagem(
+                        "Nenhum funcionário encontrado com a matrícula: " + novaChaveFuncionario
+                        );
                     return;
                 }
 
                 Atendimento novoAtendimento = new Atendimento(
-                        novoCodigo, novaData, novoCliente, novoAnimal, novoFuncionario);
+                        novoCodigo, novaData, novoCliente, novoAnimal, novoFuncionario
+                        );
                 atendimentoRepository.save(novoCodigo, novoAtendimento);
                 ui.mostrarMensagem("Dados do atendimento alterados com sucesso.");
                 return;
@@ -264,7 +273,9 @@ public class AtendimentoService implements Service {
             return;
         }
 
-        boolean confirmacao = ui.receberConfirmacao("Tem certeza que deseja remover o atendimento com código: " + codigo + "?");
+        boolean confirmacao = ui.receberConfirmacao(
+            "Tem certeza que deseja remover o atendimento com código: " + codigo + "?"
+            );
         
         if (confirmacao) {
             atendimentoRepository.delete(codigo);
@@ -286,7 +297,9 @@ public class AtendimentoService implements Service {
             return;
         } else {
             ui.mostrarCabecalho("Relatório de Atendimentos");
-            ui.mostrarMensagem("Total de atendimentos cadastrados: " + atendimentoRepository.size());
+            ui.mostrarMensagem(
+                "Total de atendimentos cadastrados: " + atendimentoRepository.size()
+                );
             int contador = 1;
 
             for (Atendimento atendimento : atendimentoRepository.getAll()) {

@@ -77,14 +77,15 @@ public class AnimalConsoleUI extends BaseConsoleUI {
     public void menuPrincipalAnimal() {
         mostrarCabecalho("Menu Principal");
         System.out.println(
-            "Escolha uma opção:"
-            + "\n1 — Cadastrar animal"
-            + "\n2 — Consultar animal"
-            + "\n3 — Alterar animal"
-            + "\n4 — Excluir animal"
-            + "\n5 — Listar animais"
-            + "\n6 — Sair"
-            + "\n" + SEPARADOR);
+            "Escolha uma opção:" +
+            "\n1 — Cadastrar animal" +
+            "\n2 — Consultar animal" +
+            "\n3 — Alterar animal" +
+            "\n4 — Excluir animal" +
+            "\n5 — Listar animais" +
+            "\n6 — Sair" +
+            "\n" + SEPARADOR
+            );
     }
 
     /**
@@ -93,14 +94,15 @@ public class AnimalConsoleUI extends BaseConsoleUI {
     public void menuAlterarAnimal() {
         mostrarCabecalho("Menu de Alteração de Animal");
         System.out.println(
-            "Quais dados do animal você deseja alterar?"
-            + "\n1 — Nome"
-            + "\n2 — Peso"
-            + "\n3 — Altura"
-            + "\n4 — Dono (CPF)"
-            + "\n5 — Nome do animal e dono (CPF)"
-            + "\n6 — Todos os dados"
-            + "\n7 — Voltar"
-            + "\n" + SEPARADOR);
+            "Quais dados do animal você deseja alterar?" +
+            "\n1 — Nome" +
+            "\n2 — Peso" +
+            "\n3 — Altura" +
+            "\n4 — Dono (CPF)" +
+            "\n5 — Nome do animal e dono (CPF)" +
+            "\n6 — Todos os dados" +
+            "\n7 — Voltar" +
+            "\n" + SEPARADOR
+            );
     }
 }

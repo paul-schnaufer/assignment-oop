@@ -29,9 +29,11 @@ public class AnimalService implements Service {
 
     /**
      * Método para cadastrar um novo animal no sistema.
-     * Solicita ao usuário os dados do animal, verifica se já existe um animal com o mesmo nome e CPF do dono,
+     * Solicita ao usuário os dados do animal,
+     * verifica se já existe um animal com o mesmo nome e CPF do dono,
      * e salva o novo animal no repositório.
-     * Se os dados estiverem corretos, confirma o cadastro e pergunta se deseja cadastrar outro animal.
+     * Se os dados estiverem corretos,
+     * confirma o cadastro e pergunta se deseja cadastrar outro animal.
      */
     @Override
     public void cadastrar() {
@@ -42,7 +44,9 @@ public class AnimalService implements Service {
         String chave = gerarChave(nome, cpfDono);
 
         if (animalRepository.exists(chave)) {
-            ui.mostrarMensagem("Animal já cadastrado com o nome: " + nome + " e CPF do dono: " + cpfDono);
+            ui.mostrarMensagem(
+                "Animal já cadastrado com o nome: " + nome + " e CPF do dono: " + cpfDono
+                );
             return;
         }
 
@@ -74,7 +78,8 @@ public class AnimalService implements Service {
     /**
      * Método para consultar um animal no sistema.
      * Solicita ao usuário o nome do animal e exibe os detalhes do animal correspondente.
-     * Se houver múltiplos animais com o mesmo nome, permite que o usuário escolha qual animal deseja ver os detalhes.
+     * Se houver múltiplos animais com o mesmo nome,
+     * permite que o usuário escolha qual animal deseja ver os detalhes.
      */
     @Override
     public void consultar() {
@@ -131,14 +136,18 @@ public class AnimalService implements Service {
                 String novaChave = gerarChave(novoNome, cpfDonoAtual);
                 
                 if (!chaveAntiga.equals(novaChave) && animalRepository.exists(novaChave)) {
-                    ui.mostrarMensagem("Já existe um animal cadastrado com o nome: " + novoNome
-                            + " e CPF do dono: " + cpfDonoAtual);
-                        return;
-                    }   
+                    ui.mostrarMensagem(
+                        "Já existe um animal cadastrado com o nome: " + novoNome
+                        + " e CPF do dono: " + cpfDonoAtual
+                        );
+                    return;
+                }   
                 
                 animalRepository.delete(chaveAntiga);
                 animalSelecionado.setNome(novoNome);
-                animalRepository.save(gerarChave(novoNome, animalSelecionado.getCpfDono()), animalSelecionado);
+                animalRepository.save(gerarChave(
+                    novoNome, animalSelecionado.getCpfDono()), animalSelecionado
+                    );
                 ui.mostrarMensagem("Nome do animal alterado com sucesso!");
             }
             case 4 -> {
@@ -148,8 +157,10 @@ public class AnimalService implements Service {
                 String novaChave = gerarChave(nomeAnimal, novoCpfDono);
 
                 if (!chaveAntiga.equals(novaChave) && animalRepository.exists(novaChave)) {
-                    ui.mostrarMensagem("Já existe um animal cadastrado com o nome: " + nomeAnimal
-                            + " e CPF do dono: " + novoCpfDono);
+                    ui.mostrarMensagem(
+                        "Já existe um animal cadastrado com o nome: " + nomeAnimal
+                        + " e CPF do dono: " + novoCpfDono
+                        );
                     return;
                 }
 
@@ -160,12 +171,16 @@ public class AnimalService implements Service {
             case 5 -> {
                 String nomeAlterado = ui.solicitarNomeAnimal();
                 String cpfAlterado = ui.solicitarCpfDonoAnimal();
-                String chaveAntiga = gerarChave(animalSelecionado.getNome(), animalSelecionado.getCpfDono());
+                String chaveAntiga = gerarChave(
+                    animalSelecionado.getNome(), animalSelecionado.getCpfDono()
+                    );
                 String novaChave = gerarChave(nomeAlterado, cpfAlterado);
 
                 if (!chaveAntiga.equals(novaChave) && animalRepository.exists(novaChave)) {
-                    ui.mostrarMensagem("Já existe um animal cadastrado com o nome: " + nomeAlterado
-                            + " e CPF do dono: " + cpfAlterado);
+                    ui.mostrarMensagem(
+                        "Já existe um animal cadastrado com o nome: " + nomeAlterado
+                        + " e CPF do dono: " + cpfAlterado
+                        );
                     return;
                 }
 
@@ -175,7 +190,9 @@ public class AnimalService implements Service {
                 animalRepository.save(gerarChave(nomeAlterado, cpfAlterado), animalSelecionado);
             }
             case 6 -> {
-                String chaveAntiga = gerarChave(animalSelecionado.getNome(), animalSelecionado.getCpfDono());
+                String chaveAntiga = gerarChave(
+                    animalSelecionado.getNome(), animalSelecionado.getCpfDono()
+                    );
 
                 ui.mostrarMensagem("Você escolheu alterar todos os dados do animal.");
                 animalRepository.delete(chaveAntiga);
@@ -190,7 +207,10 @@ public class AnimalService implements Service {
                 String chave = gerarChave(nomeNovo, cpfDono);
 
                 if (animalRepository.exists(chave)) {
-                    ui.mostrarMensagem("Já existe um animal cadastrado com o nome: " + nomeNovo + " e CPF do dono: " + cpfDono);
+                    ui.mostrarMensagem(
+                        "Já existe um animal cadastrado com o nome: " + nomeNovo +
+                        " e CPF do dono: " + cpfDono
+                        );
                     return;
                 }
 
@@ -220,7 +240,10 @@ public class AnimalService implements Service {
 
         String chave = gerarChave(nome, animalSelecionado.getCpfDono());
 
-        boolean confirmacao = ui.receberConfirmacao("Tem certeza que deseja remover o animal: " + nome + "?");
+        boolean confirmacao = ui.receberConfirmacao(
+            "Tem certeza que deseja remover o animal: " +
+            nome + "?"
+            );
 
         if (confirmacao) {
             animalRepository.delete(chave);
@@ -255,7 +278,8 @@ public class AnimalService implements Service {
 
     /**
      * Método auxiliar para selecionar um animal pelo nome.
-     * Se houver múltiplos animais com o mesmo nome, permite que o usuário escolha qual animal deseja ver os detalhes.
+     * Se houver múltiplos animais com o mesmo nome,
+     * permite que o usuário escolha qual animal deseja ver os detalhes.
      * 
      * @param nome O nome do animal a ser selecionado
      * @return O objeto Animal correspondente ao nome, ou null se não encontrado

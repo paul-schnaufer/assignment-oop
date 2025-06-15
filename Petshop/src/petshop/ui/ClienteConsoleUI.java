@@ -25,13 +25,14 @@ public class ClienteConsoleUI extends BaseConsoleUI {
     public void menuPrincipalCliente() {
         mostrarCabecalho("Menu Principal");
         System.out.println(
-            "1 — Cadastrar Cliente"
-            + "\n2 — Buscar Cliente por CPF"
-            + "\n3 — Atualizar Cliente"
-            + "\n4 — Remover Cliente"
-            + "\n5 — Listar Clientes"
-            + "\n6 — Sair"
-            + "\n" + SEPARADOR);
+            "1 — Cadastrar Cliente" +
+            "\n2 — Buscar Cliente por CPF" +
+            "\n3 — Atualizar Cliente" +
+            "\n4 — Remover Cliente" +
+            "\n5 — Listar Clientes" +
+            "\n6 — Sair" +
+            "\n" + SEPARADOR
+            );
     }
 
     /**
@@ -41,15 +42,16 @@ public class ClienteConsoleUI extends BaseConsoleUI {
     public void menuAlterarCliente() {
         mostrarCabecalho("Menu de Alteração de Cliente");
         System.out.println(
-            "Quais dados do cliente você deseja alterar?"
-            + "1 — Alterar Nome"
-            + "\n2 — Alterar Telefone"
-            + "\n3 — Alterar Email"
-            + "\n4 — Alterar RG"
-            + "\n5 — Alterar CPF"
-            + "\n6 — Todos os dados"
-            + "\n7 — Voltar"
-            + "\n" + SEPARADOR);
+            "Quais dados do cliente você deseja alterar?" +
+            "1 — Alterar Nome" +
+            "\n2 — Alterar Telefone" +
+            "\n3 — Alterar Email" +
+            "\n4 — Alterar RG" +
+            "\n5 — Alterar CPF" +
+            "\n6 — Todos os dados" +
+            "\n7 — Voltar" +
+            "\n" + SEPARADOR
+            );
     }
 
     /**

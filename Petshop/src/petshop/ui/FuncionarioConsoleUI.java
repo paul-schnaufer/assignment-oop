@@ -6,8 +6,10 @@ import petshop.model.Funcionario;
 import petshop.util.ValidadorEntrada;
 
 /**
- * Classe que representa a interface de usuário para o gerenciamento de Funcionários no sistema de Petshop.
- * Esta classe estende BaseConsoleUI e fornece métodos para exibir menus, solicitar entradas do usuário
+ * Classe que representa a interface de usuário para o
+ * gerenciamento de Funcionários no sistema de Petshop.
+ * Esta classe estende BaseConsoleUI e fornece métodos para exibir menus,
+ * solicitar entradas do usuário
  * e mostrar detalhes dos funcionários.
  */
 public class FuncionarioConsoleUI extends BaseConsoleUI{
@@ -26,31 +28,34 @@ public class FuncionarioConsoleUI extends BaseConsoleUI{
     public void menuPrincipalFuncionario() {
         mostrarCabecalho("Menu Principal");
         System.out.println(
-            "1 - Cadastrar Funcionário"
-            + "\n2 - Buscar Funcionário por Matrícula"
-            + "\n3 - Atualizar Funcionário"
-            + "\n4 - Remover Funcionário"
-            + "\n5 - Listar Funcionários"
-            + "\n6 - Sair"
-            + "\n" + SEPARADOR);
+            "1 - Cadastrar Funcionário" +
+            "\n2 - Buscar Funcionário por Matrícula" +
+            "\n3 - Atualizar Funcionário" +
+            "\n4 - Remover Funcionário" +
+            "\n5 - Listar Funcionários" +
+            "\n6 - Sair" +
+            "\n" + SEPARADOR +
+            );
     }
 
     /**
      * Exibe o menu de alteração de funcionários.
-     * Este método apresenta as opções disponíveis para o usuário alterar os dados de um funcionário.
+     * Este método apresenta as opções disponíveis para o
+     * usuário alterar os dados de um funcionário.
      */
     public void menuAlterarFuncionario() {
         mostrarCabecalho("Menu de Alteração de Funcionário");
         System.out.println(
-            "Quais dados do funcionário você deseja alterar?"
-            + "\n1 - Alterar Nome"
-            + "\n2 - Alterar Matrícula"
-            + "\n3 - Alterar Qualificação"
-            + "\n4 - Alterar Descrição da Função"
-            + "\n5 - Alterar Carga Horária Semanal"
-            + "\n6 - Todos os dados"
-            + "\n7 - Voltar"
-            + "\n" + SEPARADOR);
+            "Quais dados do funcionário você deseja alterar?" +
+            "\n1 - Alterar Nome" +
+            "\n2 - Alterar Matrícula" +
+            "\n3 - Alterar Qualificação" +
+            "\n4 - Alterar Descrição da Função" +
+            "\n5 - Alterar Carga Horária Semanal" +
+            "\n6 - Todos os dados" +
+            "\n7 - Voltar" +
+            "\n" + SEPARADOR +
+            );
     }
 
     /**
@@ -104,6 +109,8 @@ public class FuncionarioConsoleUI extends BaseConsoleUI{
      * @return A carga horária semanal do funcionário como um float positivo.
      */
     public float solicitarCargaHorariaFuncionario() {
-        return ValidadorEntrada.lerFloatPositivo(leia, "Carga horária semanal do funcionário (em horas): ");
+        return ValidadorEntrada.lerFloatPositivo(
+            leia, "Carga horária semanal do funcionário (em horas): "
+            );
     }
 }
