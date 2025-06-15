@@ -8,7 +8,9 @@ import petshop.model.Atendimento;
 import petshop.model.Cliente;
 import petshop.model.Funcionario;
 import petshop.util.ValidadorEntrada;
+
 import petshop.repository.BancoDeDadosEmMemoria;
+
 
 /**
  * Classe responsável por gerenciar as operações relacionadas aos clientes do petshop.
@@ -24,8 +26,8 @@ public class AtendimentoService implements Service {
 
     /**
      * Método para cadastrar um atendimento no sistema.
-     * Solicita ao usuário as informações necessárias e cria um novo objeto Cliente.
-     * A chave do cliente é seu CPF.
+     * Solicita ao usuário as informações necessárias e cria um novo objeto Atendimento.
+     * A chave do atentendimento é seu código.
      *
      * @param leia Scanner para ler a entrada do usuário
      */
@@ -39,7 +41,8 @@ public class AtendimentoService implements Service {
         String cpf = leia.nextLine();
         Cliente cliente = clientes.get(cpf);
         System.out.println("Insira o nome do animal: ");
-        Animal animal = leia.nextLine();        
+        String nome = leia.nextLine();
+        Animal animal = selecionarAnimalPorNome(leia, nome);        
         System.out.println("Insira a matrícula do funcionário: ");
         Funcionario funcionario = leia.nextLine();
 
