@@ -46,21 +46,24 @@ public class Petshop {
             animalRepository,
             atendimentoRepository,
             clienteRepository,
-            funcionarioRepository);
+            funcionarioRepository
+            );
         ClienteService clienteService = new ClienteService(clienteUI, clienteRepository);
         FuncionarioService funcionarioService = new FuncionarioService(
-            funcionarioUI, funcionarioRepository);
-  
+            funcionarioUI, funcionarioRepository
+            );
         // Loop de menus chamando os serviços normalmente
         int opcao = 0;
 
         while(opcao != 5){
-            System.out.println("\nSelecione a opção desejada:\n" +
-                               "1 - Cliente\n" +
-                               "2 - Funcionário\n" +
-                               "3 - Animal\n" +
-                               "4 - Atendimento\n" +
-                               "5 - Encerrar Execução");
+            System.out.println(
+                "\nSelecione a opção desejada:\n" +
+                "1 - Cliente\n" +
+                "2 - Funcionário\n" +
+                "3 - Animal\n" +
+                "4 - Atendimento\n" +
+                "5 - Encerrar Execução"
+                );
             opcao = petshop.util.ValidadorEntrada.lerInteiroValido(leia, 1, 5);
 
             int acao;

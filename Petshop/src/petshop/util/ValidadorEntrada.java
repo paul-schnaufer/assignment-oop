@@ -48,11 +48,13 @@ public class ValidadorEntrada {
      * @return O CPF formatado.
      */
     public static String formataCpf(String cpf) {
-        return String.format("%s.%s.%s-%s", 
-                cpf.substring(0, 3),
-                cpf.substring(3, 6),
-                cpf.substring(6, 9),
-                cpf.substring(9, 11));
+        return String.format(
+            "%s.%s.%s-%s", 
+            cpf.substring(0, 3),
+            cpf.substring(3, 6),
+            cpf.substring(6, 9),
+            cpf.substring(9, 11)
+            );
     }
 
     /**
@@ -61,11 +63,13 @@ public class ValidadorEntrada {
      * @return O RG formatado no padrão "XX.XXX.XXX-XX".
      */
     public static String formataRg(String rg) {
-        return String.format("%s.%s.%s-%s", 
-                rg.substring(0, 2),
-                rg.substring(2, 5),
-                rg.substring(5, 8),
-                rg.substring(8, 10));
+        return String.format(
+            "%s.%s.%s-%s", 
+            rg.substring(0, 2),
+            rg.substring(2, 5),
+            rg.substring(5, 8),
+            rg.substring(8, 10)
+            );
     }
 
     /**

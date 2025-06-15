@@ -26,7 +26,8 @@ public class Funcionario extends Pessoa {
             String matricula,
             String qualificacao,
             String descricaoFuncao,
-            float cargaHoraria) {
+            float cargaHoraria
+            ) {
         super(nome);
         this.matricula = matricula;
         this.qualificacao = qualificacao;
