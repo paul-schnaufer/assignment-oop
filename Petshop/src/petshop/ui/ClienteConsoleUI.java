@@ -42,7 +42,7 @@ public class ClienteConsoleUI extends BaseConsoleUI {
         mostrarCabecalho("Menu de Alteração de Cliente");
         System.out.println(
             "Quais dados do cliente você deseja alterar?"
-            + "1 — Alterar Nome"
+            + "\1 — Alterar Nome"
             + "\n2 — Alterar Telefone"
             + "\n3 — Alterar Email"
             + "\n4 — Alterar RG"
