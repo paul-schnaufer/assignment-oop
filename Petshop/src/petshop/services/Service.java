@@ -7,9 +7,9 @@ import java.util.Scanner;
  * consulta, alteração e remoção de entidades no sistema de petshop.
  */
 public interface Service {
-    void cadastrar(Scanner leia);
-    void consultar(Scanner leia);
-    void alterar(Scanner leia);
-    void remover(Scanner leia);
-    void listar(Scanner leia);
+    void cadastrar();
+    void consultar();
+    void alterar();
+    void remover();
+    void listar();
 }

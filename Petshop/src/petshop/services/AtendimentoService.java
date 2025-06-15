@@ -6,6 +6,7 @@ import java.util.Scanner;
 import petshop.model.Animal;
 import petshop.model.Atendimento;
 import petshop.model.Cliente;
+import petshop.model.Funcionario;
 import petshop.util.ValidadorEntrada;
 import petshop.repository.BancoDeDadosEmMemoria;
 
@@ -18,7 +19,7 @@ public class AtendimentoService implements Service {
 
     public AtendimentoService(Map<String, Atendimento> atendimentos, Map<String, Cliente> clientes) {
         this.atendimentos = atendimentos;
-        this.clientes = BancoDeDadosEmMemoria.clientes;
+        this.clientes = clientes;
     }
 
     /**
@@ -36,7 +37,7 @@ public class AtendimentoService implements Service {
         String data = leia.nextLine();
         System.out.println("Insira o CPF do cliente: ");
         String cpf = leia.nextLine();
-        cliente = clientes.get(cpf);
+        Cliente cliente = clientes.get(cpf);
         System.out.println("Insira o nome do animal: ");
         Animal animal = leia.nextLine();        
         System.out.println("Insira a matrícula do funcionário: ");
