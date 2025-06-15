@@ -9,7 +9,7 @@ public class Funcionario extends Pessoa {
     private String matricula;
     private String qualificacao;
     private String descricaoFuncao;
-    private float cargaHorariaSemanal;
+    private float cargaHoraria;
 
     //Construtores
     public Funcionario(
@@ -17,11 +17,11 @@ public class Funcionario extends Pessoa {
         String matricula,
         String qualificacao,
         String descricaoFuncao,
-        float cargaHorariaSemanal) {
+        float cargaHoraria) {
       super(nome, matricula); // Usando matrícula como ID
       this.qualificacao = qualificacao;
       this.descricaoFuncao = descricaoFuncao;
-      this.cargaHorariaSemanal = cargaHorariaSemanal;
+      this.cargaHoraria = cargaHoraria;
   }
 
     //Métodos
@@ -31,17 +31,8 @@ public class Funcionario extends Pessoa {
         + this.matricula + "\nQualificação: " 
         + this.qualificacao + "\nDescrição da Função Executada: " 
         + this.descricaoFuncao + "\nCarga Horária Semanal de Trabalho: " 
-        + this.cargaHorariaSemanal + " horas");
+        + this.cargaHoraria + " horas");
       }
-
-    public void alterarCadastro(String nome, String matricula, String qualificacao,
-        String descricaoFuncao,float cargaHorariaSemanal){
-      this.nome = nome;
-      this.matricula = matricula;
-      this.qualificacao = qualificacao;
-      this.descricaoFuncao = descricaoFuncao;
-      this.cargaHorariaSemanal = cargaHorariaSemanal;
-    }
 
     /**
      * Método que retorna uma representação detalhada do funcionário.
@@ -52,7 +43,7 @@ public class Funcionario extends Pessoa {
                "\nMatrícula: " + matricula + 
                "\nQualificação: " + qualificacao + 
                "\nDescrição da Função: " + descricaoFuncao + 
-               "\nCarga Horária Semanal: " + cargaHorariaSemanal + " horas";
+               "\nCarga Horária Semanal: " + cargaHoraria + " horas";
     }
 
     @Override
@@ -75,9 +66,9 @@ public class Funcionario extends Pessoa {
         this.descricaoFuncao = descricaoFuncao; 
     }
 
-    public float getCargaHorariaSemanal() { return cargaHorariaSemanal; }
+    public float getCargaHoraria() { return cargaHoraria; }
 
-    public void setCargaHorariaSemanal(float cargaHorariaSemanal) {
-        this.cargaHorariaSemanal = cargaHorariaSemanal;
+    public void setCargaHoraria(float cargaHoraria) {
+        this.cargaHoraria = cargaHoraria;
     }
 }
