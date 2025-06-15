@@ -15,6 +15,7 @@ import petshop.util.ValidadorEntrada;
  * alteração, remoção e listagem de animais.
  */
 public class AnimalService implements Service {
+    final String SEPARADOR = "===";
     private Map<String, Animal> animais;
     private Map<String, Cliente> clientes;
 
@@ -33,7 +34,7 @@ public class AnimalService implements Service {
      */
     @Override
     public void cadastrar(Scanner leia) {
-        System.out.println("=== CADASTRO DE ANIMAL ===");
+        System.out.println(SEPARADOR + " CADASTRO DE ANIMAL " + SEPARADOR);
         ArrayList<String> dadosAnimal = coletaDados(leia);
         String chave = gerarChave(dadosAnimal.get(0), dadosAnimal.get(3));
 
@@ -209,7 +210,7 @@ public class AnimalService implements Service {
             System.out.println("Nenhum animal cadastrado.");
             return;
         } else {
-            System.out.println("\n=== RELATÓRIO DE ANIMAIS ===");
+            System.out.println(SEPARADOR + " LISTA DE ANIMAIS " + SEPARADOR);
             System.out.println("Total de animais cadastrados: " + animais.size());
             int contador = 1;
             for (Animal animal : animais.values()) {

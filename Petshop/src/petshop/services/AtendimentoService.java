@@ -2,18 +2,23 @@ package petshop.services;
 
 import java.util.Map;
 import java.util.Scanner;
+
+import petshop.model.Animal;
 import petshop.model.Atendimento;
+import petshop.model.Cliente;
 import petshop.util.ValidadorEntrada;
-import petshop.util.BancoDeDadosEmMemoria;
+import petshop.repository.BancoDeDadosEmMemoria;
 
 /**
  * Classe responsável por gerenciar as operações relacionadas aos clientes do petshop.
  */
 public class AtendimentoService implements Service {
     private Map<String, Atendimento> atendimentos;
+    private Map<String, Cliente> clientes;
 
-    public AtendimentoService(Map<String, Atendimento> atendimentos) {
+    public AtendimentoService(Map<String, Atendimento> atendimentos, Map<String, Cliente> clientes) {
         this.atendimentos = atendimentos;
+        this.clientes = BancoDeDadosEmMemoria.clientes;
     }
 
     /**
@@ -31,14 +36,14 @@ public class AtendimentoService implements Service {
         String data = leia.nextLine();
         System.out.println("Insira o CPF do cliente: ");
         String cpf = leia.nextLine();
-        Cliente cliente = clientes.get(cpf);
+        cliente = clientes.get(cpf);
         System.out.println("Insira o nome do animal: ");
         Animal animal = leia.nextLine();        
         System.out.println("Insira a matrícula do funcionário: ");
         Funcionario funcionario = leia.nextLine();
 
         String chave = cpf;
-        atendimento.put(chave, new Atendimento(codigo, data, cliente, animal, funcionario));
+        atendimentos.put(chave, new Atendimento(codigo, data, cliente, animal, funcionario));
 
         System.out.println("Dados do cliente cadastrado:");
         System.out.println(clientes.get(chave).toStringDetalhado());
