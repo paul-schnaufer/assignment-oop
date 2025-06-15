@@ -17,13 +17,11 @@ public class Cliente extends Pessoa {
     
     //Construtores 
     public Cliente(String nome, String telefone, String email, String rg, String cpf) {
-        super(nome);
+        super(nome, cpf); // Usando CPF como ID
         this.telefone = telefone;
         this.email = email;
         this.rg = rg;
-        this.cpf = cpf;
     }
-    
     
     //Métodos
     public void alterarCadastro(String nome, String telefone, String email, String rg, String cpf){
@@ -32,6 +30,11 @@ public class Cliente extends Pessoa {
         this.email = email;
         this.rg = rg;
         this.cpf = cpf;
+    }
+
+    @Override
+    public String getTipo() {
+        return "Cliente";
     }
 
     public String getTelefone() {

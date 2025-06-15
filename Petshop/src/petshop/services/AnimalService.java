@@ -7,7 +7,6 @@ import java.util.List;
 
 import petshop.model.Animal;
 import petshop.model.Cliente;
-import petshop.services.Service;
 import petshop.util.ValidadorEntrada;
 
 /**
@@ -23,7 +22,7 @@ public class AnimalService implements Service {
         this.animais = animais;
         this.clientes = clientes;
     }
-    
+
     /**
      * Método para cadastrar um animal no sistema.
      * Solicita ao usuário as informações necessárias e cria um novo objeto Animal.
@@ -35,8 +34,13 @@ public class AnimalService implements Service {
     @Override
     public void cadastrar(Scanner leia) {
         System.out.println("=== CADASTRO DE ANIMAL ===");
-        ArrayList<String> dadosAnimal = coletaDados();
-        String chave = dadosAnimal.get(0) + " — " + dadosAnimal.get(3);
+        ArrayList<String> dadosAnimal = coletaDados(leia);
+        String chave = gerarChave(dadosAnimal.get(0), dadosAnimal.get(3));
+
+        if (animais.containsKey(chave)) {
+            System.out.println("Animal já cadastrado com o nome: " + dadosAnimal.get(0) + " e CPF do dono: " + dadosAnimal.get(3));
+            return;
+        }
 
         insereDados(dadosAnimal, chave);
 
@@ -130,10 +134,13 @@ public class AnimalService implements Service {
             case 3:
                 System.out.println("Insira o novo nome do animal: ");
                 String novoNome = leia.nextLine();
-                String cpfDono = animalSelecionado.getCpfDono();
-                animais.remove(animalSelecionado.getNome() + " — " + cpfDono);
+
+                String chaveAntiga = gerarChave(animalSelecionado.getNome(), animalSelecionado.getCpfDono());
+                animais.remove(chaveAntiga);
+
                 animalSelecionado.setNome(novoNome);
-                animais.put(novoNome + " — " + cpfDono, animalSelecionado);
+                animais.put(animalSelecionado.getNome() + " — " + animalSelecionado.getCpfDono(), animalSelecionado);
+
                 break;
             case 4:
                 System.out.println("Insira o CPF do novo dono: ");
@@ -154,14 +161,14 @@ public class AnimalService implements Service {
                 animais.put(nomeAlterado + " — " + cpfAlterado, animalSelecionado);
                 break;
             case 6:
-                String chave = animalSelecionado.getNome() + " — " + animalSelecionado.getCpfDono();
+                String chave = gerarChave(animalSelecionado.getNome(), animalSelecionado.getCpfDono());
                 System.out.println("Você escolheu alterar todos os dados do animal.");
 
                 animais.remove(chave);
 
                 System.out.println("Por favor, insira os novos dados do animal.");
 
-                ArrayList<String> dadosAnimal = coletaDados();
+                ArrayList<String> dadosAnimal = coletaDados(leia);
                 insereDados(dadosAnimal, chave);
 
                 System.out.println("Todos os dados do animal foram alterados com sucesso!");
@@ -190,7 +197,7 @@ public class AnimalService implements Service {
             return;
         }
 
-        String chave = animalSelecionado.getNome() + " — " + animalSelecionado.getCpfDono();
+        String chave = gerarChave(nome, animalSelecionado.getCpfDono());
         animais.remove(chave);
         System.out.println("Animal removido com sucesso!");
     }
@@ -260,8 +267,7 @@ public class AnimalService implements Service {
      * @return Uma lista contendo os dados do animal,
      * na ordem: nome, peso, altura e CPF do dono.
      * */
-    public ArrayList<String> coletaDados() {
-        Scanner leia = new Scanner(System.in);
+    public ArrayList<String> coletaDados(Scanner leia) {
         System.out.println("Nome do animal: ");
         String nome = leia.nextLine();
         float peso = ValidadorEntrada.lerFloatPositivo(leia, "Peso do animal: ");
@@ -288,5 +294,9 @@ public class AnimalService implements Service {
             Float.parseFloat(dadosAnimal.get(1)),
             Float.parseFloat(dadosAnimal.get(2)),
             dadosAnimal.get(3)));
+    }
+
+    private String gerarChave(String nome, String cpfDono) {
+        return nome + " — " + cpfDono;
     }
 }

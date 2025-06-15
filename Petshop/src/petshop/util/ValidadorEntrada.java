@@ -49,10 +49,9 @@ public class ValidadorEntrada {
      * @return true se o CPF for válido, false caso contrário.
      */
     public static String lerCpfValido(Scanner leia) {
-        String cpf;
         while (true) {
             System.out.println("Digite o CPF (11 dígitos, apenas números): ");
-            cpf = leia.nextLine();
+            String cpf = leia.nextLine();
             if (cpf.matches("\\d{11}")) {
                 break;
             } else {
@@ -83,7 +82,7 @@ public class ValidadorEntrada {
      * @param entrada A entrada a ser verificada.
      * @return true se a entrada for válida, false caso contrário.
      */
-    public static boolean validarEntradaEmBancoDeDados(String entrada) {
+    public static boolean validarEntradaEmBancoDeDados(String entrada, Map<String, Animal> bancoDeDados) {
         
         return false;
         
