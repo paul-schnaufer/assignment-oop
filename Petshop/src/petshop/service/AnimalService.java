@@ -54,7 +54,6 @@ public class AnimalService implements Service {
         float altura = ui.solicitarAlturaAnimal();
 
         Animal novoAnimal = new Animal (nome, peso, altura, cpfDono);
-        animalRepository.save(chave, novoAnimal);
 
         ui.mostrarMensagem("Dados do animal cadastrado:");
         ui.mostrarDetalhesAnimal(novoAnimal);
@@ -63,6 +62,8 @@ public class AnimalService implements Service {
             ui.mostrarMensagem("Cadastro cancelado.");
             animalRepository.delete(chave);
             return;
+        } else {
+            animalRepository.save(chave, novoAnimal);
         }
 
         ui.mostrarMensagem("Animal cadastrado com sucesso.");

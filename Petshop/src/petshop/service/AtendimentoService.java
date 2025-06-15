@@ -91,7 +91,6 @@ public class AtendimentoService implements Service {
         }
 
         Atendimento novoAtendimento = new Atendimento(codigo, data, cliente, animal, funcionario);
-        atendimentoRepository.save(chave, novoAtendimento);
 
         ui.mostrarMensagem("Dados do atendimento cadastrado:");
         ui.mostrarDetalhesAtendimento(novoAtendimento);
@@ -100,6 +99,8 @@ public class AtendimentoService implements Service {
             ui.mostrarMensagem("Cadastro cancelado.");
             atendimentoRepository.delete(chave);
             return;
+        } else {
+            atendimentoRepository.save(chave, novoAtendimento);
         }
 
         ui.mostrarMensagem("Atendimento cadastrado com sucesso.");

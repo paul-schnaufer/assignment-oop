@@ -34,24 +34,28 @@ public class FuncionarioService implements Service {
      */
     @Override
     public void cadastrar() {
-        String matricula = ui.solicitarMatriculaFuncionario();
+        String matriculaFuncionario = ui.solicitarMatriculaFuncionario();
 
-        String chave = matricula;
+        String chave = matriculaFuncionario;
 
         if (funcionarioRepository.exists(chave)) {
             ui.mostrarMensagem(
-                "Já existe um funcionário cadastrado com a matrícula: " + matricula
+                "Já existe um funcionário cadastrado com a matrícula: " + matriculaFuncionario
                 );
             return;
         }
 
-        String nome = ui.solicitarNomeFuncionario();
-        String qualificacao = ui.solicitarQualificacaoFuncionario();
-        String descricaoFuncao = ui.solicitarDescricaoFuncaoFuncionario();
-        float cargaHoraria = ui.solicitarCargaHorariaFuncionario();
+        String nomeFuncionario = ui.solicitarNomeFuncionario();
+        String qualificacaoFuncionario = ui.solicitarQualificacaoFuncionario();
+        String descricaoFuncaoFuncionario = ui.solicitarDescricaoFuncaoFuncionario();
+        float cargaHorariaFuncionario = ui.solicitarCargaHorariaFuncionario();
 
         Funcionario novoFuncionario = new Funcionario(
-            nome, matricula, qualificacao, descricaoFuncao, cargaHoraria
+            nomeFuncionario,
+            matriculaFuncionario,
+            qualificacaoFuncionario,
+            descricaoFuncaoFuncionario,
+            cargaHorariaFuncionario
             );
 
         ui.mostrarMensagem("Dados do funcionário cadastrado:");
@@ -61,6 +65,8 @@ public class FuncionarioService implements Service {
             ui.mostrarMensagem("Cadastro cancelado.");
             funcionarioRepository.delete(chave);
             return;
+        } else {
+            funcionarioRepository.save(chave, novoFuncionario);
         }
 
         ui.mostrarMensagem("Funcionário cadastrado com sucesso.");

@@ -48,7 +48,6 @@ public class ClienteService implements Service {
 
         Cliente novoCliente = new Cliente(
             nomeCliente, telefoneCliente, emailCliente, rgCliente, cpfCliente);
-        clienteRepository.save(chave, novoCliente);
 
         ui.mostrarMensagem("Dados do cliente cadastrado:");
         ui.mostrarDetalhesCliente(novoCliente);
@@ -57,6 +56,8 @@ public class ClienteService implements Service {
             ui.mostrarMensagem("Cadastro cancelado.");
             clienteRepository.delete(chave);
             return;
+        } else {
+            clienteRepository.save(chave, novoCliente);
         }
 
         ui.mostrarMensagem("Cliente cadastrado com sucesso.");
