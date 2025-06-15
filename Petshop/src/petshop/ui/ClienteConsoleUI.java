@@ -2,7 +2,7 @@ package petshop.ui;
 
 import petshop.model.Cliente;
 import petshop.util.ValidadorEntrada;
-
+import java.util.Scanner;
 /**
  * Classe responsável pela interface de usuário do console para interações relacionadas a clientes.
  * Esta classe estende BaseConsoleUI e fornece métodos para solicitar informações do usuário,
