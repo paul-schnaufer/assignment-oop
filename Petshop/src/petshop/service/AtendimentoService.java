@@ -305,6 +305,7 @@ public class AtendimentoService implements Service {
             for (Atendimento atendimento : atendimentoRepository.getAll()) {
                 ui.mostrarMensagem("Atendimento " + contador + ":");
                 ui.mostrarDetalhesAtendimento(atendimento);
+                ui.mostrarMensagem("-----------------------------------------------------");
                 contador++;
             }
         }

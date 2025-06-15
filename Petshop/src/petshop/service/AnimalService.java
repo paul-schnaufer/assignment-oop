@@ -271,6 +271,7 @@ public class AnimalService implements Service {
             for (Animal animal : animalRepository.getAll()) {
                 ui.mostrarMensagem("Animal " + contador + ":");
                 ui.mostrarDetalhesAnimal(animal);
+                ui.mostrarMensagem("-----------------------------------------------------");
                 contador++;
             }
         }
