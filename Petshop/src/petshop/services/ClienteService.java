@@ -1,12 +1,11 @@
 package petshop.services;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
 import petshop.model.Cliente;
-import petshop.utils.ValidadorEntrada;
+import petshop.util.ValidadorEntrada;
 
 /**
  * Classe responsável por gerenciar as operações relacionadas aos clientes do petshop.
