@@ -124,10 +124,12 @@ public class AnimalService implements Service {
             case 1 -> {
                 float novoPeso = ui.solicitarPesoAnimal();
                 animalSelecionado.setPeso(novoPeso);
+                ui.mostrarMensagem("Peso do animal alterado com sucesso!");
             }
             case 2 -> {
                 float novaAltura = ui.solicitarAlturaAnimal();
                 animalSelecionado.setAltura(novaAltura);
+                ui.mostrarMensagem("Altura do animal alterada com sucesso!");
             }
             case 3 -> {
                 String novoNome = ui.solicitarNomeAnimal();
@@ -167,6 +169,7 @@ public class AnimalService implements Service {
                 animalRepository.delete(chaveAntiga);
                 animalSelecionado.setCpfDono(novoCpfDono);
                 animalRepository.save(gerarChave(nomeAnimal, novoCpfDono), animalSelecionado);
+                ui.mostrarMensagem("CPF do dono do animal alterado com sucesso!");
             }
             case 5 -> {
                 String nomeAlterado = ui.solicitarNomeAnimal();
@@ -188,6 +191,7 @@ public class AnimalService implements Service {
                 animalSelecionado.setNome(nomeAlterado);
                 animalSelecionado.setCpfDono(cpfAlterado);
                 animalRepository.save(gerarChave(nomeAlterado, cpfAlterado), animalSelecionado);
+                ui.mostrarMensagem("Nome do animal e Dono (CPF) alterados com sucesso!");
             }
             case 6 -> {
                 String chaveAntiga = gerarChave(

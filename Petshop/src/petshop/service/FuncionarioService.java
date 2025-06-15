@@ -121,6 +121,7 @@ public class FuncionarioService implements Service {
             case 1 -> {
                 String novoNome = ui.solicitarNomeFuncionario();
                 funcionarioSelecionado.setNome(novoNome);
+                ui.mostrarMensagem("Nome do funcionário alterado com sucesso.");
             }
             case 2 -> {
                 String antigaMatricula = funcionarioSelecionado.getMatricula();
@@ -128,20 +129,31 @@ public class FuncionarioService implements Service {
 
                 funcionarioRepository.delete(antigaMatricula);
 
+                if (funcionarioRepository.exists(novaMatricula)) {
+                    ui.mostrarMensagem(
+                        "Já existe um funcionário cadastrado com a matrícula: " + novaMatricula
+                        );
+                    return;
+                }
+
                 funcionarioSelecionado.setMatricula(novaMatricula);              
                 funcionarioRepository.save(novaMatricula, funcionarioSelecionado);
+                ui.mostrarMensagem("Matrícula do funcionário alterada com sucesso.");
             }
             case 3 -> {
                 String novaQualificacao = ui.solicitarQualificacaoFuncionario();
                 funcionarioSelecionado.setQualificacao(novaQualificacao);
+                ui.mostrarMensagem("Qualificação do funcionário alterada com sucesso.");
             }
             case 4 -> {
                 String novaDescricaoFuncao = ui.solicitarDescricaoFuncaoFuncionario();
                 funcionarioSelecionado.setDescricaoFuncao(novaDescricaoFuncao);
+                ui.mostrarMensagem("Descrição da função do funcionário alterada com sucesso.");
             }
             case 5 -> {
                 float novaCargaHoraria = ui.solicitarCargaHorariaFuncionario();
                 funcionarioSelecionado.setCargaHoraria(novaCargaHoraria);
+                ui.mostrarMensagem("Carga horária do funcionário alterada com sucesso.");
             }
             case 6 -> {
                 String antigaMatricula = funcionarioSelecionado.getMatricula();

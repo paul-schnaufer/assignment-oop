@@ -95,9 +95,9 @@ public class AnimalConsoleUI extends BaseConsoleUI {
         mostrarCabecalho("Menu de Alteração de Animal");
         System.out.println(
             "Quais dados do animal você deseja alterar?" +
-            "\n1 — Nome" +
-            "\n2 — Peso" +
-            "\n3 — Altura" +
+            "\n1 — Peso" +
+            "\n2 — Altura" +
+            "\n3 — Nome do animal" +
             "\n4 — Dono (CPF)" +
             "\n5 — Nome do animal e dono (CPF)" +
             "\n6 — Todos os dados" +

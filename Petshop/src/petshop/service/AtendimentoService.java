@@ -166,6 +166,7 @@ public class AtendimentoService implements Service {
                 atendimentoRepository.delete(antigoCodigo);
                 atendimentoSelecionado.setCodigo(novoCodigo);
                 atendimentoRepository.save(novoCodigo, atendimentoSelecionado);
+                ui.mostrarMensagem("Código do atendimento alterado com sucesso.");
             }
             case 2 -> {
                 String novaData = ui.solicitarDataAtendimento();
@@ -181,6 +182,7 @@ public class AtendimentoService implements Service {
 
                 Cliente novoCliente = clienteRepository.getByKey(novaChaveCliente);
                 atendimentoSelecionado.setCliente(novoCliente);
+                ui.mostrarMensagem("Cliente do atendimento alterado com sucesso.");
             }
             case 4 -> {
                 String novaChaveAnimal = ui.solicitarChaveAnimalAtendimento();
@@ -192,6 +194,7 @@ public class AtendimentoService implements Service {
 
                 Animal novoAnimal = animalRepository.getByKey(novaChaveAnimal);
                 atendimentoSelecionado.setAnimal(novoAnimal);
+                ui.mostrarMensagem("Animal do atendimento alterado com sucesso.");
             }
             case 5 -> {
                 String novaChaveFuncionario = ui.solicitarChaveFuncionarioAtendimento();
@@ -204,6 +207,7 @@ public class AtendimentoService implements Service {
 
                 Funcionario novoFuncionario = funcionarioRepository.getByKey(novaChaveFuncionario);
                 atendimentoSelecionado.setFuncionario(novoFuncionario);
+                ui.mostrarMensagem("Funcionário do atendimento alterado com sucesso.");
             }
             case 6 -> {
                 String antigoCodigo = atendimentoSelecionado.getCodigo();

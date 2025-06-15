@@ -115,18 +115,22 @@ public class ClienteService implements Service {
             case 1 -> {
                 String novoNome = ui.solicitarNomeCliente();
                 clienteSelecionado.setNome(novoNome);
+                ui.mostrarMensagem("Nome do cliente alterado com sucesso.");
             }
             case 2 -> {
                 String novoTelefone = ui.solicitarTelefoneCliente();
                 clienteSelecionado.setTelefone(novoTelefone);
+                ui.mostrarMensagem("Telefone do cliente alterado com sucesso.");
             }
             case 3 -> {
                String novoEmail = ui.solicitarEmailCliente();
                 clienteSelecionado.setEmail(novoEmail);
+                ui.mostrarMensagem("Email do cliente alterado com sucesso.");
             }
             case 4 -> {
                 String novoRg = ui.solicitarRgCliente();
                 clienteSelecionado.setRg(novoRg);
+                ui.mostrarMensagem("RG do cliente alterado com sucesso.");
             }
             case 5 -> {
                 String novoCpf = ui.solicitarCpfCliente();
@@ -140,6 +144,7 @@ public class ClienteService implements Service {
                 clienteRepository.delete(cpfAntigo);
                 clienteSelecionado.setCpf(novoCpf);
                 clienteRepository.save(novoCpf, clienteSelecionado);
+                ui.mostrarMensagem("CPF do cliente alterado com sucesso.");
             }
             case 6 -> {
                 String cpfAntigo = clienteSelecionado.getCpf();
