@@ -6,6 +6,7 @@ import java.util.Scanner;
 import petshop.model.Animal;
 import petshop.model.Atendimento;
 import petshop.model.Cliente;
+import petshop.model.Funcionario;
 import petshop.util.ValidadorEntrada;
 
 import petshop.repository.BancoDeDadosEmMemoria;
@@ -17,6 +18,8 @@ import petshop.repository.BancoDeDadosEmMemoria;
 public class AtendimentoService implements Service {
     private Map<String, Atendimento> atendimentos;
     private Map<String, Cliente> clientes;
+    private Map<String, Animal> animais;
+    private Map<String, Funcionario> funcionarios;
 
     public AtendimentoService(Map<String, Atendimento> atendimentos, Map<String, Cliente> clientes) {
         this.atendimentos = atendimentos;
@@ -38,30 +41,31 @@ public class AtendimentoService implements Service {
         String data = leia.nextLine();
         System.out.println("Insira o CPF do cliente: ");
         String cpf = leia.nextLine();
-        cliente = clientes.get(cpf);
+        Cliente cliente = clientes.get(cpf);
         System.out.println("Insira o nome do animal: ");
         String nome = leia.nextLine();
-        Animal animal = selecionarAnimalPorNome(leia, nome);        
+        Animal animal = animais.get(nome + " — " + cpf);        
         System.out.println("Insira a matrícula do funcionário: ");
-        Funcionario funcionario = leia.nextLine();
+        String matricula = leia.nextLine();
+        Funcionario funcionario = funcionarios.get(matricula);
 
-        String chave = cpf;
+        String chave = codigo;
         atendimentos.put(chave, new Atendimento(codigo, data, cliente, animal, funcionario));
 
-        System.out.println("Dados do cliente cadastrado:");
-        System.out.println(clientes.get(chave).toStringDetalhado());
+        System.out.println("Dados do atendimento cadastrado:");
+        System.out.println(atendimentos.get(chave).toStringDetalhado());
 
         System.out.println("Os dados estão corretos? (S/N)");
         String resposta = leia.nextLine().trim().toUpperCase();
 
         if (!resposta.equals("S")) {
             System.out.println("Cadastro cancelado.");
-            clientes.remove(chave);
+            atendimentos.remove(chave);
             return;
         }
 
-        System.out.println("Cliente cadastrado com sucesso!");
-        System.out.println("Gostaria de cadastrar outro cliente? (S/N)");
+        System.out.println("Atendimento cadastrado com sucesso!");
+        System.out.println("Gostaria de cadastrar outro atendimento? (S/N)");
         resposta = leia.nextLine().trim().toUpperCase();
 
         if (resposta.equals("S")) {
@@ -72,54 +76,54 @@ public class AtendimentoService implements Service {
     }
 
     /**
-     * Método para consultar um cliente no sistema.
-     * Solicita ao usuário o CPF do cliente e busca pelo cliente com esse CPF.
+     * Método para consultar um atendimento no sistema.
+     * Solicita ao usuário o código do atendimento e busca pelo atendimento com esse código.
      *
      * @param leia Scanner para ler a entrada do usuário
      */
     @Override
     public void consultar(Scanner leia) {
-        System.out.println("CPF do cliente a ser consultado: ");
-        String cpf = leia.nextLine();
+        System.out.println("Código do atendimento a ser consultado: ");
+        String codigo = leia.nextLine();
 
-        Cliente clienteSelecionado = clientes.get(cpf);
+        Atendimento atendimentoSelecionado = atendimentos.get(codigo);
 
-        if (clienteSelecionado != null) {
-            System.out.println("Dados do cliente selecionado:");
-            System.out.println(clienteSelecionado.toStringDetalhado());
+        if (atendimentoSelecionado != null) {
+            System.out.println("Dados do atendimento selecionado:");
+            System.out.println(atendimentoSelecionado.toStringDetalhado());
         } else {
-            System.out.println("Nenhum cliente encontrado com o CPF: " + cpf);
+            System.out.println("Nenhum atendimento encontrado com o código: " + codigo);
         } 
     }
 
     /**
-     * Método para alterar os dados de um cliente no sistema.
-     * Solicita ao usuário o CPF do cliente e permite que ele escolha quais dados deseja alterar.
-     * As opções incluem nome, telefone, email, RG, CPF, ou todos os dados.
+     * Método para alterar os dados de um atendimento no sistema.
+     * Solicita ao usuário o código do atendimento e permite que ele escolha quais dados deseja alterar.
+     * As opções incluem codigo, data, cliente, animal, funcionario, ou todos os dados.
      *
      * @param leia Scanner para ler a entrada do usuário
      */
     @Override
     public void alterar(Scanner leia) {
-        System.out.println("CPF do cliente a ser alterado: ");
-        String cpf = leia.nextLine();
+        System.out.println("Código do atendimento a ser alterado: ");
+        String codigo = leia.nextLine();
 
-        Cliente clienteSelecionado = clientes.get(cpf);
+        Atendimento atendimentoSelecionado = atendimentos.get(codigo);
 
-        if (clienteSelecionado == null) {
-            System.out.println("Nenhum cliente encontrado com o CPF: " + cpf);
+        if (atendimentoSelecionado == null) {
+            System.out.println("Nenhum atendimento encontrado com o código: " + codigo);
             return;
         }
 
-        System.out.println("Dados atuais do cliente:");
-        System.out.println(clienteSelecionado.toStringDetalhado());
+        System.out.println("Dados atuais do atendimento:");
+        System.out.println(atendimentoSelecionado.toStringDetalhado());
 
-        System.out.println("Quais dados do cliente você deseja alterar?");
-        System.out.println("1 — Nome");
-        System.out.println("2 — Telefone");
-        System.out.println("3 — E-mail");
-        System.out.println("4 — RG");
-        System.out.println("5 — CPF");
+        System.out.println("Quais dados do atendimento você deseja alterar?");
+        System.out.println("1 — Código");
+        System.out.println("2 — Data");
+        System.out.println("3 — Cliente");
+        System.out.println("4 — Animal");
+        System.out.println("5 — Funcionário");
         System.out.println("6 — Todos os dados");
 
         int opcao = ValidadorEntrada.lerInteiroValido(leia, 1, 6);
@@ -127,71 +131,73 @@ public class AtendimentoService implements Service {
 
         switch (opcao) {
             case 1 -> {
-                System.out.println("Insira o novo nome do cliente: ");
-                String novoNome = leia.nextLine();
-                clienteSelecionado.setNome(novoNome);
+                System.out.println("Insira o novo código do atendimento: ");
+                String novoCodigo = leia.nextLine();
+                atendimentoSelecionado.setCodigo(novoCodigo);
             }
             case 2 -> {
-                System.out.println("Insira o novo telefone do cliente: ");
-                String novoTelefone = leia.nextLine();
-                clienteSelecionado.setTelefone(novoTelefone);
+                System.out.println("Insira a nova data do atendimento: ");
+                String novaData = leia.nextLine();
+                atendimentoSelecionado.setData(novaData);
             }
             case 3 -> {
-                System.out.println("Insira o novo e-mail do cliente: ");
-                String novoEmail = leia.nextLine();
-                clienteSelecionado.setEmail(novoEmail);
+                System.out.println("Insira o CPF do novo cliente do atendimento: ");
+                String novoCpf = leia.nextLine();
+                Cliente novoCliente = clientes.get(novoCpf);
+                atendimentoSelecionado.setCliente(novoCliente);
             }
             case 4 -> {
-                System.out.println("Insira o novo RG do cliente: ");
-                String novoRg = leia.nextLine();
-                clienteSelecionado.setRg(novoRg);
+                System.out.println("Insira o nome do novo animal do atendimento: ");
+                String novoNome = leia.nextLine();
+                String Cpf = atendimentoSelecionado.getCliente().getCpf();
+                Animal novoAnimal = animais.get(novoNome + " — " + Cpf);
+                atendimentoSelecionado.setAnimal(novoAnimal);
             }
             case 5 -> {
-                System.out.println("Insira o novo CPF do cliente: ");
-                String novoCpf = leia.nextLine();
-                clienteSelecionado.setCpf(novoCpf);
-                clientes.remove(clienteSelecionado.getCpf());
-                clientes.put(novoCpf, clienteSelecionado);
+                System.out.println("Insira a matrícula do novo funcionário do atendimento: ");
+                String novaMatricula = leia.nextLine();
+                Funcionario novoFuncionario = funcionarios.get(novaMatricula);
+                atendimentoSelecionado.setFuncionario(novoFuncionario);
             }
             case 6 -> {
-                clientes.remove(clienteSelecionado.getCpf());
+                atendimentos.remove(atendimentoSelecionado.getCodigo());
                 cadastrar(leia);
             }
         }
     }
 
      /**
-     * Método para remover um cliente do sistema.
-     * Solicita ao usuário o CPF do cliente e remove o cliente com esse CPF.
+     * Método para remover um atendimento do sistema.
+     * Solicita ao usuário o código do atendimento e remove o atendimento com esse código.
      *
      * @param leia Scanner para ler a entrada do usuário
      */
     @Override
     public void remover(Scanner leia) {
-        System.out.println("CPF do cliente a ser removido: ");
-        String cpf = leia.nextLine();
+        System.out.println("Código do atendimento a ser removido: ");
+        String codigo = leia.nextLine();
 
-        Cliente clienteRemovido = clientes.remove(cpf);
+        Atendimento atendimentoRemovido = atendimentos.remove(codigo);
 
-        if (clienteRemovido == null) {
-            System.out.println("Nenhum cliente encontrado com o CPF: " + cpf);
+        if (atendimentoRemovido == null) {
+            System.out.println("Nenhum atendimento encontrado com o código: " + codigo);
         } else {
-            System.out.println("Cliente removido com sucesso!");
+            System.out.println("Atendimento removido com sucesso!");
         } 
     }
 
     @Override
     public void listar(Scanner leia) {
-        // Método para listar todos os animais cadastrados
+        // Método para listar todos os atendimento cadastrados
         if (clientes.isEmpty()) {
-            System.out.println("Nenhum cliente cadastrado.");
+            System.out.println("Nenhum atendimento cadastrado.");
         } else {
-            System.out.println("\n=== RELATÓRIO DE CLIENTES ===");
+            System.out.println("\n=== RELATÓRIO DE ATENDIMENTOS ===");
 
             int contador = 1;
-            for (Cliente cliente : clientes.values()) {
-                System.out.println(contador + ". Cliente: ");
-                System.out.println(cliente.toStringDetalhado());
+            for (Atendimento atendimento : atendimentos.values()) {
+                System.out.println(contador + ". Atendimento: ");
+                System.out.println(atendimento.toStringDetalhado());
                 System.out.println("--------------------------------");
                 contador++;
             }
