@@ -1,5 +1,7 @@
 package petshop.ui;
 
+import java.util.Scanner;
+
 import petshop.model.Funcionario;
 import petshop.util.ValidadorEntrada;
 
