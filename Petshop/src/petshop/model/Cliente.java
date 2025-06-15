@@ -54,7 +54,7 @@ public class Cliente extends Pessoa {
                "\nTelefone: " + telefone + 
                "\nE-mail: " + email + 
                "\nRG: " + rg +
-               "\nCPF" + cpf;
+               "\nCPF: " + cpf;
     }
 
     /**

@@ -281,7 +281,7 @@ public class AtendimentoService implements Service {
     @Override
     public void listar() {
         // Método para listar todos os atendimentos cadastrados
-        if (clienteRepository.isEmpty()) {
+        if (atendimentoRepository.isEmpty()) {
             ui.mostrarMensagem("Nenhum atendimento cadastrado.");
             return;
         } else {

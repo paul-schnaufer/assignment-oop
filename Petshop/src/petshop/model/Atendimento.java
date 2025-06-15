@@ -37,11 +37,15 @@ public class Atendimento {
      * @return String com detalhes do atendimento
      */
     public String toStringDetalhado() {
+        String detalhesCliente = cliente.toStringDetalhado();
+        String detalhesAnimal = animal.toStringDetalhado();
+        String detalhesFuncionario = funcionario.toStringDetalhado();
+    
         return "Codigo: " + codigo + 
                "\nData: " + data +
-               "\nCliente: " + cliente + 
-               "\nAnimal: " + animal +
-               "\nFuncionario: " + funcionario;
+               "\nCliente: " + detalhesCliente + 
+               "\nAnimal: " + detalhesAnimal +
+               "\nFuncionario: " + detalhesFuncionario;
     }
 
     // Getters e Setters
