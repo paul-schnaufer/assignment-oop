@@ -60,7 +60,6 @@ public class AnimalService implements Service {
 
         if (!ui.receberConfirmacao("Os dados estão corretos? ")) {
             ui.mostrarMensagem("Cadastro cancelado.");
-            animalRepository.delete(chave);
             return;
         } else {
             animalRepository.save(chave, novoAnimal);

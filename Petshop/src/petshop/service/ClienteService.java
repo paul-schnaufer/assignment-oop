@@ -54,7 +54,6 @@ public class ClienteService implements Service {
 
         if (!ui.receberConfirmacao("Os dados estão corretos?")) {
             ui.mostrarMensagem("Cadastro cancelado.");
-            clienteRepository.delete(chave);
             return;
         } else {
             clienteRepository.save(chave, novoCliente);

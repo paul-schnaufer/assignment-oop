@@ -97,7 +97,6 @@ public class AtendimentoService implements Service {
 
         if (!ui.receberConfirmacao("Os dados estão corretos?")) {
             ui.mostrarMensagem("Cadastro cancelado.");
-            atendimentoRepository.delete(chave);
             return;
         } else {
             atendimentoRepository.save(chave, novoAtendimento);
