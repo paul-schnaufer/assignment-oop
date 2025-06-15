@@ -124,15 +124,15 @@ public class AnimalService implements Service {
         System.out.println("Você escolheu a opção: " + opcao);
 
         switch (opcao) {
-            case 1:
+            case 1 -> {
                 float novoPeso = ValidadorEntrada.lerFloatPositivo(leia, "Insira o novo peso do animal: ");
                 animalSelecionado.setPeso(novoPeso);
-                break;
-            case 2:
+            }
+            case 2 -> {
                 float novaAltura = ValidadorEntrada.lerFloatPositivo(leia, "Insira a nova altura do animal: ");
                 animalSelecionado.setAltura(novaAltura);
-                break;
-            case 3:
+            }
+            case 3 -> {
                 System.out.println("Insira o novo nome do animal: ");
                 String novoNome = leia.nextLine();
 
@@ -141,17 +141,16 @@ public class AnimalService implements Service {
 
                 animalSelecionado.setNome(novoNome);
                 animais.put(animalSelecionado.getNome() + " — " + animalSelecionado.getCpfDono(), animalSelecionado);
-
-                break;
-            case 4:
+            }
+            case 4 -> {
                 System.out.println("Insira o CPF do novo dono: ");
                 String novoCpfDono = leia.nextLine();
                 String nomeAnimal = animalSelecionado.getNome();
                 animais.remove(nomeAnimal + " — " + animalSelecionado.getCpfDono());
                 animalSelecionado.setCpfDono(novoCpfDono);
                 animais.put(nomeAnimal + " — " + novoCpfDono, animalSelecionado);
-                break;
-            case 5:
+            }
+            case 5 -> {
                 System.out.println("Insira o novo nome do animal: ");
                 String nomeAlterado = leia.nextLine();
                 System.out.println("Insira o CPF do novo dono: ");
@@ -160,8 +159,8 @@ public class AnimalService implements Service {
                 animalSelecionado.setNome(nomeAlterado);
                 animalSelecionado.setCpfDono(cpfAlterado);
                 animais.put(nomeAlterado + " — " + cpfAlterado, animalSelecionado);
-                break;
-            case 6:
+            }
+            case 6 -> {
                 String chave = gerarChave(animalSelecionado.getNome(), animalSelecionado.getCpfDono());
                 System.out.println("Você escolheu alterar todos os dados do animal.");
 
@@ -175,6 +174,7 @@ public class AnimalService implements Service {
                 System.out.println("Todos os dados do animal foram alterados com sucesso!");
 
                 return;
+            }
         }
     }
 

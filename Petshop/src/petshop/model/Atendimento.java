@@ -6,7 +6,7 @@ package petshop.model;
  */
 public class Atendimento {
     //Atributos
-    private int codigo;
+    private String codigo;
     private String data;
     private Cliente cliente;
     private Animal animal;
@@ -15,7 +15,7 @@ public class Atendimento {
     public Atendimento() {
     }
 
-    public Atendimento(int codigo, String data, Cliente cliente, Animal animal, Funcionario funcionario) {
+    public Atendimento(String codigo, String data, Cliente cliente, Animal animal, Funcionario funcionario) {
         this.codigo = codigo;
         this.data = data;
         this.cliente = cliente;
@@ -23,11 +23,11 @@ public class Atendimento {
         this.funcionario = funcionario;
     }
     
-    public int getCodigo() {
+    public String getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(int codigo) {
+    public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
 
@@ -67,7 +67,7 @@ public class Atendimento {
     * Método que retorna uma representação detalhada do atendimento.
     * @return String com detalhes do atendimento.
     */
-    public String toStringDetalhado(Atendimento atendimento) {
+    public String toStringDetalhado() {
         return "Codigo: " + codigo + 
                "\nData: " + data +
                "\nCliente: " + cliente + 
