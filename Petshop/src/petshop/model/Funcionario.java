@@ -35,23 +35,6 @@ public class Funcionario extends Pessoa {
 
     // Métodos
     /**
-     * Método que altera os dados do funcionário.
-     * @param nome Nome do funcionário.
-     * @param matricula Matrícula do funcionário.
-     * @param qualificacao Qualificação do funcionário.
-     * @param descricaoFuncao Descrição da função executada pelo funcionário.
-     * @param cargaHoraria Carga horária semanal de trabalho do funcionário.
-     */
-    public void consultarFuncionario(){
-        System.out.println("\n--------Funcionário--------\nNome: " 
-                + this.nome + "\nMatrícula: " 
-                + this.matricula + "\nQualificação: " 
-                + this.qualificacao + "\nDescrição da Função Executada: " 
-                + this.descricaoFuncao + "\nCarga Horária Semanal de Trabalho: " 
-                + this.cargaHoraria + " horas");
-      }
-
-    /**
      * Método que retorna uma representação detalhada do funcionário.
      * @return String com detalhes do funcionário.
      */
@@ -73,18 +56,6 @@ public class Funcionario extends Pessoa {
     }
 
     // Getters e Setters
-    @Override
-    public String getNome() { return nome; }
-
-    @Override
-    public void setNome(String nome) { this.nome = nome; }
-
-    @Override
-    public String getId() { return matricula; }
-
-    @Override
-    public void setId(String id) { this.matricula = id; }
-        
     public String getMatricula() { return matricula; }
 
     public void setMatricula(String matricula) { this.matricula = matricula; }

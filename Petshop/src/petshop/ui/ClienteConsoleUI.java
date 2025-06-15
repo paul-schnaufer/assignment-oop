@@ -23,8 +23,7 @@ public class ClienteConsoleUI extends BaseConsoleUI {
     public void menuPrincipalCliente() {
         mostrarCabecalho("Menu Principal");
         System.out.println(
-            "1 - Cadastrar Cliente"
-            + "\n1 — Cadastrar Cliente"
+            "1 — Cadastrar Cliente"
             + "\n2 — Buscar Cliente por CPF"
             + "\n3 — Atualizar Cliente"
             + "\n4 — Remover Cliente"
