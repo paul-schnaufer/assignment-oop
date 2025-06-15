@@ -4,14 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-import petshop.modelo.Animal;
-import petshop.modelo.Atendimento;
-import petshop.modelo.Cliente;
-import petshop.modelo.Funcionario;
+import petshop.model.Animal;
+import petshop.model.Atendimento;
+import petshop.model.Cliente;
+import petshop.model.Funcionario;
 
-import petshop.service.AnimalService;
-import petshop.service.AtendimentoService;
-import petshop.service.ClienteService;
+import petshop.services.AnimalService;
+import petshop.services.AtendimentoService;
+import petshop.services.ClienteService;
 
 import petshop.util.BancoDeDadosEmMemoria;
 import petshop.util.ValidadorEntrada;
@@ -31,7 +31,8 @@ public class Petshop {
                 BancoDeDadosEmMemoria.atendimentos);
 
         AnimalService animalService = new AnimalService(
-            BancoDeDadosEmMemoria.animais);
+            BancoDeDadosEmMemoria.animais,
+            BancoDeDadosEmMemoria.clientes);
         ClienteService clienteService = new ClienteService(
             BancoDeDadosEmMemoria.clientes);
         FuncionarioService funcionarioService = new FuncionarioService(
