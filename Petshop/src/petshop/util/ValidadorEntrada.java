@@ -1,14 +1,6 @@
 package petshop.util;
 
 import java.util.Scanner;
-import java.util.Map;
-import java.util.HashMap;
-
-import petshop.model.Animal;
-import petshop.model.Atendimento;
-import petshop.model.Cliente;
-import petshop.model.Funcionario;
-import petshop.repository.BancoDeDadosEmMemoria;
 
 /**
  * Classe utilitária para validação de entradas do usuário.
@@ -23,7 +15,7 @@ public class ValidadorEntrada {
     /**
      * Lê um CPF válido do usuário, garantindo que ele tenha 11 dígitos numéricos.
      * @param leia O Scanner para ler a entrada do usuário.
-     * @return O CPF formatado no padrão "XXX.XXX.XXX-XX".
+     * @return O CPF formatado no padrão "123.456.789-01".
      */
     public static String lerCpfValido(Scanner leia) {
         String cpf;
@@ -43,7 +35,7 @@ public class ValidadorEntrada {
     }
 
     /**
-     * Formata um CPF de 11 dígitos em uma string no formato "XXX.XXX.XXX-XX".
+     * Formata um CPF de 11 dígitos em uma string no formato "123.456.789-01".
      * @param cpf O CPF a ser formatado.
      * @return O CPF formatado.
      */
@@ -58,9 +50,9 @@ public class ValidadorEntrada {
     }
 
     /**
-     * Formata um RG de 10 dígitos em uma string no formato "XX.XXX.XXX-XX".
+     * Formata um RG de 10 dígitos em uma string no formato "123.456.789-01".
      * @param leia O Scanner para ler a entrada do usuário.
-     * @return O RG formatado no padrão "XX.XXX.XXX-XX".
+     * @return O RG formatado no padrão "123.456.789-01".
      */
     public static String formataRg(String rg) {
         return String.format(
@@ -75,7 +67,7 @@ public class ValidadorEntrada {
     /**
      * Lê um RG válido do usuário, garantindo que ele tenha 10 dígitos numéricos.
      * @param leia O Scanner para ler a entrada do usuário.
-     * @return O RG formatado no padrão "XX.XXX.XXX-XX".
+     * @return O RG formatado no padrão "12.345.678-90".
      */
     public static String lerRgValido(Scanner leia) {
         while (true) {

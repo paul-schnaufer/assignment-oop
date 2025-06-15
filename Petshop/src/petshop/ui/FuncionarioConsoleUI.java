@@ -34,7 +34,7 @@ public class FuncionarioConsoleUI extends BaseConsoleUI{
             "\n4 - Remover Funcionário" +
             "\n5 - Listar Funcionários" +
             "\n6 - Sair" +
-            "\n" + SEPARADOR +
+            "\n" + SEPARADOR
             );
     }
 
@@ -54,7 +54,7 @@ public class FuncionarioConsoleUI extends BaseConsoleUI{
             "\n5 - Alterar Carga Horária Semanal" +
             "\n6 - Todos os dados" +
             "\n7 - Voltar" +
-            "\n" + SEPARADOR +
+            "\n" + SEPARADOR
             );
     }
 

@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 import petshop.repository.AnimalRepository;
 import petshop.repository.AtendimentoRepository;
-import petshop.repository.BancoDeDadosEmMemoria;
 import petshop.repository.ClienteRepository;
 import petshop.repository.FuncionarioRepository;
 
