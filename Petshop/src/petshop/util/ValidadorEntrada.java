@@ -16,22 +16,6 @@ import petshop.repository.BancoDeDadosEmMemoria;
  * como verificar se um CPF é válido, se um nome não está vazio, etc.
  */
 public class ValidadorEntrada {
-    private Map<String, Cliente> clientes;
-    private Map<String, Animal> animais;
-    private Map<String, Funcionario> funcionarios;
-    private Map<String, Atendimento> atendimentos;
-
-    public ValidadorEntrada(
-            Map<String, Cliente> clientes,
-            Map<String, Animal> animais,
-            Map<String, Funcionario> funcionarios,
-            Map<String, Atendimento> atendimentos) {
-        this.clientes = clientes;
-        this.animais = animais;
-        this.funcionarios = funcionarios;
-        this.atendimentos = atendimentos;
-    }
-
     // Métodos estáticos para validação de entradas podem ser adicionados aqui.
     /**
      * Verifica se o nome fornecido não está vazio.
@@ -63,6 +47,49 @@ public class ValidadorEntrada {
         return cpfFormatado;
     }
 
+// // filepath: d:\Desktop\Trabalho_POO\assignment_poo\Petshop\src\petshop\util\ValidadorEntrada.java
+// // ...existing code...
+// public class ValidadorEntrada {
+//     // Remover construtor e campos de instância
+
+//     public static boolean cpfClienteExiste(String cpf, Map<String, Cliente> clientes) {
+//         return clientes.containsKey(cpf);
+//     }
+
+//     public static String lerCpfValidoCliente(Scanner leia, Map<String, Cliente> clientes) {
+//         String cpf;
+//         while (true) {
+//             System.out.println("Insira o CPF do cliente (11 dígitos numéricos):");
+//             cpf = leia.nextLine().replaceAll("[^0-9]", "");
+//             if (cpf.length() == 11) {
+//                 // Opcional: verificar se já existe, dependendo do contexto da chamada
+//                 // if (clientes.containsKey(cpf)) {
+//                 //     System.out.println("Cliente com este CPF já cadastrado.");
+//                 // } else {
+//                 //     return cpf;
+//                 // }
+//                 return cpf; // Simplificado para apenas validar formato e tamanho
+//             } else {
+//                 System.out.println("CPF inválido. Deve conter 11 dígitos numéricos.");
+//             }
+//         }
+//     }
+//     // ... outros métodos estáticos ...
+// }
+
+//ou
+
+// // filepath: d:\Desktop\Trabalho_POO\assignment_poo\Petshop\src\petshop\util\ValidadorEntrada.java
+// // ...existing code...
+// import petshop.repository.BancoDeDadosEmMemoria; // Adicionar import
+
+// public class ValidadorEntrada {
+//     // ...
+//     public static boolean cpfClienteExiste(String cpf) {
+//         return BancoDeDadosEmMemoria.clientes.containsKey(cpf);
+//     }
+//     // ...
+// }
     /**
      * Formata um CPF de 11 dígitos em uma string no formato "XXX.XXX.XXX-XX".
      * @param cpf O CPF a ser formatado.

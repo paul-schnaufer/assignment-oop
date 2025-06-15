@@ -111,6 +111,19 @@ public class AnimalConsoleUI {
     }
 
     /**
+     * Exibe um menu principal para o usuário escolher uma ação relacionada a animais.
+     */
+    public void menuPrincipal() {
+        System.out.println("Escolha uma opção:"
+                + "\n1 — Cadastrar animal"
+                + "\n2 — Consultar animal"
+                + "\n3 — Alterar animal"
+                + "\n4 — Excluir animal"
+                + "\n5 — Listar animais"
+                + "\n6 — Sair");
+    }
+
+    /**
      * Exibe um menu para o usuário escolher uma ação relacionada a animais.
      */
     public void menuAlterarAnimal() {
