@@ -1,13 +1,15 @@
 package petshop.services;
 
-import java.util.Map;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import petshop.model.Animal;
 import petshop.model.Cliente;
 import petshop.util.ValidadorEntrada;
+import petshop.ui.AnimalConsoleUI;
+import petshop.repository.AnimalRepository;
 
 /**
  * Classe responsável por gerenciar as operações relacionadas aos animais do petshop.
@@ -15,13 +17,12 @@ import petshop.util.ValidadorEntrada;
  * alteração, remoção e listagem de animais.
  */
 public class AnimalService implements Service {
-    final String SEPARADOR = "===";
-    private Map<String, Animal> animais;
-    private Map<String, Cliente> clientes;
+    private AnimalConsoleUI ui;
+    private AnimalRepository animalRepository;
 
-    public AnimalService(Map<String, Animal> animais, Map<String, Cliente> clientes) {
-        this.animais = animais;
-        this.clientes = clientes;
+    public AnimalService(AnimalConsoleUI ui, AnimalRepository animalRepository) {
+        this.ui = ui;
+        this.animalRepository = animalRepository;
     }
 
     /**
@@ -33,17 +34,22 @@ public class AnimalService implements Service {
      * @param leia Scanner para ler a entrada do usuário
      */
     @Override
-    public void cadastrar(Scanner leia) {
-        System.out.println(SEPARADOR + " CADASTRO DE ANIMAL " + SEPARADOR);
-        ArrayList<String> dadosAnimal = coletaDados(leia);
-        String chave = gerarChave(dadosAnimal.get(0), dadosAnimal.get(3));
+    public void cadastrar() {
+        ui.mostrarCabecalho("Cadastro de Animal");
+        String nome = ui.solicitarNomeAnimal();
+        float peso = ui.solicitarPesoAnimal();
+        float altura = ui.solicitarAlturaAnimal();
+        String cpfDono = ui.solicitarCpfDonoAnimal();
 
-        if (animais.containsKey(chave)) {
-            System.out.println("Animal já cadastrado com o nome: " + dadosAnimal.get(0) + " e CPF do dono: " + dadosAnimal.get(3));
+        String chave = gerarChave(nome, cpfDono);
+
+        if (animalRepository.exists(chave)) {
+            System.out.println("Animal já cadastrado com o nome: " + nome + " e CPF do dono: " + cpfDono);
             return;
         }
 
-        insereDados(dadosAnimal, chave);
+        Animal animal = new Animal (nome, peso, altura, cpfDono);
+        animalRepository.save(chave, animal);
 
         System.out.println("Dados do animal cadastrado:");
         System.out.println(animais.get(chave).toStringDetalhado());

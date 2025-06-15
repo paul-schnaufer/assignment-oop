@@ -23,7 +23,7 @@ public class AtendimentoService implements Service {
 
     public AtendimentoService(Map<String, Atendimento> atendimentos, Map<String, Cliente> clientes) {
         this.atendimentos = atendimentos;
-        this.clientes = BancoDeDadosEmMemoria.clientes;
+        this.clientes = clientes;
     }
 
     /**
