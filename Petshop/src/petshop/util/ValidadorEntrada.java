@@ -86,7 +86,7 @@ public class ValidadorEntrada {
     }
 
     /**
-     * Lê um nome válido do usuário, garantindo que não esteja vazio.
+     * Lê um número inteiro válido do usuário, dentro de um intervalo específico.
      * @param leia O Scanner para ler a entrada do usuário.
      * @return O nome fornecido pelo usuário.
      */
