@@ -48,12 +48,13 @@ public class AtendimentoConsoleUI extends BaseConsoleUI {
         mostrarCabecalho("Menu de Alteração de Atendimento");
         System.out.println(
             "Quais dados do atendimento você deseja alterar?" +
-            "\n1 - Alterar Data" +
-            "\n2 - Alterar Cliente" +
-            "\n3 - Alterar Animal" +
-            "\n4 - Alterar Funcionário" +
-            "\n5 - Todos os dados" +
-            "\n6 - Voltar" +
+            "\n1 - Alterar Código" +
+            "\n2 - Alterar Data" +
+            "\n3 - Alterar Cliente" +
+            "\n4 - Alterar Animal" +
+            "\n5 - Alterar Funcionário" +
+            "\n6 - Todos os dados" +
+            "\n7 - Voltar" +
             "\n" + SEPARADOR
             );
     }

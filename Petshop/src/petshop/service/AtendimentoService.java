@@ -171,6 +171,7 @@ public class AtendimentoService implements Service {
             case 2 -> {
                 String novaData = ui.solicitarDataAtendimento();
                 atendimentoSelecionado.setData(novaData);
+                ui.mostrarMensagem("Data do atendimento alterada com sucesso.");
             }
             case 3 -> {
                 String novaChaveCliente = ui.solicitarChaveClienteAtendimento();
