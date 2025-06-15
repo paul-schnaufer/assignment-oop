@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 import petshop.model.Funcionario;
 import petshop.util.ValidadorEntrada;
-import java.util.Scanner;
 
 /**
  * Classe que representa a interface de usuário para o gerenciamento de Funcionários no sistema de Petshop.

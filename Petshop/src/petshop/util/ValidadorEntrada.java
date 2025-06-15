@@ -56,7 +56,7 @@ public class ValidadorEntrada {
     }
 
     /**
-     * Lê um RG válido do usuário, garantindo que ele tenha 10 dígitos numéricos.
+     * Formata um RG de 10 dígitos em uma string no formato "XX.XXX.XXX-XX".
      * @param leia O Scanner para ler a entrada do usuário.
      * @return O RG formatado no padrão "XX.XXX.XXX-XX".
      */
