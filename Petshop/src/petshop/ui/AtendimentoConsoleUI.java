@@ -128,7 +128,6 @@ public class AtendimentoConsoleUI extends BaseConsoleUI {
     public String solicitarChaveFuncionarioAtendimento() {
         System.out.println("Digite a matrícula do funcionário: ");
         String matricula = leia.nextLine();
-
         String chaveFuncionario = matricula;
 
         return chaveFuncionario;
