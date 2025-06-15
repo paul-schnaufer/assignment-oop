@@ -28,7 +28,7 @@ public class Animal {
         this.nome = nome;
     }
 
-    public double getPeso() {
+    public float getPeso() {
         return peso;
     }
 
@@ -36,7 +36,7 @@ public class Animal {
         this.peso = peso;
     }
 
-    public double getAltura() {
+    public float getAltura() {
         return altura;
     }
 

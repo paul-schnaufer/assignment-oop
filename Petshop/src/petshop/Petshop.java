@@ -3,10 +3,10 @@ package petshop;
 import java.util.Scanner;
 
 import petshop.repository.BancoDeDadosEmMemoria;
-import petshop.services.AnimalService;
-import petshop.services.AtendimentoService;
-import petshop.services.ClienteService;
-import petshop.services.FuncionarioService;
+import petshop.service.AnimalService;
+import petshop.service.AtendimentoService;
+import petshop.service.ClienteService;
+import petshop.service.FuncionarioService;
 import petshop.util.ValidadorEntrada;
 
 /**

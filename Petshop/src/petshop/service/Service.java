@@ -1,4 +1,4 @@
-package petshop.services;
+package petshop.service;
 
 /**
  * Interface Service que define os métodos básicos para operações de cadastro,

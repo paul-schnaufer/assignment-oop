@@ -95,27 +95,7 @@ public class AnimalConsoleUI {
     public boolean receberConfirmacao(String mensagem) {
         System.out.println(mensagem + " (S/N): ");
         String resposta = leia.nextLine().trim().toUpperCase();
-        if (!resposta.equals("S")) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    /**
-     * Exibe uma lista de animais encontrados.
-     * @param animaisEncontrados A lista de animais encontrados.
-     */
-    public void mostrarAnimaisEncontrados(List<Animal> animaisEncontrados) {
-        if (animaisEncontrados.isEmpty()) {
-            System.out.println("Nenhum animal encontrado.");
-        } else if (animaisEncontrados.size() == 1) {
-            
-        } else {
-            for (int i = 0; i < animaisEncontrados.size(); i++) {
-                System.out.println((i + 1) + " — " + animaisEncontrados.get(i).getNome());
-            }
-        }
+        return resposta.equals("S)");
     }
 
     /**
@@ -143,3 +123,6 @@ public class AnimalConsoleUI {
                 + "\n6 — Todos os dados");
     }
 }
+
+// TODO: Verificar quando fechar o Scanner leia, se necessário.
+//       Scanner leia.close(); // Fechar o Scanner quando não for mais necessário

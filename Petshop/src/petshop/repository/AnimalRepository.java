@@ -14,7 +14,7 @@ import petshop.model.Animal;
 public class AnimalRepository {
     private Map<String, Animal> animais;
 
-    public void animalRepository() {
+    public AnimalRepository() {
         this.animais = BancoDeDadosEmMemoria.animais;
     }
 
@@ -48,11 +48,12 @@ public class AnimalRepository {
      * @param chave A chave do animal a ser atualizado
      * @param animal O objeto Animal atualizado
      */
-    public void delete(String chave) {
+    public boolean delete(String chave) {
         if (animais.containsKey(chave)) {
             animais.remove(chave);
+            return true;
         } else {
-            System.out.println("Animal com a chave " + chave + " não encontrado.");
+            return false;
         }
     }
 
@@ -66,6 +67,11 @@ public class AnimalRepository {
         return animais.containsKey(chave);
     }
 
+    /**
+     * Obtém o número total de animais no repositório.
+     * 
+     * @return O número de animais no repositório
+     */
     public int size() {
         return animais.size();
     }
@@ -98,5 +104,5 @@ public class AnimalRepository {
         return resultado;
     }
 
-    
+
 }

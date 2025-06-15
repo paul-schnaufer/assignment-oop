@@ -1,4 +1,4 @@
-package petshop.services;
+package petshop.service;
 
 import java.util.List;
 
@@ -119,8 +119,16 @@ public class AnimalService implements Service {
             }
             case 3 -> {
                 String novoNome = ui.solicitarNomeAnimal();
-                String chaveAntiga = gerarChave(animalSelecionado.getNome(), animalSelecionado.getCpfDono());
-
+                String cpfDonoAtual = animalSelecionado.getCpfDono();
+                String chaveAntiga = gerarChave(animalSelecionado.getNome(), cpfDonoAtual);
+                String novaChave = gerarChave(novoNome, cpfDonoAtual);
+                
+                if (!chaveAntiga.equals(novaChave) && animalRepository.exists(novaChave)) {
+                    ui.mostrarMensagem("Já existe um animal cadastrado com o nome: " + novoNome
+                            + " e CPF do dono: " + cpfDonoAtual);
+                        return;
+                    }   
+                
                 animalRepository.delete(chaveAntiga);
                 animalSelecionado.setNome(novoNome);
                 animalRepository.save(gerarChave(novoNome, animalSelecionado.getCpfDono()), animalSelecionado);
@@ -130,6 +138,13 @@ public class AnimalService implements Service {
                 String novoCpfDono = ui.solicitarCpfDonoAnimal();
                 String nomeAnimal = animalSelecionado.getNome();
                 String chaveAntiga = gerarChave(nomeAnimal, animalSelecionado.getCpfDono());
+                String novaChave = gerarChave(nomeAnimal, novoCpfDono);
+
+                if (!chaveAntiga.equals(novaChave) && animalRepository.exists(novaChave)) {
+                    ui.mostrarMensagem("Já existe um animal cadastrado com o nome: " + nomeAnimal
+                            + " e CPF do dono: " + novoCpfDono);
+                    return;
+                }
 
                 animalRepository.delete(chaveAntiga);
                 animalSelecionado.setCpfDono(novoCpfDono);
@@ -139,6 +154,13 @@ public class AnimalService implements Service {
                 String nomeAlterado = ui.solicitarNomeAnimal();
                 String cpfAlterado = ui.solicitarCpfDonoAnimal();
                 String chaveAntiga = gerarChave(animalSelecionado.getNome(), animalSelecionado.getCpfDono());
+                String novaChave = gerarChave(nomeAlterado, cpfAlterado);
+
+                if (!chaveAntiga.equals(novaChave) && animalRepository.exists(novaChave)) {
+                    ui.mostrarMensagem("Já existe um animal cadastrado com o nome: " + nomeAlterado
+                            + " e CPF do dono: " + cpfAlterado);
+                    return;
+                }
 
                 animalRepository.delete(chaveAntiga);
                 animalSelecionado.setNome(nomeAlterado);
@@ -229,7 +251,7 @@ public class AnimalService implements Service {
     private Animal selecionarAnimalPorNome(String nome) {
         List<String> chavesAnimaisEncontrados = animalRepository.acharChavesPeloNome(nome);
 
-        if (chavesAnimaisEncontrados.isEmpty() || chavesAnimaisEncontrados == null) {
+        if (chavesAnimaisEncontrados.isEmpty()) {
             ui.mostrarMensagem("Nenhum animal encontrado com o nome: " + nome);
             return null;
         } else if (chavesAnimaisEncontrados.size() == 1) {
