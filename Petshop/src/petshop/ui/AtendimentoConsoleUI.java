@@ -111,8 +111,7 @@ public class AtendimentoConsoleUI extends BaseConsoleUI {
     public String solicitarChaveAnimalAtendimento() {
         System.out.println("Digite o nome do animal: ");
         String nome = leia.nextLine();
-        System.out.println("Digite o CPF do dono do animal: ");
-        String cpfDono = leia.nextLine();
+        String cpfDono = ValidadorEntrada.lerCpfValido(leia);
 
         String chaveAnimal = nome + " — " + cpfDono;
 
