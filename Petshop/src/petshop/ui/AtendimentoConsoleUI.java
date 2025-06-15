@@ -3,9 +3,6 @@ package petshop.ui;
 import java.util.Scanner;
 
 import petshop.model.Atendimento;
-import petshop.model.Animal;
-import petshop.model.Cliente;
-import petshop.model.Funcionario;
 import petshop.util.ValidadorEntrada;
 
 /**

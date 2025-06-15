@@ -1,7 +1,5 @@
 package petshop.service;
 
-import java.util.List;
-
 import petshop.model.Cliente;
 import petshop.ui.ClienteConsoleUI;
 import petshop.repository.ClienteRepository;
