@@ -26,9 +26,10 @@ public class ValidadorEntrada {
      * @return O CPF formatado no padrão "XXX.XXX.XXX-XX".
      */
     public static String lerCpfValido(Scanner leia) {
+        String cpf;
         while (true) {
             System.out.println("Digite o CPF (11 dígitos, apenas números): ");
-            String cpf = leia.nextLine();
+            cpf = leia.nextLine();
             if (cpf.matches("\\d{11}")) {
                 break;
             } else {

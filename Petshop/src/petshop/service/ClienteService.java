@@ -115,7 +115,7 @@ public class ClienteService implements Service {
 
         switch (opcao) {
             case 1 -> {
-                String novoNome = ui.solicitarNomeCliente()
+                String novoNome = ui.solicitarNomeCliente();
                 clienteSelecionado.setNome(novoNome);
             }
             case 2 -> {
