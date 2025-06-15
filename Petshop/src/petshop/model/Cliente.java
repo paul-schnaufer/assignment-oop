@@ -22,10 +22,11 @@ public class Cliente extends Pessoa {
      * @param cpf Cadastro de Pessoa Física (CPF) do cliente.
      */
     public Cliente(String nome, String telefone, String email, String rg, String cpf) {
-        super(nome, cpf); // Usando CPF como ID
+        super(nome);
         this.telefone = telefone;
         this.email = email;
         this.rg = rg;
+        this.cpf = cpf;
     }
     
     // Métodos

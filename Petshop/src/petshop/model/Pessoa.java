@@ -7,17 +7,14 @@ package petshop.model;
 public abstract class Pessoa {
     // Atributos
     protected String nome;
-    protected String id;
 
     /**
      * Construtor da classe Pessoa.
      * 
      * @param nome Nome da pessoa.
-     * @param id Identificador único da pessoa (pode ser CPF, matrícula, etc.).
      */
-    public Pessoa(String nome, String id) {
+    public Pessoa(String nome) {
         this.nome = nome;
-        this.id = id;
     }
 
     // Métodos
@@ -31,6 +28,4 @@ public abstract class Pessoa {
     // Getters e Setters
     public String getNome() { return nome; }
     public void setNome(String nome) { this.nome = nome; }
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
 }

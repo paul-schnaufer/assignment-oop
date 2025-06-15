@@ -55,7 +55,7 @@ public class Petshop {
         int opcao = 0;
 
         while(opcao != 5){
-            System.out.println("\nSelecione a opção + desejada:\n" +
+            System.out.println("\nSelecione a opção desejada:\n" +
                                "1 - Cliente\n" +
                                "2 - Funcionário\n" +
                                "3 - Animal\n" +
