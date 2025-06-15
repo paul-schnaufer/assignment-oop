@@ -19,8 +19,9 @@ import petshop.ui.ClienteConsoleUI;
 import petshop.ui.FuncionarioConsoleUI;
 
 /**
- * Classe principal do sistema de gerenciamento de petshop.
- * Permite a interação com o usuário para realizar diversas operações.
+ * Classe principal do sistema Petshop.
+ * Esta classe inicializa os repositórios, serviços e interfaces de usuário,
+ * e gerencia o loop principal do menu do sistema.
  */
 public class Petshop {
     public static void main(String[] args) {
@@ -41,27 +42,15 @@ public class Petshop {
         // Inicialização dos serviços com as UIs e Repositories correspondentes
         AnimalService animalService = new AnimalService(animalUI, animalRepository);
         AtendimentoService atendimentoService = new AtendimentoService(
-                                        atendimentoUI,
-                                        atendimentoRepository,
-                                        clienteRepository,
-                                        animalRepository,
-                                        funcionarioRepository);
+            atendimentoUI,
+            animalRepository,
+            atendimentoRepository,
+            clienteRepository,
+            funcionarioRepository);
         ClienteService clienteService = new ClienteService(clienteUI, clienteRepository);
         FuncionarioService funcionarioService = new FuncionarioService(
             funcionarioUI, funcionarioRepository);
-
-        /*
-         * TODO:
-         * Implementar as classes de UI (Console) para cada entidade, conforme o modelo 
-         * definido: 
-         * AnimalConsoleUI.java.
-         * 
-         * TODO:
-         * Implementar as classes de Service para cada entidade, conforme o modelo
-         * definido:
-         * AniimalService.java.
-         */
-    
+  
         // Loop de menus chamando os serviços normalmente
         int opcao = 0;
 
@@ -77,7 +66,7 @@ public class Petshop {
             int acao;
             switch (opcao) {
                 case 1 -> {
-                    clienteUI.menuPrincipal();
+                    clienteUI.menuPrincipalCliente();
                     acao = petshop.util.ValidadorEntrada.lerInteiroValido(leia, 1, 6);
                     switch (acao) {
                         case 1 -> { clienteService.cadastrar(); }
@@ -89,7 +78,7 @@ public class Petshop {
                     }
                 }
                 case 2 -> {
-                    funcionarioUI.menuPrincipal();
+                    funcionarioUI.menuPrincipalFuncionario();
                     acao = petshop.util.ValidadorEntrada.lerInteiroValido(leia, 1, 6);
                     switch (acao) {
                         case 1 -> { funcionarioService.cadastrar(); }
@@ -101,7 +90,7 @@ public class Petshop {
                     }
                 }
                 case 3 -> {
-                    animalUI.menuPrincipal();
+                    animalUI.menuPrincipalAnimal();
                     acao = petshop.util.ValidadorEntrada.lerInteiroValido(leia, 1, 6);
                     switch (acao) {
                         case 1 -> { animalService.cadastrar(); }
@@ -113,7 +102,7 @@ public class Petshop {
                     }
                 }
                 case 4 -> {
-                    atendimentoUI.menuPrincipal();
+                    atendimentoUI.menuPrincipalAtendimento();
                     acao = petshop.util.ValidadorEntrada.lerInteiroValido(leia, 1, 6);
                     switch (acao) {
                         case 1 -> { atendimentoService.cadastrar(); }
@@ -132,36 +121,6 @@ public class Petshop {
             }
         }     
         System.out.println("\nEncerrando Execução...");
+        leia.close();
     }
 }
-
-// TODO:
-// Para cada Entidade (Cliente, Funcionario, Atendimento):
-// Model (Cliente.java, Funcionario.java, Atendimento.java):
-// Mantenha-os como POJOs simples com atributos, construtores, getters, setters e um método
-// toStringDetalhado().
-// Documente com Javadoc.
-
-// Repository
-// No construtor, atribua o mapa estático correspondente de BancoDeDadosEmMemoria
-// (ex: this.clientes = BancoDeDadosEmMemoria.clientes;).
-// Implemente métodos CRUD básicos (save, getByKey, delete, getAll, exists, isEmpty, size) e
-// quaisquer métodos de busca específicos necessários
-// (como acharChavesPeloNome em AnimalRepository).
-
-// UI (ClienteConsoleUI.java, etc.):
-// Esta classe será responsável por TODA a interação com o console para aquela entidade
-// (solicitar dados, exibir mensagens, menus específicos).
-// Ela terá uma instância de Scanner.
-// Utilize ValidadorEntrada para validar as entradas.
-
-// Service (ClienteService.java, etc.):
-// Deve implementar a interface Service.
-// No construtor, receba instâncias da UI e do Repository correspondentes
-// (ex: public ClienteService(ClienteConsoleUI ui, ClienteRepository clienteRepository)).
-// Os métodos (cadastrar, consultar, alterar, remover, listar) não devem mais receber Scanner
-// leia como parâmetro. Eles orquestrarão a lógica, chamando métodos da UI para obter dados
-// e do Repository para persistir/recuperar.
-
-// TODO: implementar as classes de UI e Service para cada entidade, conforme o modelo definido:
-// AnimalConsoleUI.java.

@@ -1,192 +1,216 @@
 package petshop.service;
 
-import java.util.Map;
-import java.util.Scanner;
-import java.util.Set;
-
 import petshop.model.Funcionario;
-import petshop.util.ValidadorEntrada;
+import petshop.ui.FuncionarioConsoleUI;
+import petshop.repository.FuncionarioRepository;
 
 /**
  * Classe responsável por gerenciar as operações relacionadas aos funcionários do petshop.
+ * Esta classe implementa a interface Service e fornece métodos para cadastrar, consultar,
+ * alterar, remover e listar funcionários.
  */
 public class FuncionarioService implements Service {
-    private Map<String, Funcionario> funcionarios;
+    private FuncionarioConsoleUI ui;
+    private FuncionarioRepository funcionarioRepository;
 
-    public FuncionarioService(Map<String, Funcionario> funcionarios) {
-        this.funcionarios = funcionarios;
+    /**
+     * Construtor da classe FuncionarioService.
+     * Inicializa a interface de usuário e o repositório de funcionários.
+     *
+     * @param ui A interface de usuário para interações com o usuário
+     * @param funcionarioRepository O repositório de funcionários para armazenar e recuperar dados
+     */
+    public FuncionarioService(FuncionarioConsoleUI ui, FuncionarioRepository funcionarioRepository) {
+        this.ui = ui;
+        this.funcionarioRepository = funcionarioRepository;
     }
 
     /**
-     * Método para cadastrar um funcionario no sistema.
-     * Solicita ao usuário as informações necessárias e cria um novo objeto Funcionario.
-     * A chave do funcionario é sua matrícula.
-     *
-     * @param leia Scanner para ler a entrada do usuário
+     * Método para cadastrar um novo funcionário no sistema.
+     * Solicita ao usuário os dados do funcionário e os armazena no repositório.
+     * Se a matrícula já estiver cadastrada, exibe uma mensagem de erro.
      */
     @Override
-    public void cadastrar(Scanner leia) {
-        System.out.println("Insira o nome do funcionário: ");
-        String nome = leia.nextLine();
-        System.out.println("Insira a matrícula do funcionário: ");
-        String matricula = leia.nextLine();
-        System.out.println("Insira a qualificação do funcionário: ");
-        String qualificacao = leia.nextLine();
-        System.out.println("Insira uma descrição da função do funcionário: ");
-        String descricaoFuncao = leia.nextLine();        
-        System.out.println("Insira a carga horária semanal do funcionário: ");
-        float cargaHoraria = leia.nextFloat();
-        leia.nextLine();
+    public void cadastrar() {
+        String matricula = ui.solicitarMatriculaFuncionario();
 
         String chave = matricula;
-        funcionarios.put(chave, new Funcionario(nome, matricula, qualificacao, descricaoFuncao, cargaHoraria));
 
-        System.out.println("Dados do funcionário cadastrado:");
-        System.out.println(funcionarios.get(chave).toStringDetalhado());
-
-        System.out.println("Os dados estão corretos? (S/N)");
-        String resposta = leia.nextLine().trim().toUpperCase();
-
-        if (!resposta.equals("S")) {
-            System.out.println("Cadastro cancelado.");
-            funcionarios.remove(chave);
+        if (funcionarioRepository.exists(chave)) {
+            ui.mostrarMensagem("Já existe um funcionário cadastrado com a matrícula: " + matricula);
             return;
         }
 
-        System.out.println("Funcionário cadastrado com sucesso!");
-        System.out.println("Gostaria de cadastrar outro funcionario? (S/N)");
-        resposta = leia.nextLine().trim().toUpperCase();
+        String nome = ui.solicitarNomeFuncionario();
+        String qualificacao = ui.solicitarQualificacaoFuncionario();
+        String descricaoFuncao = ui.solicitarDescricaoFuncaoFuncionario();
+        float cargaHoraria = ui.solicitarCargaHorariaFuncionario();
 
-        if (resposta.equals("S")) {
-            cadastrar(leia);
+        Funcionario novoFuncionario = new Funcionario(
+            nome, matricula, qualificacao, descricaoFuncao, cargaHoraria);
+
+        ui.mostrarMensagem("Dados do funcionário cadastrado:");
+        ui.mostrarDetalhesFuncionario(novoFuncionario);
+
+        if (!ui.receberConfirmacao("Os dados estão corretos?")) {
+            ui.mostrarMensagem("Cadastro cancelado.");
+            funcionarioRepository.delete(chave);
+            return;
+        }
+
+        ui.mostrarMensagem("Funcionário cadastrado com sucesso.");
+
+        if (ui.receberConfirmacao("Gostaria de cadastrar outro funcionário?")) {
+            cadastrar();
         } else {
-            System.out.println("Cadastro finalizado.");
+            ui.mostrarMensagem("Cadastro finalizado.");
         }
     }
 
     /**
-     * Método para consultar um funcionário no sistema.
-     * Solicita ao usuário a matricula do funcionário e busca pelo funcionário com esse CPF.
-     *
-     * @param leia Scanner para ler a entrada do usuário
+     * Método para consultar um funcionário pelo número de matrícula.
+     * Solicita ao usuário a matrícula do funcionário e exibe os detalhes do funcionário correspondente.
+     * Se o funcionário não for encontrado, exibe uma mensagem informando que não há funcionários com essa matrícula.
      */
     @Override
-    public void consultar(Scanner leia) {
-        System.out.println("Matrícula do funcionário a ser consultado: ");
-        String matricula = leia.nextLine();
+    public void consultar() {
+        String matricula = ui.solicitarMatriculaFuncionario();
 
-        Funcionario funcionarioSelecionado = funcionarios.get(matricula);
+        Funcionario funcionarioSelecionado = funcionarioRepository.getByKey(matricula);
 
         if (funcionarioSelecionado != null) {
-            System.out.println("Dados do funcionario selecionado:");
-            System.out.println(funcionarioSelecionado.toStringDetalhado());
+            ui.mostrarMensagem("Dados do funcionário selecionado:");
+            ui.mostrarDetalhesFuncionario(funcionarioSelecionado);
         } else {
-            System.out.println("Nenhum funcionario encontrado com a matrícula: " + matricula);
+            ui.mostrarMensagem("Nenhum funcionario encontrado com a matrícula: " + matricula);
         } 
     }
 
     /**
-     * Método para alterar os dados de um funcionario no sistema.
-     * Solicita ao usuário a matrícula do funcionario e permite que ele escolha quais dados deseja alterar.
-     * As opções incluem nome, matricula, qualificacao, descricaoFuncao, cargaHoraria, ou todos os dados.
-     *
-     * @param leia Scanner para ler a entrada do usuário
+     * Método para consultar os dados de um funcionário no sistema.
+     * Solicita ao usuário a matrícula do funcionário e exibe os detalhes do funcionário correspondente.
+     * Se o funcionário não for encontrado, exibe uma mensagem informando isso.
      */
     @Override
-    public void alterar(Scanner leia) {
-        System.out.println("Matrícula do funcionario a ser alterado: ");
-        String matricula = leia.nextLine();
+    public void alterar() {
+        String matricula = ui.solicitarMatriculaFuncionario();
 
-        Funcionario funcionarioSelecionado = funcionarios.get(matricula);
+        Funcionario funcionarioSelecionado = funcionarioRepository.getByKey(matricula);
 
         if (funcionarioSelecionado == null) {
-            System.out.println("Nenhum funcionario encontrado com a matrícula: " + matricula);
+            ui.mostrarMensagem("Nenhum funcionario encontrado com a matrícula: " + matricula);
             return;
         }
 
-        System.out.println("Dados atuais do funcionario:");
-        System.out.println(funcionarioSelecionado.toStringDetalhado());
+        ui.mostrarMensagem("Dados atuais do funcionario:");
+        ui.mostrarDetalhesFuncionario(funcionarioSelecionado);
 
-        System.out.println("Quais dados do funcionario você deseja alterar?");
-        System.out.println("1 — Nome");
-        System.out.println("2 — Matrícula");
-        System.out.println("3 — Qualificação");
-        System.out.println("4 — Descrição da função");
-        System.out.println("5 — Carga horária");
-        System.out.println("6 — Todos os dados");
-
-        int opcao = ValidadorEntrada.lerInteiroValido(leia, 1, 6);
-        System.out.println("Você escolheu a opção: " + opcao);
+        ui.menuAlterarFuncionario();
+        int opcao = ui.capturarInteiro(1, 6);
+        ui.mostrarMensagem("Você escolheu a opção: " + opcao);
 
         switch (opcao) {
             case 1 -> {
-                System.out.println("Insira o novo nome do funcionário: ");
-                String novoNome = leia.nextLine();
+                String novoNome = ui.solicitarNomeFuncionario();
                 funcionarioSelecionado.setNome(novoNome);
             }
             case 2 -> {
-                System.out.println("Insira a nova matrícula do funcionário: ");
-                String novaMatricula = leia.nextLine();
-                funcionarios.remove(funcionarioSelecionado.getMatricula());
-                funcionarioSelecionado.setMatricula(novaMatricula);                
-                funcionarios.put(novaMatricula, funcionarioSelecionado);
+                String antigaMatricula = funcionarioSelecionado.getMatricula();
+                String novaMatricula = ui.solicitarMatriculaFuncionario();
+
+                funcionarioRepository.delete(antigaMatricula);
+
+                funcionarioSelecionado.setMatricula(novaMatricula);              
+                funcionarioRepository.save(novaMatricula, funcionarioSelecionado);
             }
             case 3 -> {
-                System.out.println("Insira a nova qualificação do funcionário: ");
-                String novaQualificacao = leia.nextLine();
+                String novaQualificacao = ui.solicitarQualificacaoFuncionario();
                 funcionarioSelecionado.setQualificacao(novaQualificacao);
             }
             case 4 -> {
-                System.out.println("Insira a nova descricação da função do funcionário: ");
-                String novaDescricaoFuncao = leia.nextLine();
+                String novaDescricaoFuncao = ui.solicitarDescricaoFuncaoFuncionario();
                 funcionarioSelecionado.setDescricaoFuncao(novaDescricaoFuncao);
             }
             case 5 -> {
-                System.out.println("Insira a nova carga horária do funcionário: ");
-                float novaCargaHoraria = leia.nextFloat();
-                leia.nextLine();
+                float novaCargaHoraria = ui.solicitarCargaHorariaFuncionario();
                 funcionarioSelecionado.setCargaHoraria(novaCargaHoraria);
             }
             case 6 -> {
-                funcionarios.remove(funcionarioSelecionado.getMatricula());
-                cadastrar(leia);
+                String antigaMatricula = funcionarioSelecionado.getMatricula();
+                
+                ui.mostrarMensagem("Você escolheu alterar todos os dados do funcionário.");
+                funcionarioRepository.delete(antigaMatricula);
+                ui.mostrarMensagem("Por favor, insira os novos dados do funcionário:");
+
+                String nomeAlterado = ui.solicitarNomeFuncionario();
+                String matriculaAlterada = ui.solicitarMatriculaFuncionario();
+                String qualificacaoAlterada = ui.solicitarQualificacaoFuncionario();
+                String descricaoFuncaoAlterada = ui.solicitarDescricaoFuncaoFuncionario();
+                float cargaHorariaAlterada = ui.solicitarCargaHorariaFuncionario();
+
+                if (funcionarioRepository.exists(matriculaAlterada)) {
+                    ui.mostrarMensagem("Já existe um funcionário cadastrado com a matrícula: " + matriculaAlterada);
+                    return;
+                }
+
+                Funcionario funcionarioAlterado = new Funcionario(
+                    nomeAlterado,
+                    matriculaAlterada,
+                    qualificacaoAlterada,
+                    descricaoFuncaoAlterada,
+                    cargaHorariaAlterada);
+                funcionarioRepository.save(matriculaAlterada, funcionarioAlterado);
+                ui.mostrarMensagem("Dados do funcionário alterados com sucesso.");
+                return;
             }
         }
     }
 
-     /**
+    /**
      * Método para remover um funcionário do sistema.
-     * Solicita ao usuário a matrícula do funcionário e remove o funcionário com essa matrícula.
-     *
-     * @param leia Scanner para ler a entrada do usuário
+     * Solicita ao usuário a matrícula do funcionário a ser removido e confirma a remoção.
+     * Se o funcionário não for encontrado, exibe uma mensagem informando isso.
      */
     @Override
-    public void remover(Scanner leia) {
-        System.out.println("Matrícula do funcionário a ser removido: ");
-        String matricula = leia.nextLine();
+    public void remover() {
+        String matricula = ui.solicitarMatriculaFuncionario();
 
-        Funcionario funcionarioRemovido = funcionarios.remove(matricula);
+        boolean funcionarioExiste = funcionarioRepository.exists(matricula);
 
-        if (funcionarioRemovido == null) {
-            System.out.println("Nenhum funcionário encontrado com a matrícula: " + matricula);
+        if (!funcionarioExiste) {
+            ui.mostrarMensagem("Nenhum funcionário encontrado com a matrícula: " + matricula);
+            return;
+        }
+
+        boolean confirmacao = ui.receberConfirmacao("Tem certeza que deseja remover o funcionário com matrícula: " + matricula + "?");
+
+        if (confirmacao) {
+            funcionarioRepository.delete(matricula);
+            ui.mostrarMensagem("Funcionário removido com sucesso.");
         } else {
-            System.out.println("Funcionário removido com sucesso!");
-        } 
+            ui.mostrarMensagem("Remoção cancelada.");
+        }
     }
 
+    /**
+     * Método para listar todos os funcionários cadastrados no sistema.
+     * Exibe uma mensagem informando o total de funcionários e os detalhes de cada um.
+     * Se não houver funcionários cadastrados, exibe uma mensagem informando isso.
+     */
     @Override
     public void listar() {
         // Método para listar todos os animais cadastrados
-        if (funcionarios.isEmpty()) {
-            System.out.println("Nenhum funcionário cadastrado.");
+        if (funcionarioRepository.isEmpty()) {
+            ui.mostrarMensagem("Nenhum funcionário cadastrado.");
+            return;
         } else {
-            System.out.println("\n=== RELATÓRIO DE FUNCIONÁRIOS ===");
-
+            ui.mostrarCabecalho("Relatório de Funcionários");
+            ui.mostrarMensagem("Total de funcionários cadastrados: " + funcionarioRepository.size());
             int contador = 1;
-            for (Funcionario funcionario : funcionarios.values()) {
-                System.out.println(contador + ". Funcionário: ");
-                System.out.println(funcionario.toStringDetalhado());
-                System.out.println("--------------------------------");
+
+            for (Funcionario funcionario : funcionarioRepository.getAll()) {
+                ui.mostrarMensagem("Funcionário " + contador + ":");
+                ui.mostrarDetalhesFuncionario(funcionario);
                 contador++;
             }
         }

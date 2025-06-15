@@ -11,25 +11,19 @@ import petshop.model.Funcionario;
 import petshop.repository.BancoDeDadosEmMemoria;
 
 /**
- * Classe utilitária para verificar entradas de dados no sistema de Petshop.
- * Esta classe pode conter métodos estáticos para validação de entradas,
- * como verificar se um CPF é válido, se um nome não está vazio, etc.
+ * Classe utilitária para validação de entradas do usuário.
+ * Esta classe contém métodos estáticos para validar entradas como CPF, RG, nomes,
+ * e outros dados necessários para o funcionamento do sistema de petshop.
  */
 public class ValidadorEntrada {
-    // Métodos estáticos para validação de entradas podem ser adicionados aqui.
-    /**
-     * Verifica se o nome fornecido não está vazio.
-     * @param nome O nome a ser verificado.
-     * @return true se o nome não estiver vazio, false caso contrário.
-     */
     public static boolean validarNome(String nome) {
         return nome != null && !nome.trim().isEmpty();
     }
 
     /**
-     * Obtém um cpf válido do usuário com 11 dígitos numéricos.
-     * @param cpf O CPF a ser verificado.
-     * @return true se o CPF for válido, false caso contrário.
+     * Lê um CPF válido do usuário, garantindo que ele tenha 11 dígitos numéricos.
+     * @param leia O Scanner para ler a entrada do usuário.
+     * @return O CPF formatado no padrão "XXX.XXX.XXX-XX".
      */
     public static String lerCpfValido(Scanner leia) {
         while (true) {
@@ -47,49 +41,6 @@ public class ValidadorEntrada {
         return cpfFormatado;
     }
 
-// // filepath: d:\Desktop\Trabalho_POO\assignment_poo\Petshop\src\petshop\util\ValidadorEntrada.java
-// // ...existing code...
-// public class ValidadorEntrada {
-//     // Remover construtor e campos de instância
-
-//     public static boolean cpfClienteExiste(String cpf, Map<String, Cliente> clientes) {
-//         return clientes.containsKey(cpf);
-//     }
-
-//     public static String lerCpfValidoCliente(Scanner leia, Map<String, Cliente> clientes) {
-//         String cpf;
-//         while (true) {
-//             System.out.println("Insira o CPF do cliente (11 dígitos numéricos):");
-//             cpf = leia.nextLine().replaceAll("[^0-9]", "");
-//             if (cpf.length() == 11) {
-//                 // Opcional: verificar se já existe, dependendo do contexto da chamada
-//                 // if (clientes.containsKey(cpf)) {
-//                 //     System.out.println("Cliente com este CPF já cadastrado.");
-//                 // } else {
-//                 //     return cpf;
-//                 // }
-//                 return cpf; // Simplificado para apenas validar formato e tamanho
-//             } else {
-//                 System.out.println("CPF inválido. Deve conter 11 dígitos numéricos.");
-//             }
-//         }
-//     }
-//     // ... outros métodos estáticos ...
-// }
-
-//ou
-
-// // filepath: d:\Desktop\Trabalho_POO\assignment_poo\Petshop\src\petshop\util\ValidadorEntrada.java
-// // ...existing code...
-// import petshop.repository.BancoDeDadosEmMemoria; // Adicionar import
-
-// public class ValidadorEntrada {
-//     // ...
-//     public static boolean cpfClienteExiste(String cpf) {
-//         return BancoDeDadosEmMemoria.clientes.containsKey(cpf);
-//     }
-//     // ...
-// }
     /**
      * Formata um CPF de 11 dígitos em uma string no formato "XXX.XXX.XXX-XX".
      * @param cpf O CPF a ser formatado.
@@ -104,23 +55,40 @@ public class ValidadorEntrada {
     }
 
     /**
-     * Verifica se a entrada fornecida existe em um banco de dados.
-     * @param entrada A entrada a ser verificada.
-     * @return true se a entrada for válida, false caso contrário.
+     * Lê um RG válido do usuário, garantindo que ele tenha 10 dígitos numéricos.
+     * @param leia O Scanner para ler a entrada do usuário.
+     * @return O RG formatado no padrão "XX.XXX.XXX-XX".
      */
-    public static boolean validarEntradaEmBancoDeDados(String entrada, Map<String, Animal> bancoDeDados) {
-        
-        return false;
-        
+    public static String formataRg(String rg) {
+        return String.format("%s.%s.%s-%s", 
+                rg.substring(0, 2),
+                rg.substring(2, 5),
+                rg.substring(5, 8),
+                rg.substring(8, 10));
     }
 
     /**
-    * Obtém um inteiro válido do usuário dentro de um intervalo específico.
-    * @param input O inteiro a ser verificado.
-    * @param min O valor mínimo do intervalo.
-    * @param max O valor máximo do intervalo.
-    * @return true se o inteiro estiver dentro do intervalo, false caso contrário.
-    */
+     * Lê um RG válido do usuário, garantindo que ele tenha 10 dígitos numéricos.
+     * @param leia O Scanner para ler a entrada do usuário.
+     * @return O RG formatado no padrão "XX.XXX.XXX-XX".
+     */
+    public static String lerRgValido(Scanner leia) {
+        while (true) {
+            System.out.println("Digite o RG (10 dígitos, apenas números): ");
+            String rg = leia.nextLine();
+            if (rg.matches("\\d{10}")) {
+                return formataRg(rg);
+            } else {
+                System.out.println("RG inválido. Deve conter 10 dígitos numéricos.");
+            }
+        }
+    }
+
+    /**
+     * Lê um nome válido do usuário, garantindo que não esteja vazio.
+     * @param leia O Scanner para ler a entrada do usuário.
+     * @return O nome fornecido pelo usuário.
+     */
     public static int lerInteiroValido(Scanner leia, int min, int max) {
         int valor;
         while (true) {
@@ -138,6 +106,29 @@ public class ValidadorEntrada {
         }
     }
 
+    /**
+     * Lê uma data válida do usuário no formato dd/MM/yyyy.
+     * @param leia O Scanner para ler a entrada do usuário.
+     * @return A data fornecida pelo usuário, validada.
+     */
+    public static String lerDataValida(Scanner leia) {
+        while (true) {
+            System.out.println("Digite a data no formato dd/MM/yyyy: ");
+            String data = leia.nextLine();
+            if (data.matches("\\d{2}/\\d{2}/\\d{4}")) {
+                return data;
+            } else {
+                System.out.println("Data inválida. Use o formato dd/MM/yyyy.");
+            }
+        }
+    }
+
+    /**
+     * Lê um valor float positivo do usuário.
+     * @param leia O Scanner para ler a entrada do usuário.
+     * @param mensagem A mensagem a ser exibida ao usuário.
+     * @return O valor float positivo fornecido pelo usuário.
+     */
     public static float lerFloatPositivo(Scanner leia, String mensagem) {
         float valor;
         while (true) {

@@ -7,9 +7,9 @@ import java.util.Map;
 import petshop.model.Animal;
 
 /**
- * Classe que representa o repositório de animais no sistema de Petshop.
- * Esta classe é responsável por gerenciar as operações relacionadas aos animais,
- * como adição, remoção e busca de animais.
+ * Classe responsável por gerenciar o repositório de animais do petshop.
+ * Esta classe fornece métodos para adicionar, atualizar, buscar e remover animais,
+ * além de verificar a existência de animais e obter informações sobre o repositório.
  */
 public class AnimalRepository {
     private Map<String, Animal> animais;
@@ -26,27 +26,27 @@ public class AnimalRepository {
      * Obtém um animal pelo identificador (chave).
      * 
      * @param chave A chave do animal a ser buscado
-     * @return O animal correspondente à chave, ou null se não encontrado
+     * @return O objeto Animal correspondente à chave, ou null se não encontrado
      */
     public Animal getByKey(String chave) {
         return animais.get(chave);
     }
 
     /**
-     * Adiciona um novo animal ao repositório.
+     * Adiciona ou atualiza um animal no repositório.
      * 
-     * @param chave A chave do animal a ser adicionado
-     * @param animal O objeto Animal a ser adicionado
+     * @param chave A chave do animal a ser adicionado ou atualizado
+     * @param animal O objeto Animal a ser salvo
      */
     public void save(String chave, Animal animal) {
         animais.put(chave, animal);
     }
 
     /**
-     * Atualiza um animal existente no repositório.
+     * Remove um animal do repositório.
      * 
-     * @param chave A chave do animal a ser atualizado
-     * @param animal O objeto Animal atualizado
+     * @param chave A chave do animal a ser removido
+     * @return true se o animal foi removido com sucesso, false se não foi encontrado
      */
     public boolean delete(String chave) {
         if (animais.containsKey(chave)) {
@@ -60,7 +60,7 @@ public class AnimalRepository {
     /**
      * Verifica se um animal existe no repositório.
      * 
-     * @param chave A chave do animal a ser verificado
+     * @param chave A chave do animal a ser verificada
      * @return true se o animal existir, false caso contrário
      */
     public boolean exists(String chave) {
@@ -70,14 +70,14 @@ public class AnimalRepository {
     /**
      * Obtém o número total de animais no repositório.
      * 
-     * @return O número de animais no repositório
+     * @return O número de animais armazenados
      */
     public int size() {
         return animais.size();
     }
 
     /**
-     * Obtém todos os animais do repositório.
+     * Obtém uma lista de todos os animais no repositório.
      * 
      * @return Lista de todos os animais
      */
@@ -86,12 +86,10 @@ public class AnimalRepository {
     }
 
     /**
-     * Busca animais pelo nome.
-     * Este método percorre o repositório de animais e retorna uma lista de animais
-     * que possuem o nome especificado.
+     * Busca animais pelo nome e retorna uma lista de chaves e CPF dos donos.
      * 
      * @param nome O nome do animal a ser buscado
-     * @return Lista de chaves com o nome especificado
+     * @return Lista de strings contendo o nome do animal e o CPF do dono
      */
     public List<String> acharChavesPeloNome(String nome) {
         List<String> resultado = new ArrayList<>();
@@ -103,6 +101,4 @@ public class AnimalRepository {
 
         return resultado;
     }
-
-
 }

@@ -1,192 +1,224 @@
 package petshop.service;
 
-import java.util.Map;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.List;
 
 import petshop.model.Cliente;
-import petshop.util.ValidadorEntrada;
+import petshop.ui.ClienteConsoleUI;
+import petshop.repository.ClienteRepository;
 
 /**
- * Classe responsável por gerenciar as operações relacionadas aos clientes do petshop.
+ * Classe ClienteService que implementa a interface Service.
+ * Esta classe é responsável por gerenciar as operações relacionadas a clientes,
+ * como cadastro, consulta, alteração, remoção e listagem de clientes.
  */
 public class ClienteService implements Service {
-    private Map<String, Cliente> clientes;
+    private ClienteConsoleUI ui;
+    private ClienteRepository clienteRepository;
 
-    public ClienteService(Map<String, Cliente> clientes) {
-        this.clientes = clientes;
+    /**
+     * Construtor da classe ClienteService.
+     * Inicializa a interface de usuário e o repositório de clientes.
+     *
+     * @param ui A interface de usuário para interações com o usuário
+     * @param clienteRepository O repositório de clientes para armazenar e recuperar dados
+     */
+    public ClienteService(ClienteConsoleUI ui, ClienteRepository clienteRepository) {
+        this.ui = ui;
+        this.clienteRepository = clienteRepository;
     }
 
     /**
-     * Método para cadastrar um cliente no sistema.
-     * Solicita ao usuário as informações necessárias e cria um novo objeto Cliente.
-     * A chave do cliente é seu CPF.
-     *
-     * @param leia Scanner para ler a entrada do usuário
+     * Método para cadastrar um novo cliente no sistema.
+     * Solicita ao usuário os dados do cliente e os armazena no repositório.
+     * Se o CPF já estiver cadastrado, exibe uma mensagem de erro.
      */
     @Override
-    public void cadastrar(Scanner leia) {
-        System.out.println("Insira o nome do cliente: ");
-        String nome = leia.nextLine();
-        System.out.println("Insira o telefone do cliente: ");
-        String telefone = leia.nextLine();
-        System.out.println("Insira o email do cliente: ");
-        String email = leia.nextLine();
-        System.out.println("Insira o telefone do cliente: ");
-        String rg = leia.nextLine();        
-        System.out.println("Insira o CPF do cliente: ");
-        String cpf = leia.nextLine();
+    public void cadastrar() {
+        String cpfCliente = ui.solicitarCpfCliente();
 
-        String chave = cpf;
-        clientes.put(chave, new Cliente(nome, telefone, email, rg, cpf));
+        String chave = cpfCliente;
 
-        System.out.println("Dados do cliente cadastrado:");
-        System.out.println(clientes.get(chave).toStringDetalhado());
-
-        System.out.println("Os dados estão corretos? (S/N)");
-        String resposta = leia.nextLine().trim().toUpperCase();
-
-        if (!resposta.equals("S")) {
-            System.out.println("Cadastro cancelado.");
-            clientes.remove(chave);
+        if (clienteRepository.exists(chave)) {
+            ui.mostrarMensagem("Já existe um cliente cadastrado com o CPF: " + cpfCliente);
             return;
         }
 
-        System.out.println("Cliente cadastrado com sucesso!");
-        System.out.println("Gostaria de cadastrar outro cliente? (S/N)");
-        resposta = leia.nextLine().trim().toUpperCase();
+        String nomeCliente = ui.solicitarNomeCliente();
+        String telefoneCliente = ui.solicitarTelefoneCliente();
+        String emailCliente = ui.solicitarEmailCliente();
+        String rgCliente = ui.solicitarRgCliente();
 
-        if (resposta.equals("S")) {
-            cadastrar(leia);
+        Cliente novoCliente = new Cliente(
+            nomeCliente, telefoneCliente, emailCliente, rgCliente, cpfCliente);
+        clienteRepository.save(chave, novoCliente);
+
+        ui.mostrarMensagem("Dados do cliente cadastrado:");
+        ui.mostrarDetalhesCliente(novoCliente);
+
+        if (!ui.receberConfirmacao("Os dados estão corretos?")) {
+            ui.mostrarMensagem("Cadastro cancelado.");
+            clienteRepository.delete(chave);
+            return;
+        }
+
+        ui.mostrarMensagem("Cliente cadastrado com sucesso.");
+    
+        if (ui.receberConfirmacao("Gostaria de cadastrar outro cliente?")) {
+            cadastrar();
         } else {
-            System.out.println("Cadastro finalizado.");
+            ui.mostrarMensagem("Cadastro finalizado.");
         }
     }
 
     /**
-     * Método para consultar um cliente no sistema.
-     * Solicita ao usuário o CPF do cliente e busca pelo cliente com esse CPF.
-     *
-     * @param leia Scanner para ler a entrada do usuário
+     * Método para consultar os dados de um cliente no sistema.
+     * Solicita ao usuário o CPF do cliente e exibe os detalhes do cliente correspondente.
+     * Se o cliente não for encontrado, exibe uma mensagem informando isso.
      */
     @Override
-    public void consultar(Scanner leia) {
-        System.out.println("CPF do cliente a ser consultado: ");
-        String cpf = leia.nextLine();
+    public void consultar() {
+        String cpfCliente = ui.solicitarCpfCliente();
 
-        Cliente clienteSelecionado = clientes.get(cpf);
+        Cliente clienteSelecionado = clienteRepository.getByKey(cpfCliente);
 
         if (clienteSelecionado != null) {
-            System.out.println("Dados do cliente selecionado:");
-            System.out.println(clienteSelecionado.toStringDetalhado());
+            ui.mostrarMensagem("Dados do cliente selecionado:");
+            ui.mostrarDetalhesCliente(clienteSelecionado);
         } else {
-            System.out.println("Nenhum cliente encontrado com o CPF: " + cpf);
+            ui.mostrarMensagem("Nenhum cliente encontrado com o CPF: " + cpfCliente);
         } 
     }
 
     /**
      * Método para alterar os dados de um cliente no sistema.
-     * Solicita ao usuário o CPF do cliente e permite que ele escolha quais dados deseja alterar.
-     * As opções incluem nome, telefone, email, RG, CPF, ou todos os dados.
-     *
-     * @param leia Scanner para ler a entrada do usuário
+     * Solicita ao usuário o CPF do cliente e permite a alteração de seus dados.
+     * Exibe um menu com opções de alteração e atualiza os dados conforme a escolha do usuário.
      */
     @Override
-    public void alterar(Scanner leia) {
-        System.out.println("CPF do cliente a ser alterado: ");
-        String cpf = leia.nextLine();
+    public void alterar() {
+        String cpfCliente = ui.solicitarCpfCliente();
 
-        Cliente clienteSelecionado = clientes.get(cpf);
+        Cliente clienteSelecionado = clienteRepository.getByKey(cpfCliente);
 
         if (clienteSelecionado == null) {
-            System.out.println("Nenhum cliente encontrado com o CPF: " + cpf);
+            ui.mostrarMensagem("Nenhum cliente encontrado com o CPF: " + cpfCliente);
             return;
         }
 
-        System.out.println("Dados atuais do cliente:");
-        System.out.println(clienteSelecionado.toStringDetalhado());
+        ui.mostrarMensagem("Dados atuais do cliente:");
+        ui.mostrarDetalhesCliente(clienteSelecionado);
 
-        System.out.println("Quais dados do cliente você deseja alterar?");
-        System.out.println("1 — Nome");
-        System.out.println("2 — Telefone");
-        System.out.println("3 — E-mail");
-        System.out.println("4 — RG");
-        System.out.println("5 — CPF");
-        System.out.println("6 — Todos os dados");
-
-        int opcao = ValidadorEntrada.lerInteiroValido(leia, 1, 6);
-        System.out.println("Você escolheu a opção: " + opcao);
+        // Exibe o menu de opções de alteração
+        ui.menuAlterarCliente();
+        int opcao = ui.capturarInteiro(1, 6);
+        ui.mostrarMensagem("Você escolheu a opção: " + opcao);
 
         switch (opcao) {
             case 1 -> {
-                System.out.println("Insira o novo nome do cliente: ");
-                String novoNome = leia.nextLine();
+                String novoNome = ui.solicitarNomeCliente()
                 clienteSelecionado.setNome(novoNome);
             }
             case 2 -> {
-                System.out.println("Insira o novo telefone do cliente: ");
-                String novoTelefone = leia.nextLine();
+                String novoTelefone = ui.solicitarTelefoneCliente();
                 clienteSelecionado.setTelefone(novoTelefone);
             }
             case 3 -> {
-                System.out.println("Insira o novo e-mail do cliente: ");
-                String novoEmail = leia.nextLine();
+               String novoEmail = ui.solicitarEmailCliente();
                 clienteSelecionado.setEmail(novoEmail);
             }
             case 4 -> {
-                System.out.println("Insira o novo RG do cliente: ");
-                String novoRg = leia.nextLine();
+                String novoRg = ui.solicitarRgCliente();
                 clienteSelecionado.setRg(novoRg);
             }
             case 5 -> {
-                System.out.println("Insira o novo CPF do cliente: ");
-                String novoCpf = leia.nextLine();
-                clientes.remove(clienteSelecionado.getCpf());
+                String novoCpf = ui.solicitarCpfCliente();
+                String cpfAntigo = clienteSelecionado.getCpf();
+
+                if (clienteRepository.exists(novoCpf)) {
+                    ui.mostrarMensagem("Já existe um cliente cadastrado com o CPF: " + novoCpf);
+                    return;
+                }
+
+                clienteRepository.delete(cpfAntigo);
                 clienteSelecionado.setCpf(novoCpf);
-                clientes.put(novoCpf, clienteSelecionado);
+                clienteRepository.save(novoCpf, clienteSelecionado);
             }
             case 6 -> {
-                clientes.remove(clienteSelecionado.getCpf());
-                cadastrar(leia);
+                String cpfAntigo = clienteSelecionado.getCpf();
+
+                ui.mostrarMensagem("Você escolheu alterar todos os dados do cliente.");
+                clienteRepository.delete(cpfAntigo);
+                ui.mostrarMensagem("Por favor, insira os novos dados do cliente:");
+
+
+                String nomeAlterado = ui.solicitarNomeCliente();
+                String telefoneAlterado = ui.solicitarTelefoneCliente();
+                String emailAlterado = ui.solicitarEmailCliente();
+                String rgAlterado = ui.solicitarRgCliente();
+                String cpfAlterado = ui.solicitarCpfCliente();
+
+                if (clienteRepository.exists(cpfAlterado)) {
+                    ui.mostrarMensagem(
+                        "Já existe um cliente cadastrado com o CPF: " + cpfAlterado);
+                    return;
+                }
+
+                Cliente clienteAlterado = new Cliente(
+                    nomeAlterado, telefoneAlterado, emailAlterado, rgAlterado, cpfAlterado);
+                clienteRepository.save(cpfAlterado, clienteAlterado);
+                ui.mostrarMensagem("Dados do cliente alterados com sucesso.");
+                return;
             }
         }
     }
 
-     /**
+    /**
      * Método para remover um cliente do sistema.
-     * Solicita ao usuário o CPF do cliente e remove o cliente com esse CPF.
-     *
-     * @param leia Scanner para ler a entrada do usuário
+     * Solicita ao usuário o CPF do cliente e, se encontrado, remove o cliente após confirmação.
+     * Se o cliente não for encontrado, exibe uma mensagem informando isso.
      */
     @Override
-    public void remover(Scanner leia) {
-        System.out.println("CPF do cliente a ser removido: ");
-        String cpf = leia.nextLine();
+    public void remover() {
+        String cpf = ui.solicitarCpfCliente();
 
-        Cliente clienteRemovido = clientes.remove(cpf);
+        boolean clienteExiste = clienteRepository.exists(cpf);
 
-        if (clienteRemovido == null) {
-            System.out.println("Nenhum cliente encontrado com o CPF: " + cpf);
+       if (!clienteExiste) {
+            ui.mostrarMensagem("Nenhum cliente encontrado com o CPF: " + cpf);
+            return;
+        }
+
+        boolean confirmacao = ui.receberConfirmacao("Você tem certeza que deseja remover o cliente com CPF: " + cpf + "?");
+
+        if (confirmacao) {
+            clienteRepository.delete(cpf);
+            ui.mostrarMensagem("Cliente removido com sucesso.");
         } else {
-            System.out.println("Cliente removido com sucesso!");
-        } 
+            ui.mostrarMensagem("Remoção cancelada.");
+        }
     }
 
+    /**
+     * Método para listar todos os clientes cadastrados no sistema.
+     * Exibe um relatório com o total de clientes e os detalhes de cada cliente.
+     * Se não houver clientes cadastrados, exibe uma mensagem informando isso.
+     */
     @Override
-    public void listar(Scanner leia) {
+    public void listar() {
         // Método para listar todos os animais cadastrados
-        if (clientes.isEmpty()) {
-            System.out.println("Nenhum cliente cadastrado.");
+        if (clienteRepository.isEmpty()) {
+            ui.mostrarMensagem("Nenhum cliente cadastrado.");
+            return;
         } else {
-            System.out.println("\n=== RELATÓRIO DE CLIENTES ===");
-
+            ui.mostrarCabecalho("Relatório de Clientes");
+            ui.mostrarMensagem("Total de clientes cadastrados: " + clienteRepository.size());
             int contador = 1;
-            for (Cliente cliente : clientes.values()) {
-                System.out.println(contador + ". Cliente: ");
-                System.out.println(cliente.toStringDetalhado());
-                System.out.println("--------------------------------");
+
+            for (Cliente cliente : clienteRepository.getAll()) {
+                ui.mostrarMensagem("Cliente " + contador + ":");
+                ui.mostrarDetalhesCliente(cliente);
                 contador++;
             }
         }
     }
-} 
+}

@@ -7,14 +7,15 @@ import petshop.model.Animal;
 import petshop.util.ValidadorEntrada;
 
 /**
- * Classe AnimalConsoleUI que representa a interface de usuário para interações relacionadas a animais.
- * Esta classe fornece métodos para solicitar informações do usuário, exibir mensagens e detalhes de animais,
- * e capturar entradas do usuário.
+ * Classe responsável pela interface de usuário do console para interações relacionadas a animais.
+ * Esta classe estende BaseConsoleUI e fornece métodos para solicitar informações do usuário,
+ * exibir menus e mostrar detalhes de animais.
  */
-public class AnimalConsoleUI {
-    final String CABECALHO = "===";
-    final String SEPARADOR = "-----------------------------------";
-    private Scanner leia = new Scanner(System.in);
+public class AnimalConsoleUI extends BaseConsoleUI {
+
+    public AnimalConsoleUI(Scanner leia) {
+        super(leia);
+    }
 
     /**
      * Solicita ao usuário o nome do animal.
@@ -50,8 +51,8 @@ public class AnimalConsoleUI {
     }
 
     /**
-     * Solicita ao usuário o tipo de animal a ser cadastrado.
-     * @return O tipo de animal como uma string.
+     * Exibe um cabeçalho com o título fornecido.
+     * @param titulo O título a ser exibido no cabeçalho.
      */
     public int escolherAnimal(List<String> chavesAnimaisEncontrados) {
         for (int i = 0; i < chavesAnimaisEncontrados.size(); i++) {
@@ -63,79 +64,43 @@ public class AnimalConsoleUI {
     }
 
     /**
-     * Exibe o cabeçalho com o título fornecido.
-     * @param titulo O título a ser exibido no cabeçalho.
-     */
-    public void mostrarCabecalho(String titulo) {
-        System.out.println(CABECALHO + " " + titulo + " " + CABECALHO);
-        System.out.println(SEPARADOR);
-    }
-
-    /**
-     * Exibe uma mensagem para o usuário.
-     * @param msg A mensagem a ser exibida.
-     */
-    public void mostrarMensagem(String msg) {
-        System.out.println(msg);
-    }
-
-    /**
-     * Exibe os detalhes de um animal de forma detalhada.
-     * @param animal O objeto Animal cujos detalhes serão exibidos.
+     * Exibe os detalhes de um animal.
+     * @param animal O animal cujos detalhes serão exibidos.
      */
     public void mostrarDetalhesAnimal(Animal animal) {
         System.out.println(animal.toStringDetalhado());
     }
 
     /**
-     * Solicita ao usuário uma confirmação para continuar com uma ação.
-     * @param mensagem A mensagem a ser exibida para o usuário.
-     * @return true se o usuário confirmar, false caso contrário.
+     * Exibe o menu principal para interações relacionadas a animais.
      */
-    public boolean receberConfirmacao(String mensagem) {
-        System.out.println(mensagem + " (S/N): ");
-        String resposta = leia.nextLine().trim().toUpperCase();
-        return resposta.equals("S)");
+    public void menuPrincipalAnimal() {
+        mostrarCabecalho("Menu Principal");
+        System.out.println(
+            "Escolha uma opção:"
+            + "\n1 — Cadastrar animal"
+            + "\n2 — Consultar animal"
+            + "\n3 — Alterar animal"
+            + "\n4 — Excluir animal"
+            + "\n5 — Listar animais"
+            + "\n6 — Sair"
+            + "\n" + SEPARADOR);
     }
 
     /**
-     * Captura um número inteiro dentro de um intervalo específico.
-     * @param min O valor mínimo do intervalo.
-     * @param max O valor máximo do intervalo.
-     * @return O número inteiro capturado.
-     */
-    public int capturarInteiro(int min, int max) {
-        int inteiroCapturado = ValidadorEntrada.lerInteiroValido(leia, min, max);
-
-        return inteiroCapturado;
-    }
-
-    /**
-     * Exibe um menu principal para o usuário escolher uma ação relacionada a animais.
-     */
-    public void menuPrincipal() {
-        System.out.println("Escolha uma opção:"
-                + "\n1 — Cadastrar animal"
-                + "\n2 — Consultar animal"
-                + "\n3 — Alterar animal"
-                + "\n4 — Excluir animal"
-                + "\n5 — Listar animais"
-                + "\n6 — Sair");
-    }
-
-    /**
-     * Exibe um menu para o usuário escolher uma ação relacionada a animais.
+     * Exibe o menu de alteração de dados do animal.
      */
     public void menuAlterarAnimal() {
-        System.out.println("Quais dados do animal você deseja alterar?"
-                + "\n1 — Nome"
-                + "\n2 — Peso"
-                + "\n3 — Altura"
-                + "\n4 — Dono (CPF)"
-                + "\n5 — Nome do animal e dono (CPF)"
-                + "\n6 — Todos os dados");
+        mostrarCabecalho("Menu de Alteração de Animal");
+        System.out.println(
+            "Quais dados do animal você deseja alterar?"
+            + "\n1 — Nome"
+            + "\n2 — Peso"
+            + "\n3 — Altura"
+            + "\n4 — Dono (CPF)"
+            + "\n5 — Nome do animal e dono (CPF)"
+            + "\n6 — Todos os dados"
+            + "\n7 — Voltar"
+            + "\n" + SEPARADOR);
     }
 }
-
-// TODO: Verificar quando fechar o Scanner leia, se necessário.
-//       Scanner leia.close(); // Fechar o Scanner quando não for mais necessário

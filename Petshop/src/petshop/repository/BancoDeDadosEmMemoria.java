@@ -9,10 +9,11 @@ import petshop.model.Cliente;
 import petshop.model.Funcionario;
 
 /**
- * Classe que simula um banco de dados em memória para armazenar informações
- * sobre clientes, animais, atendimentos e funcionários do petshop.
- * Utilizada para funcionalidade de persistência de dados durante a execução do sistema.
- * (Memória volátil/primária, os dados não são persistidos após o encerramento do programa)
+ * Classe que representa um banco de dados em memória para armazenar
+ * informações sobre clientes, animais, atendimentos e funcionários.
+ * 
+ * Esta classe utiliza mapas para armazenar os dados, permitindo acesso rápido
+ * e eficiente aos registros.
  */
 public class BancoDeDadosEmMemoria {
     public static Map<String, Cliente> clientes = new HashMap<>();
@@ -20,6 +21,3 @@ public class BancoDeDadosEmMemoria {
     public static Map<String, Atendimento> atendimentos = new HashMap<>();
     public static Map<String, Funcionario> funcionarios = new HashMap<>();
 }
-
-// TODO: Implementar uma id única para cada elemento do banco de dados,
-// TODO: possivelmente usando UUID ou outro método de geração de ID.

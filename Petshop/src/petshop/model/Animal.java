@@ -2,7 +2,7 @@ package petshop.model;
 
 /**
  * Classe que representa um Animal no sistema de Petshop.
- * Contém atributos como nome, peso e altura, além de métodos para acessar e modificar esses atributos.
+ * Contém informações sobre o animal, como nome, peso, altura e CPF do dono.
  */
 public class Animal {
     //Atributos
@@ -10,9 +10,16 @@ public class Animal {
     private float peso; // em quilogramas
     private float altura; // em centímetros
     private String cpfDono;
-    // TODO: Implementar uma id única para cada animal,
-    // TODO: possivelmente usando UUID ou outro método de geração de ID.
 
+    //Construtores
+    /**
+     * Construtor da classe Animal.
+     * 
+     * @param nome Nome do animal.
+     * @param peso Peso do animal em quilogramas.
+     * @param altura Altura do animal em centímetros.
+     * @param cpfDono CPF do dono do animal.
+     */
     public Animal(String nome, float peso, float altura, String cpfDono) {
         this.nome = nome;
         this.peso = peso; 
@@ -20,41 +27,11 @@ public class Animal {
         this.cpfDono = cpfDono;
     }
 
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public float getPeso() {
-        return peso;
-    }
-
-    public void setPeso(float peso) {
-        this.peso = peso;
-    }
-
-    public float getAltura() {
-        return altura;
-    }
-
-    public void setAltura(float altura) {
-        this.altura = altura;
-    }
-
-    public String getCpfDono() {
-        return cpfDono;
-    }
-
-    public void setCpfDono(String cpfDono) {
-        this.cpfDono = cpfDono;
-    }
-
+    //Métodos
     /**
-     * Método que retorna uma representação detalhada do animal.
-     * @return String com detalhes do animal.
+     * Retorna uma representação em string detalhada do animal.
+     * 
+     * @return String com detalhes do animal
      */
     public String toStringDetalhado() {
         return "Nome: " + nome + 
@@ -62,4 +39,21 @@ public class Animal {
                "\nAltura: " + altura + " cm" + 
                "\nCPF do Dono: " + cpfDono;
     }
+
+    // Getters e Setters
+    public String getNome() { return nome; }
+
+    public void setNome(String nome) { this.nome = nome; }
+
+    public float getPeso() { return peso; }
+
+    public void setPeso(float peso) { this.peso = peso; }
+
+    public float getAltura() { return altura; }
+
+    public void setAltura(float altura) { this.altura = altura; }
+
+    public String getCpfDono() { return cpfDono; }
+
+    public void setCpfDono(String cpfDono) { this.cpfDono = cpfDono; }
 }

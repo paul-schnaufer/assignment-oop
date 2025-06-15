@@ -8,13 +8,20 @@ import petshop.repository.AnimalRepository;
 
 /**
  * Classe responsável por gerenciar as operações relacionadas aos animais do petshop.
- * Implementa a interface Service para fornecer funcionalidades de cadastro, consulta,
- * alteração, remoção e listagem de animais.
+ * Esta classe implementa a interface Service e fornece métodos para cadastrar, consultar,
+ * alterar, remover e listar animais.
  */
 public class AnimalService implements Service {
     private AnimalConsoleUI ui;
     private AnimalRepository animalRepository;
 
+    /**
+     * Construtor da classe AnimalService.
+     * Inicializa a interface de usuário e o repositório de animais.
+     * 
+     * @param ui A interface de usuário para interações com o usuário
+     * @param animalRepository O repositório onde os animais serão armazenados
+     */
     public AnimalService(AnimalConsoleUI ui, AnimalRepository animalRepository) {
         this.ui = ui;
         this.animalRepository = animalRepository;
@@ -23,15 +30,13 @@ public class AnimalService implements Service {
     /**
      * Método para cadastrar um novo animal no sistema.
      * Solicita ao usuário os dados do animal, verifica se já existe um animal com o mesmo nome e CPF do dono,
-     * e, se não existir, salva o animal no repositório.
-     * Se o usuário confirmar os dados, o animal é cadastrado com sucesso.
+     * e salva o novo animal no repositório.
+     * Se os dados estiverem corretos, confirma o cadastro e pergunta se deseja cadastrar outro animal.
      */
     @Override
     public void cadastrar() {
         ui.mostrarCabecalho("Cadastro de Animal");
         String nome = ui.solicitarNomeAnimal();
-        float peso = ui.solicitarPesoAnimal();
-        float altura = ui.solicitarAlturaAnimal();
         String cpfDono = ui.solicitarCpfDonoAnimal();
 
         String chave = gerarChave(nome, cpfDono);
@@ -41,11 +46,14 @@ public class AnimalService implements Service {
             return;
         }
 
-        Animal dadosAnimal = new Animal (nome, peso, altura, cpfDono);
-        animalRepository.save(chave, dadosAnimal);
+        float peso = ui.solicitarPesoAnimal();
+        float altura = ui.solicitarAlturaAnimal();
+
+        Animal novoAnimal = new Animal (nome, peso, altura, cpfDono);
+        animalRepository.save(chave, novoAnimal);
 
         ui.mostrarMensagem("Dados do animal cadastrado:");
-        ui.mostrarDetalhesAnimal(dadosAnimal);
+        ui.mostrarDetalhesAnimal(novoAnimal);
 
         if (!ui.receberConfirmacao("Os dados estão corretos? ")) {
             ui.mostrarMensagem("Cadastro cancelado.");
@@ -53,7 +61,7 @@ public class AnimalService implements Service {
             return;
         }
 
-        ui.mostrarMensagem("Animal cadastrado com sucesso!");
+        ui.mostrarMensagem("Animal cadastrado com sucesso.");
         
         if (!ui.receberConfirmacao("Gostaria de cadastrar outro animal? ")) {
             ui.mostrarMensagem("Cadastro finalizado.");
@@ -64,10 +72,9 @@ public class AnimalService implements Service {
     }
 
     /**
-     * Método para consultar os dados de um animal no sistema.
-     * Solicita ao usuário o nome do animal e busca no repositório.
-     * Se encontrar o animal, exibe seus detalhes.
-     * Se não encontrar, informa ao usuário.
+     * Método para consultar um animal no sistema.
+     * Solicita ao usuário o nome do animal e exibe os detalhes do animal correspondente.
+     * Se houver múltiplos animais com o mesmo nome, permite que o usuário escolha qual animal deseja ver os detalhes.
      */
     @Override
     public void consultar() {
@@ -85,9 +92,9 @@ public class AnimalService implements Service {
 
     /**
      * Método para alterar os dados de um animal no sistema.
-     * Solicita ao usuário o nome do animal, exibe os dados atuais,
+     * Solicita ao usuário o nome do animal, seleciona o animal correspondente,
      * e permite que o usuário escolha quais dados deseja alterar.
-     * Após a alteração, atualiza os dados do animal no repositório.
+     * Se os dados estiverem corretos, atualiza o animal no repositório.
      */
     @Override
     public void alterar() {
@@ -189,7 +196,7 @@ public class AnimalService implements Service {
 
                 Animal dadosAnimal = new Animal(nomeNovo, peso, altura, cpfDono);
                 animalRepository.save(chave, dadosAnimal);
-                ui.mostrarMensagem("Dados do animal alterados com sucesso:");
+                ui.mostrarMensagem("Dados do animal alterados com sucesso.");
                 return;
             }
         }
@@ -197,9 +204,8 @@ public class AnimalService implements Service {
 
     /**
      * Método para remover um animal do sistema.
-     * Solicita ao usuário o nome do animal a ser removido,
-     * seleciona o animal correspondente,
-     * e o remove do repositório.
+     * Solicita ao usuário o nome do animal, seleciona o animal correspondente,
+     * e confirma a remoção antes de excluir o animal do repositório.
      */
     @Override
     public void remover() {
@@ -213,14 +219,20 @@ public class AnimalService implements Service {
         }
 
         String chave = gerarChave(nome, animalSelecionado.getCpfDono());
-        
-        animalRepository.delete(chave);
-        ui.mostrarMensagem("Animal removido com sucesso.");
+
+        boolean confirmacao = ui.receberConfirmacao("Tem certeza que deseja remover o animal: " + nome + "?");
+
+        if (confirmacao) {
+            animalRepository.delete(chave);
+            ui.mostrarMensagem("Animal removido com sucesso.");
+        } else {
+            ui.mostrarMensagem("Remoção cancelada.");
+        }
     }
 
     /**
      * Método para listar todos os animais cadastrados no sistema.
-     * Exibe o total de animais e os detalhes de cada um.
+     * Exibe o total de animais cadastrados e os detalhes de cada animal.
      * Se não houver animais cadastrados, informa ao usuário.
      */
     @Override
@@ -232,6 +244,7 @@ public class AnimalService implements Service {
             ui.mostrarCabecalho(("Relatório de Animais"));
             ui.mostrarMensagem("Total de animais cadastrados: " + animalRepository.size());
             int contador = 1;
+
             for (Animal animal : animalRepository.getAll()) {
                 ui.mostrarMensagem("Animal " + contador + ":");
                 ui.mostrarDetalhesAnimal(animal);
@@ -242,11 +255,10 @@ public class AnimalService implements Service {
 
     /**
      * Método auxiliar para selecionar um animal pelo nome.
-     * Busca no repositório de animais por chaves que correspondam ao nome fornecido.
-     * Se encontrar múltiplos animais, solicita ao usuário que escolha qual animal deseja ver os detalhes.
+     * Se houver múltiplos animais com o mesmo nome, permite que o usuário escolha qual animal deseja ver os detalhes.
      * 
-     * @param nome O nome do animal a ser buscado
-     * @return O animal selecionado ou null se não encontrar nenhum animal.
+     * @param nome O nome do animal a ser selecionado
+     * @return O objeto Animal correspondente ao nome, ou null se não encontrado
      */
     private Animal selecionarAnimalPorNome(String nome) {
         List<String> chavesAnimaisEncontrados = animalRepository.acharChavesPeloNome(nome);
@@ -270,8 +282,7 @@ public class AnimalService implements Service {
     }
 
     /**
-     * Método auxiliar para gerar uma chave única para o animal,
-     * combinando o nome do animal e o CPF do dono.
+     * Método auxiliar para gerar uma chave única para o animal com base no nome e no CPF do dono.
      * 
      * @param nome O nome do animal
      * @param cpfDono O CPF do dono do animal

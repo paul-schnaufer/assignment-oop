@@ -1,8 +1,9 @@
 package petshop.service;
 
 /**
- * Interface Service que define os métodos básicos para operações de cadastro,
- * consulta, alteração e remoção de entidades no sistema de petshop.
+ * Interface Service que define os métodos básicos para operações de serviço.
+ * As classes que implementam esta interface devem fornecer implementações
+ * para cadastrar, consultar, alterar, remover e listar entidades.
  */
 public interface Service {
     void cadastrar();

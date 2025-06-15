@@ -1,209 +1,299 @@
 package petshop.service;
 
-import java.util.Map;
-import java.util.Scanner;
-
 import petshop.model.Animal;
-import petshop.model.Atendimento;
 import petshop.model.Cliente;
 import petshop.model.Funcionario;
-import petshop.util.ValidadorEntrada;
 
-import petshop.repository.BancoDeDadosEmMemoria;
+import petshop.model.Atendimento;
+import petshop.ui.AtendimentoConsoleUI;
+
+import petshop.repository.AnimalRepository;
+import petshop.repository.AtendimentoRepository;
+import petshop.repository.ClienteRepository;
+import petshop.repository.FuncionarioRepository;
 
 
 /**
- * Classe responsável por gerenciar as operações relacionadas aos clientes do petshop.
+ * Classe responsável por gerenciar as operações relacionadas aos atendimentos do petshop.
+ * Implementa a interface Service para definir os métodos de cadastro, consulta, alteração,
+ * remoção e listagem de atendimentos.
  */
 public class AtendimentoService implements Service {
-    private Map<String, Atendimento> atendimentos;
-    private Map<String, Cliente> clientes;
-    private Map<String, Animal> animais;
-    private Map<String, Funcionario> funcionarios;
+    private AtendimentoConsoleUI ui;
+    private AnimalRepository animalRepository;
+    private AtendimentoRepository atendimentoRepository;
+    private ClienteRepository clienteRepository;
+    private FuncionarioRepository funcionarioRepository;
 
-    public AtendimentoService(Map<String, Atendimento> atendimentos, Map<String, Cliente> clientes) {
-        this.atendimentos = atendimentos;
-        this.clientes = clientes;
+    /**
+     * Construtor da classe AtendimentoService.
+     * Inicializa os repositórios e a interface de usuário.
+     *
+     * @param ui Interface de usuário para interações com o console
+     * @param animalRepository Repositório de animais
+     * @param atendimentoRepository Repositório de atendimentos
+     * @param clienteRepository Repositório de clientes
+     * @param funcionarioRepository Repositório de funcionários
+     */
+    public AtendimentoService(
+            AtendimentoConsoleUI ui,
+            AnimalRepository animalRepository,
+            AtendimentoRepository atendimentoRepository,
+            ClienteRepository clienteRepository,
+            FuncionarioRepository funcionarioRepository) {
+        this.ui = ui;
+        this.animalRepository = animalRepository;
+        this.atendimentoRepository = atendimentoRepository;
+        this.clienteRepository = clienteRepository;
+        this.funcionarioRepository = funcionarioRepository;
     }
 
     /**
-     * Método para cadastrar um atendimento no sistema.
-     * Solicita ao usuário as informações necessárias e cria um novo objeto Atendimento.
-     * A chave do atentendimento é seu código.
-     *
-     * @param leia Scanner para ler a entrada do usuário
+     * Método para cadastrar um novo atendimento no sistema.
+     * Solicita ao usuário os dados necessários e salva o atendimento no repositório.
      */
     @Override
-    public void cadastrar(Scanner leia) {
-        System.out.println("Insira o código do atendimento: ");
-        String codigo = leia.nextLine();
-        System.out.println("Insira a data do atendimento: ");
-        String data = leia.nextLine();
-        System.out.println("Insira o CPF do cliente: ");
-        String cpf = leia.nextLine();
-        Cliente cliente = clientes.get(cpf);
-        System.out.println("Insira o nome do animal: ");
-        String nome = leia.nextLine();
-        Animal animal = animais.get(nome + " — " + cpf);        
-        System.out.println("Insira a matrícula do funcionário: ");
-        String matricula = leia.nextLine();
-        Funcionario funcionario = funcionarios.get(matricula);
-
+    public void cadastrar() {
+        String codigo = ui.solicitarCodigoAtendimento();
         String chave = codigo;
-        atendimentos.put(chave, new Atendimento(codigo, data, cliente, animal, funcionario));
 
-        System.out.println("Dados do atendimento cadastrado:");
-        System.out.println(atendimentos.get(chave).toStringDetalhado());
-
-        System.out.println("Os dados estão corretos? (S/N)");
-        String resposta = leia.nextLine().trim().toUpperCase();
-
-        if (!resposta.equals("S")) {
-            System.out.println("Cadastro cancelado.");
-            atendimentos.remove(chave);
+        if (atendimentoRepository.exists(chave)) {
+            ui.mostrarMensagem("Já existe um atendimento cadastrado com o código: " + codigo);
             return;
         }
 
-        System.out.println("Atendimento cadastrado com sucesso!");
-        System.out.println("Gostaria de cadastrar outro atendimento? (S/N)");
-        resposta = leia.nextLine().trim().toUpperCase();
+        String data = ui.solicitarDataAtendimento();
+        String chaveCliente = ui.solicitarChaveClienteAtendimento();
+        Cliente cliente = clienteRepository.getByKey(chaveCliente);
 
-        if (resposta.equals("S")) {
-            cadastrar(leia);
+        if (cliente == null) {
+            ui.mostrarMensagem("Nenhum cliente encontrado com o CPF: " + chaveCliente);
+            return;
+        }
+
+        String chaveAnimal = ui.solicitarChaveAnimalAtendimento();
+        Animal animal = animalRepository.getByKey(chaveAnimal);
+
+        if (animal == null) {
+            ui.mostrarMensagem("Nenhum animal encontrado com a chave: " + chaveAnimal);
+            return;
+        }
+
+        String chaveFuncionario = ui.solicitarChaveFuncionarioAtendimento();
+        Funcionario funcionario = funcionarioRepository.getByKey(chaveFuncionario);
+
+        if (funcionario == null) {
+            ui.mostrarMensagem("Nenhum funcionário encontrado com a matrícula: " + chaveFuncionario);
+            return;
+        }
+
+        Atendimento novoAtendimento = new Atendimento(codigo, data, cliente, animal, funcionario);
+        atendimentoRepository.save(chave, novoAtendimento);
+
+        ui.mostrarMensagem("Dados do atendimento cadastrado:");
+        ui.mostrarDetalhesAtendimento(novoAtendimento);
+
+        if (!ui.receberConfirmacao("Os dados estão corretos?")) {
+            ui.mostrarMensagem("Cadastro cancelado.");
+            atendimentoRepository.delete(chave);
+            return;
+        }
+
+        ui.mostrarMensagem("Atendimento cadastrado com sucesso.");
+
+        if (ui.receberConfirmacao("Gostaria de cadastrar outro atendimento?")) {
+            cadastrar();
         } else {
-            System.out.println("Cadastro finalizado.");
+            ui.mostrarMensagem("Cadastro finalizado.");
         }
     }
 
     /**
      * Método para consultar um atendimento no sistema.
-     * Solicita ao usuário o código do atendimento e busca pelo atendimento com esse código.
-     *
-     * @param leia Scanner para ler a entrada do usuário
+     * Solicita ao usuário o código do atendimento e exibe os detalhes do atendimento correspondente.
      */
     @Override
-    public void consultar(Scanner leia) {
-        System.out.println("Código do atendimento a ser consultado: ");
-        String codigo = leia.nextLine();
+    public void consultar() {
+        String codigo = ui.solicitarCodigoAtendimento();
 
-        Atendimento atendimentoSelecionado = atendimentos.get(codigo);
+        Atendimento atendimentoSelecionado = atendimentoRepository.getByKey(codigo);
 
         if (atendimentoSelecionado != null) {
-            System.out.println("Dados do atendimento selecionado:");
-            System.out.println(atendimentoSelecionado.toStringDetalhado());
+            ui.mostrarMensagem("Dados do atendimento selecionado:");
+            ui.mostrarDetalhesAtendimento(atendimentoSelecionado);
         } else {
-            System.out.println("Nenhum atendimento encontrado com o código: " + codigo);
+            ui.mostrarMensagem("Nenhum atendimento encontrado com o código: " + codigo);
         } 
     }
 
     /**
-     * Método para alterar os dados de um atendimento no sistema.
-     * Solicita ao usuário o código do atendimento e permite que ele escolha quais dados deseja alterar.
-     * As opções incluem codigo, data, cliente, animal, funcionario, ou todos os dados.
-     *
-     * @param leia Scanner para ler a entrada do usuário
+     * Método para consultar um atendimento no sistema.
+     * Solicita ao usuário o código do atendimento e exibe os detalhes do atendimento correspondente.
      */
     @Override
-    public void alterar(Scanner leia) {
-        System.out.println("Código do atendimento a ser alterado: ");
-        String codigo = leia.nextLine();
+    public void alterar() {
+        String codigo = ui.solicitarCodigoAtendimento();
 
-        Atendimento atendimentoSelecionado = atendimentos.get(codigo);
+        Atendimento atendimentoSelecionado = atendimentoRepository.getByKey(codigo);
 
         if (atendimentoSelecionado == null) {
-            System.out.println("Nenhum atendimento encontrado com o código: " + codigo);
+            ui.mostrarMensagem("Nenhum atendimento encontrado com o código: " + codigo);
             return;
         }
 
-        System.out.println("Dados atuais do atendimento:");
-        System.out.println(atendimentoSelecionado.toStringDetalhado());
+        ui.mostrarMensagem("Dados atuais do atendimento:");
+        ui.mostrarDetalhesAtendimento(atendimentoSelecionado);
 
-        System.out.println("Quais dados do atendimento você deseja alterar?");
-        System.out.println("1 — Código");
-        System.out.println("2 — Data");
-        System.out.println("3 — Cliente");
-        System.out.println("4 — Animal");
-        System.out.println("5 — Funcionário");
-        System.out.println("6 — Todos os dados");
-
-        int opcao = ValidadorEntrada.lerInteiroValido(leia, 1, 6);
-        System.out.println("Você escolheu a opção: " + opcao);
+        ui.menuAlterarAtendimento();
+        int opcao = ui.capturarInteiro(1, 6);
+        ui.mostrarMensagem("Você escolheu a opção: " + opcao);
 
         switch (opcao) {
             case 1 -> {
-                System.out.println("Insira o novo código do atendimento: ");
-                String novoCodigo = leia.nextLine();
-                atendimentos.remove(atendimentoSelecionado.getCodigo());
+                String novoCodigo = ui.solicitarCodigoAtendimento();
+                String antigoCodigo = atendimentoSelecionado.getCodigo();
+
+                if (atendimentoRepository.exists(novoCodigo)) {
+                    ui.mostrarMensagem(
+                        "Já existe um atendimento cadastrado com o código: " + novoCodigo);
+                    return;
+                }
+
+                atendimentoRepository.delete(antigoCodigo);
                 atendimentoSelecionado.setCodigo(novoCodigo);
-                atendimentos.put(novoCodigo, atendimentoSelecionado);
+                atendimentoRepository.save(novoCodigo, atendimentoSelecionado);
             }
             case 2 -> {
-                System.out.println("Insira a nova data do atendimento: ");
-                String novaData = leia.nextLine();
+                String novaData = ui.solicitarDataAtendimento();
                 atendimentoSelecionado.setData(novaData);
             }
             case 3 -> {
-                System.out.println("Insira o CPF do novo cliente do atendimento: ");
-                String novoCpf = leia.nextLine();
-                Cliente novoCliente = clientes.get(novoCpf);
+                String novaChaveCliente = ui.solicitarChaveClienteAtendimento();
+
+                if (!clienteRepository.exists(novaChaveCliente)) {
+                    ui.mostrarMensagem("Nenhum cliente encontrado com o CPF: " + novaChaveCliente);
+                    return;
+                }
+
+                Cliente novoCliente = clienteRepository.getByKey(novaChaveCliente);
                 atendimentoSelecionado.setCliente(novoCliente);
             }
             case 4 -> {
-                System.out.println("Insira o nome do novo animal do atendimento: ");
-                String novoNome = leia.nextLine();
-                String Cpf = atendimentoSelecionado.getCliente().getCpf();
-                Animal novoAnimal = animais.get(novoNome + " — " + Cpf);
+                String novaChaveAnimal = ui.solicitarChaveAnimalAtendimento();
+
+                if (!animalRepository.exists(novaChaveAnimal)) {
+                    ui.mostrarMensagem("Nenhum animal encontrado com o nome: " + novaChaveAnimal);
+                    return;
+                }
+
+                Animal novoAnimal = animalRepository.getByKey(novaChaveAnimal);
                 atendimentoSelecionado.setAnimal(novoAnimal);
             }
             case 5 -> {
-                System.out.println("Insira a matrícula do novo funcionário do atendimento: ");
-                String novaMatricula = leia.nextLine();
-                Funcionario novoFuncionario = funcionarios.get(novaMatricula);
+                String novaChaveFuncionario = ui.solicitarChaveFuncionarioAtendimento();
+
+                if (!funcionarioRepository.exists(novaChaveFuncionario)) {
+                    ui.mostrarMensagem(
+                        "Nenhum funcionário encontrado com a matrícula: " + novaChaveFuncionario);
+                    return;
+                }
+
+                Funcionario novoFuncionario = funcionarioRepository.getByKey(novaChaveFuncionario);
                 atendimentoSelecionado.setFuncionario(novoFuncionario);
             }
             case 6 -> {
-                atendimentos.remove(atendimentoSelecionado.getCodigo());
-                cadastrar(leia);
+                String antigoCodigo = atendimentoSelecionado.getCodigo();
+
+                ui.mostrarMensagem("Você escolheu alterar todos os dados do atendimento.");
+                atendimentoRepository.delete(antigoCodigo);
+                ui.mostrarMensagem("Por favor, insira os novos dados do atendimento:");
+
+                String novoCodigo = ui.solicitarCodigoAtendimento();
+
+                if (atendimentoRepository.exists(novoCodigo)) {
+                    ui.mostrarMensagem("Já existe um atendimento cadastrado com o código: " + novoCodigo);
+                    return;
+                }
+
+                String novaData = ui.solicitarDataAtendimento();
+                String novaChaveCliente = ui.solicitarChaveClienteAtendimento();
+                Cliente novoCliente = clienteRepository.getByKey(novaChaveCliente);
+                
+                if (novoCliente == null) {
+                    ui.mostrarMensagem("Nenhum cliente encontrado com o CPF: " + novaChaveCliente);
+                    return;
+                }
+
+                String novaChaveAnimal = ui.solicitarChaveAnimalAtendimento();
+                Animal novoAnimal = animalRepository.getByKey(novaChaveAnimal);
+
+                if (novoAnimal == null) {
+                    ui.mostrarMensagem("Nenhum animal encontrado com o nome: " + novaChaveAnimal);
+                    return;
+                }
+
+                String novaChaveFuncionario = ui.solicitarChaveFuncionarioAtendimento();
+                Funcionario novoFuncionario = funcionarioRepository.getByKey(novaChaveFuncionario);
+
+                if (novoFuncionario == null) {
+                    ui.mostrarMensagem("Nenhum funcionário encontrado com a matrícula: " + novaChaveFuncionario);
+                    return;
+                }
+
+                Atendimento novoAtendimento = new Atendimento(
+                        novoCodigo, novaData, novoCliente, novoAnimal, novoFuncionario);
+                atendimentoRepository.save(novoCodigo, novoAtendimento);
+                ui.mostrarMensagem("Dados do atendimento alterados com sucesso.");
+                return;
             }
         }
     }
 
-     /**
+    /**
      * Método para remover um atendimento do sistema.
-     * Solicita ao usuário o código do atendimento e remove o atendimento com esse código.
-     *
-     * @param leia Scanner para ler a entrada do usuário
+     * Solicita ao usuário o código do atendimento e remove o atendimento correspondente.
      */
     @Override
-    public void remover(Scanner leia) {
-        System.out.println("Código do atendimento a ser removido: ");
-        String codigo = leia.nextLine();
+    public void remover() {
+        String codigo = ui.solicitarCodigoAtendimento();
 
-        Atendimento atendimentoRemovido = atendimentos.remove(codigo);
+        boolean atendimentoExiste = atendimentoRepository.exists(codigo);
 
-        if (atendimentoRemovido == null) {
-            System.out.println("Nenhum atendimento encontrado com o código: " + codigo);
+        if (!atendimentoExiste) {
+            ui.mostrarMensagem("Nenhum atendimento encontrado com o código: " + codigo);
+            return;
+        }
+
+        boolean confirmacao = ui.receberConfirmacao("Tem certeza que deseja remover o atendimento com código: " + codigo + "?");
+        
+        if (confirmacao) {
+            atendimentoRepository.delete(codigo);
+            ui.mostrarMensagem("Atendimento removido com sucesso.");
         } else {
-            System.out.println("Atendimento removido com sucesso!");
-        } 
+            ui.mostrarMensagem("Remoção cancelada.");
+        }
     }
 
+    /**
+     * Método para listar todos os atendimentos cadastrados no sistema.
+     * Exibe um relatório com os detalhes de cada atendimento.
+     */
     @Override
-    public void listar(Scanner leia) {
+    public void listar() {
         // Método para listar todos os atendimentos cadastrados
-        if (clientes.isEmpty()) {
-            System.out.println("Nenhum atendimento cadastrado.");
+        if (clienteRepository.isEmpty()) {
+            ui.mostrarMensagem("Nenhum atendimento cadastrado.");
+            return;
         } else {
-            System.out.println("\n=== RELATÓRIO DE ATENDIMENTOS ===");
-
+            ui.mostrarCabecalho("Relatório de Atendimentos");
+            ui.mostrarMensagem("Total de atendimentos cadastrados: " + atendimentoRepository.size());
             int contador = 1;
-            for (Atendimento atendimento : atendimentos.values()) {
-                System.out.println(contador + ". Atendimento: ");
-                System.out.println(atendimento.toStringDetalhado());
-                System.out.println("--------------------------------");
+
+            for (Atendimento atendimento : atendimentoRepository.getAll()) {
+                ui.mostrarMensagem("Atendimento " + contador + ":");
+                ui.mostrarDetalhesAtendimento(atendimento);
                 contador++;
             }
         }
     }
-} 
-
+}
