@@ -97,10 +97,7 @@ public class AtendimentoConsoleUI extends BaseConsoleUI {
      * @return O CPF do cliente fornecido pelo usuário.
      */
     public String solicitarChaveClienteAtendimento() {
-        System.out.println("Digite o CPF do cliente: ");
-        String cpf = leia.nextLine();
-
-        String chaveCliente = cpf;
+        String chaveCliente = ValidadorEntrada.lerCpfValido(leia);
 
         return chaveCliente;
     }
