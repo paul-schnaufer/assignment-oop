@@ -25,7 +25,8 @@ public class Petshop {
                 BancoDeDadosEmMemoria.atendimentos);
 
         AnimalService animalService = new AnimalService(
-            BancoDeDadosEmMemoria.animais);
+            BancoDeDadosEmMemoria.animais,
+            BancoDeDadosEmMemoria.clientes);
         ClienteService clienteService = new ClienteService(
             BancoDeDadosEmMemoria.clientes);
         FuncionarioService funcionarioService = new FuncionarioService(

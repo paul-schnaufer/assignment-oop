@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import petshop.model.Animal;
+import petshop.model.Cliente;
 import petshop.util.ValidadorEntrada;
 
 /**
@@ -14,30 +15,35 @@ import petshop.util.ValidadorEntrada;
  * alteração, remoção e listagem de animais.
  */
 public class AnimalService implements Service {
+    final String SEPARADOR = "===";
     private Map<String, Animal> animais;
+    private Map<String, Cliente> clientes;
 
-    public AnimalService(Map<String, Animal> animais) {
+    public AnimalService(Map<String, Animal> animais, Map<String, Cliente> clientes) {
         this.animais = animais;
+        this.clientes = clientes;
     }
 
     /**
      * Método para cadastrar um animal no sistema.
      * Solicita ao usuário as informações necessárias e cria um novo objeto Animal.
+     * Caso o animal já exista, informa ao usuário.
      * A chave do animal é composta pelo nome e CPF do dono.
      *
      * @param leia Scanner para ler a entrada do usuário
      */
     @Override
     public void cadastrar(Scanner leia) {
-        System.out.println("Insira o nome do animal: ");
-        String nome = leia.nextLine();
-        float peso = ValidadorEntrada.lerFloatPositivo(leia, "Insira o peso do animal: ");
-        float altura = ValidadorEntrada.lerFloatPositivo(leia, "Insira a altura do animal: ");
-        System.out.println("Insira o CPF do dono: ");
-        String cpfDono = leia.nextLine();
+        System.out.println(SEPARADOR + " CADASTRO DE ANIMAL " + SEPARADOR);
+        ArrayList<String> dadosAnimal = coletaDados(leia);
+        String chave = gerarChave(dadosAnimal.get(0), dadosAnimal.get(3));
 
-        String chave = nome + " — " + cpfDono; // Chave única para o animal
-        animais.put(chave, new Animal(nome, peso, altura, cpfDono));
+        if (animais.containsKey(chave)) {
+            System.out.println("Animal já cadastrado com o nome: " + dadosAnimal.get(0) + " e CPF do dono: " + dadosAnimal.get(3));
+            return;
+        }
+
+        insereDados(dadosAnimal, chave);
 
         System.out.println("Dados do animal cadastrado:");
         System.out.println(animais.get(chave).toStringDetalhado());
@@ -129,10 +135,13 @@ public class AnimalService implements Service {
             case 3:
                 System.out.println("Insira o novo nome do animal: ");
                 String novoNome = leia.nextLine();
-                String cpfDono = animalSelecionado.getCpfDono();
-                animais.remove(animalSelecionado.getNome() + " — " + cpfDono);
+
+                String chaveAntiga = gerarChave(animalSelecionado.getNome(), animalSelecionado.getCpfDono());
+                animais.remove(chaveAntiga);
+
                 animalSelecionado.setNome(novoNome);
-                animais.put(novoNome + " — " + cpfDono, animalSelecionado);
+                animais.put(animalSelecionado.getNome() + " — " + animalSelecionado.getCpfDono(), animalSelecionado);
+
                 break;
             case 4:
                 System.out.println("Insira o CPF do novo dono: ");
@@ -153,7 +162,18 @@ public class AnimalService implements Service {
                 animais.put(nomeAlterado + " — " + cpfAlterado, animalSelecionado);
                 break;
             case 6:
-                cadastrar(leia);
+                String chave = gerarChave(animalSelecionado.getNome(), animalSelecionado.getCpfDono());
+                System.out.println("Você escolheu alterar todos os dados do animal.");
+
+                animais.remove(chave);
+
+                System.out.println("Por favor, insira os novos dados do animal.");
+
+                ArrayList<String> dadosAnimal = coletaDados(leia);
+                insereDados(dadosAnimal, chave);
+
+                System.out.println("Todos os dados do animal foram alterados com sucesso!");
+
                 return;
         }
     }
@@ -178,7 +198,7 @@ public class AnimalService implements Service {
             return;
         }
 
-        String chave = animalSelecionado.getNome() + " — " + animalSelecionado.getCpfDono();
+        String chave = gerarChave(nome, animalSelecionado.getCpfDono());
         animais.remove(chave);
         System.out.println("Animal removido com sucesso!");
     }
@@ -190,7 +210,7 @@ public class AnimalService implements Service {
             System.out.println("Nenhum animal cadastrado.");
             return;
         } else {
-            System.out.println("\n=== RELATÓRIO DE ANIMAIS ===");
+            System.out.println(SEPARADOR + " LISTA DE ANIMAIS " + SEPARADOR);
             System.out.println("Total de animais cadastrados: " + animais.size());
             int contador = 1;
             for (Animal animal : animais.values()) {
@@ -204,7 +224,8 @@ public class AnimalService implements Service {
 
     /**
      * Método auxiliar para selecionar um animal pelo nome.
-     * Se houver múltiplos animais com o mesmo nome, solicita ao usuário que escolha qual animal deseja ver os detalhes.
+     * Se houver múltiplos animais com o mesmo nome,
+     * solicita ao usuário que escolha qual animal deseja ver os detalhes.
      *
      * @param leia Scanner para ler a entrada do usuário
      * @param nome Nome do animal a ser selecionado
@@ -238,5 +259,45 @@ public class AnimalService implements Service {
         int escolhaUsuario = ValidadorEntrada.lerInteiroValido(leia, 1, animaisEncontrados.size());
 
         return animaisEncontrados.get(escolhaUsuario - 1);
+    }
+
+    /**
+     * Método auxiliar para coletar os dados do animal a ser cadastrado.
+     * Solicita ao usuário o nome, peso, altura e CPF do dono do animal.
+     * 
+     * @return Uma lista contendo os dados do animal,
+     * na ordem: nome, peso, altura e CPF do dono.
+     * */
+    public ArrayList<String> coletaDados(Scanner leia) {
+        System.out.println("Nome do animal: ");
+        String nome = leia.nextLine();
+        float peso = ValidadorEntrada.lerFloatPositivo(leia, "Peso do animal: ");
+        float altura = ValidadorEntrada.lerFloatPositivo(leia, "Altura do animal: ");
+        String cpfDono = ValidadorEntrada.lerCpfValido(leia);
+
+        return new ArrayList<String>() {{
+            add(nome);
+            add(String.valueOf(peso));
+            add(String.valueOf(altura));
+            add(cpfDono);
+        }};
+    }
+
+    /**
+     * Método para inserir dados de um animal diretamente no mapa de animais.
+     * Este método é utilizado para popular o banco de dados em memória com dados iniciais.
+     * @param dadosAnimal Lista contendo os dados do animal,
+     * na ordem: nome, peso, altura e CPF do dono.
+     */
+    public void insereDados(ArrayList<String> dadosAnimal, String chave) {
+        animais.put(chave, new Animal(
+            dadosAnimal.get(0),
+            Float.parseFloat(dadosAnimal.get(1)),
+            Float.parseFloat(dadosAnimal.get(2)),
+            dadosAnimal.get(3)));
+    }
+
+    private String gerarChave(String nome, String cpfDono) {
+        return nome + " — " + cpfDono;
     }
 }
