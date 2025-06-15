@@ -14,7 +14,10 @@ public class Cliente extends Pessoa {
     private String email;
     private String rg;
     private String cpf;
-    
+
+    // TODO: Implementar uma id única para cada cliente,
+    // TODO: possivelmente usando UUID ou outro método de geração de ID.
+
     //Construtores 
     public Cliente(String nome, String telefone, String email, String rg, String cpf) {
         super(nome, cpf); // Usando CPF como ID

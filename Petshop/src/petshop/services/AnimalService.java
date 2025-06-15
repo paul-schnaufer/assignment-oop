@@ -1,13 +1,8 @@
 package petshop.services;
 
-import java.util.Scanner;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import petshop.model.Animal;
-import petshop.model.Cliente;
-import petshop.util.ValidadorEntrada;
 import petshop.ui.AnimalConsoleUI;
 import petshop.repository.AnimalRepository;
 
@@ -26,12 +21,10 @@ public class AnimalService implements Service {
     }
 
     /**
-     * Método para cadastrar um animal no sistema.
-     * Solicita ao usuário as informações necessárias e cria um novo objeto Animal.
-     * Caso o animal já exista, informa ao usuário.
-     * A chave do animal é composta pelo nome e CPF do dono.
-     *
-     * @param leia Scanner para ler a entrada do usuário
+     * Método para cadastrar um novo animal no sistema.
+     * Solicita ao usuário os dados do animal, verifica se já existe um animal com o mesmo nome e CPF do dono,
+     * e, se não existir, salva o animal no repositório.
+     * Se o usuário confirmar os dados, o animal é cadastrado com sucesso.
      */
     @Override
     public void cadastrar() {
@@ -44,141 +37,137 @@ public class AnimalService implements Service {
         String chave = gerarChave(nome, cpfDono);
 
         if (animalRepository.exists(chave)) {
-            System.out.println("Animal já cadastrado com o nome: " + nome + " e CPF do dono: " + cpfDono);
+            ui.mostrarMensagem("Animal já cadastrado com o nome: " + nome + " e CPF do dono: " + cpfDono);
             return;
         }
 
-        Animal animal = new Animal (nome, peso, altura, cpfDono);
-        animalRepository.save(chave, animal);
+        Animal dadosAnimal = new Animal (nome, peso, altura, cpfDono);
+        animalRepository.save(chave, dadosAnimal);
 
-        System.out.println("Dados do animal cadastrado:");
-        System.out.println(animais.get(chave).toStringDetalhado());
+        ui.mostrarMensagem("Dados do animal cadastrado:");
+        ui.mostrarDetalhesAnimal(dadosAnimal);
 
-        System.out.println("Os dados estão corretos? (S/N)");
-        String resposta = leia.nextLine().trim().toUpperCase();
-
-        if (!resposta.equals("S")) {
-            System.out.println("Cadastro cancelado.");
-            animais.remove(chave);
+        if (!ui.receberConfirmacao("Os dados estão corretos? ")) {
+            ui.mostrarMensagem("Cadastro cancelado.");
+            animalRepository.delete(chave);
             return;
         }
 
-        System.out.println("Animal cadastrado com sucesso!");
-        System.out.println("Gostaria de cadastrar outro animal? (S/N)");
-        resposta = leia.nextLine().trim().toUpperCase();
-
-        if (resposta.equals("S")) {
-            cadastrar(leia);
+        ui.mostrarMensagem("Animal cadastrado com sucesso!");
+        
+        if (!ui.receberConfirmacao("Gostaria de cadastrar outro animal? ")) {
+            ui.mostrarMensagem("Cadastro finalizado.");
+            return;
         } else {
-            System.out.println("Cadastro finalizado.");
+            cadastrar();
         }
     }
 
     /**
-     * Método para consultar um animal no sistema.
-     * Solicita ao usuário o nome do animal e busca por animais que começam com esse nome.
-     * Se encontrar múltiplos animais, solicita ao usuário que escolha qual animal deseja ver os detalhes.
-     *
-     * @param leia Scanner para ler a entrada do usuário
+     * Método para consultar os dados de um animal no sistema.
+     * Solicita ao usuário o nome do animal e busca no repositório.
+     * Se encontrar o animal, exibe seus detalhes.
+     * Se não encontrar, informa ao usuário.
      */
     @Override
-    public void consultar(Scanner leia) {
-        System.out.println("Nome do animal a ser consultado: ");
-        String nome = leia.nextLine();
+    public void consultar() {
+        String nome = ui.solicitarNomeAnimal();
 
-        Animal animalSelecionado = selecionarAnimalPorNome(leia, nome);
+        Animal animalSelecionado = selecionarAnimalPorNome(nome);
 
         if (animalSelecionado != null) {
-            System.out.println("Dados do animal selecionado:");
-            System.out.println(animalSelecionado.toStringDetalhado());
+            ui.mostrarMensagem("Dados do animal selecionado:");
+            ui.mostrarDetalhesAnimal(animalSelecionado);
         } else {
-            System.out.println("Nenhum animal encontrado com o nome: " + nome);
-        } 
+            ui.mostrarMensagem("Nenhum animal encontrado com o nome: " + nome);
+        }
     }
 
     /**
      * Método para alterar os dados de um animal no sistema.
-     * Solicita ao usuário o nome do animal e permite que ele escolha quais dados deseja alterar.
-     * As opções incluem peso, altura, nome, CPF do dono, ou todos os dados.
-     *
-     * @param leia Scanner para ler a entrada do usuário
+     * Solicita ao usuário o nome do animal, exibe os dados atuais,
+     * e permite que o usuário escolha quais dados deseja alterar.
+     * Após a alteração, atualiza os dados do animal no repositório.
      */
     @Override
-    public void alterar(Scanner leia) {
-        System.out.println("Nome do animal a ser alterado: ");
-        String nome = leia.nextLine();
+    public void alterar() {
+        String nome = ui.solicitarNomeAnimal();
 
-        Animal animalSelecionado = selecionarAnimalPorNome(leia, nome);
+        Animal animalSelecionado = selecionarAnimalPorNome(nome);
 
         if (animalSelecionado == null) {
-            System.out.println("Nenhum animal encontrado com o nome: " + nome);
+            ui.mostrarMensagem("Nenhum animal encontrado com o nome: " + nome);
             return;
         }
 
-        System.out.println("Dados atuais do animal:");
-        System.out.println(animalSelecionado.toStringDetalhado());
+        ui.mostrarMensagem("Dados atuais do animal:");
+        ui.mostrarDetalhesAnimal(animalSelecionado);
 
-        System.out.println("Quais dados do animal você deseja alterar?");
-        System.out.println("1 — Peso");
-        System.out.println("2 — Altura");
-        System.out.println("3 — Nome");
-        System.out.println("4 — Dono (CPF)");
-        System.out.println("5 — Nome do animal e dono (CPF)");
-        System.out.println("6 — Todos os dados");
-
-        int opcao = ValidadorEntrada.lerInteiroValido(leia, 1, 6);
-        System.out.println("Você escolheu a opção: " + opcao);
+        // Exibe o menu de opções de alteração e captura a opção escolhida pelo usuário
+        ui.menuAlterarAnimal();
+        int opcao = ui.capturarInteiro(1, 6);
+        ui.mostrarMensagem("Você escolheu a opção: " + opcao);
 
         switch (opcao) {
             case 1 -> {
-                float novoPeso = ValidadorEntrada.lerFloatPositivo(leia, "Insira o novo peso do animal: ");
+                float novoPeso = ui.solicitarPesoAnimal();
                 animalSelecionado.setPeso(novoPeso);
             }
             case 2 -> {
-                float novaAltura = ValidadorEntrada.lerFloatPositivo(leia, "Insira a nova altura do animal: ");
+                float novaAltura = ui.solicitarAlturaAnimal();
                 animalSelecionado.setAltura(novaAltura);
             }
             case 3 -> {
-                System.out.println("Insira o novo nome do animal: ");
-                String novoNome = leia.nextLine();
-
+                String novoNome = ui.solicitarNomeAnimal();
                 String chaveAntiga = gerarChave(animalSelecionado.getNome(), animalSelecionado.getCpfDono());
-                animais.remove(chaveAntiga);
 
+                animalRepository.delete(chaveAntiga);
                 animalSelecionado.setNome(novoNome);
-                animais.put(animalSelecionado.getNome() + " — " + animalSelecionado.getCpfDono(), animalSelecionado);
+                animalRepository.save(gerarChave(novoNome, animalSelecionado.getCpfDono()), animalSelecionado);
+                ui.mostrarMensagem("Nome do animal alterado com sucesso!");
             }
             case 4 -> {
-                System.out.println("Insira o CPF do novo dono: ");
-                String novoCpfDono = leia.nextLine();
+                String novoCpfDono = ui.solicitarCpfDonoAnimal();
                 String nomeAnimal = animalSelecionado.getNome();
-                animais.remove(nomeAnimal + " — " + animalSelecionado.getCpfDono());
+                String chaveAntiga = gerarChave(nomeAnimal, animalSelecionado.getCpfDono());
+
+                animalRepository.delete(chaveAntiga);
                 animalSelecionado.setCpfDono(novoCpfDono);
-                animais.put(nomeAnimal + " — " + novoCpfDono, animalSelecionado);
+                animalRepository.save(gerarChave(nomeAnimal, novoCpfDono), animalSelecionado);
             }
             case 5 -> {
-                System.out.println("Insira o novo nome do animal: ");
-                String nomeAlterado = leia.nextLine();
-                System.out.println("Insira o CPF do novo dono: ");
-                String cpfAlterado = leia.nextLine();
-                animais.remove(animalSelecionado.getNome() + " — " + animalSelecionado.getCpfDono());
+                String nomeAlterado = ui.solicitarNomeAnimal();
+                String cpfAlterado = ui.solicitarCpfDonoAnimal();
+                String chaveAntiga = gerarChave(animalSelecionado.getNome(), animalSelecionado.getCpfDono());
+
+                animalRepository.delete(chaveAntiga);
                 animalSelecionado.setNome(nomeAlterado);
                 animalSelecionado.setCpfDono(cpfAlterado);
-                animais.put(nomeAlterado + " — " + cpfAlterado, animalSelecionado);
+                animalRepository.save(gerarChave(nomeAlterado, cpfAlterado), animalSelecionado);
             }
             case 6 -> {
-                String chave = gerarChave(animalSelecionado.getNome(), animalSelecionado.getCpfDono());
-                System.out.println("Você escolheu alterar todos os dados do animal.");
+                String chaveAntiga = gerarChave(animalSelecionado.getNome(), animalSelecionado.getCpfDono());
 
-                animais.remove(chave);
+                ui.mostrarMensagem("Você escolheu alterar todos os dados do animal.");
+                animalRepository.delete(chaveAntiga);
+                ui.mostrarMensagem("Por favor, insira os novos dados do animal.");
 
-                System.out.println("Por favor, insira os novos dados do animal.");
 
-                ArrayList<String> dadosAnimal = coletaDados(leia);
-                insereDados(dadosAnimal, chave);
+                String nomeNovo = ui.solicitarNomeAnimal();
+                Float peso = ui.solicitarPesoAnimal();
+                Float altura = ui.solicitarAlturaAnimal();
+                String cpfDono = ui.solicitarCpfDonoAnimal();
 
-                System.out.println("Todos os dados do animal foram alterados com sucesso!");
+                String chave = gerarChave(nomeNovo, cpfDono);
 
+                if (animalRepository.exists(chave)) {
+                    ui.mostrarMensagem("Já existe um animal cadastrado com o nome: " + nomeNovo + " e CPF do dono: " + cpfDono);
+                    return;
+                }
+
+                Animal dadosAnimal = new Animal(nomeNovo, peso, altura, cpfDono);
+                animalRepository.save(chave, dadosAnimal);
+                ui.mostrarMensagem("Dados do animal alterados com sucesso:");
                 return;
             }
         }
@@ -186,43 +175,44 @@ public class AnimalService implements Service {
 
     /**
      * Método para remover um animal do sistema.
-     * Solicita ao usuário o nome do animal e remove o animal correspondente.
-     * Se não encontrar o animal, informa ao usuário.
-     *
-     * @param leia Scanner para ler a entrada do usuário
+     * Solicita ao usuário o nome do animal a ser removido,
+     * seleciona o animal correspondente,
+     * e o remove do repositório.
      */
     @Override
-    public void remover(Scanner leia) {
+    public void remover() {
         // Método para remover um animal do sistema
-        System.out.println("Nome do animal a ser removido: ");
-        String nome = leia.nextLine();
-
-        Animal animalSelecionado = selecionarAnimalPorNome(leia, nome);
+        String nome = ui.solicitarNomeAnimal();
+        Animal animalSelecionado = selecionarAnimalPorNome(nome);
 
         if (animalSelecionado == null) {
-            System.out.println("Nenhum animal encontrado com o nome: " + nome);
+            ui.mostrarMensagem("Nenhum animal encontrado com o nome: " + nome);
             return;
         }
 
         String chave = gerarChave(nome, animalSelecionado.getCpfDono());
-        animais.remove(chave);
-        System.out.println("Animal removido com sucesso!");
+        
+        animalRepository.delete(chave);
+        ui.mostrarMensagem("Animal removido com sucesso.");
     }
 
+    /**
+     * Método para listar todos os animais cadastrados no sistema.
+     * Exibe o total de animais e os detalhes de cada um.
+     * Se não houver animais cadastrados, informa ao usuário.
+     */
     @Override
-    public void listar(Scanner leia) {
-        // Método para listar todos os animais cadastrados
-        if (animais.isEmpty()) {
-            System.out.println("Nenhum animal cadastrado.");
+    public void listar() {
+        if (animalRepository.isEmpty()) {
+            ui.mostrarMensagem("Nenhum animal cadastrado.");
             return;
         } else {
-            System.out.println(SEPARADOR + " LISTA DE ANIMAIS " + SEPARADOR);
-            System.out.println("Total de animais cadastrados: " + animais.size());
+            ui.mostrarCabecalho(("Relatório de Animais"));
+            ui.mostrarMensagem("Total de animais cadastrados: " + animalRepository.size());
             int contador = 1;
-            for (Animal animal : animais.values()) {
-                System.out.println(contador + ". Animal: ");
-                System.out.println(animal.toStringDetalhado());
-                System.out.println("--------------------------------");
+            for (Animal animal : animalRepository.getAll()) {
+                ui.mostrarMensagem("Animal " + contador + ":");
+                ui.mostrarDetalhesAnimal(animal);
                 contador++;
             }
         }
@@ -230,79 +220,41 @@ public class AnimalService implements Service {
 
     /**
      * Método auxiliar para selecionar um animal pelo nome.
-     * Se houver múltiplos animais com o mesmo nome,
-     * solicita ao usuário que escolha qual animal deseja ver os detalhes.
-     *
-     * @param leia Scanner para ler a entrada do usuário
-     * @param nome Nome do animal a ser selecionado
-     * @return O animal selecionado ou null se não encontrado
-     */
-    private Animal selecionarAnimalPorNome(Scanner leia, String nome) {
-        List<Animal> animaisEncontrados = new ArrayList<>();
-    
-        for (Map.Entry<String, Animal> entry : animais.entrySet()) {
-            if (entry.getValue().getNome().equalsIgnoreCase(nome)) {
-                animaisEncontrados.add(entry.getValue());
-            }
-        }
-
-        if (animaisEncontrados.isEmpty()) {
-            System.out.println("Nenhum animal encontrado com o nome: " + nome);
-            return null;
-        }
-        
-        if (animaisEncontrados.size() == 1) {
-            return animaisEncontrados.get(0);
-        }
-
-        System.out.println("Foram encontrados múltiplos animais com esse nome: " + nome);
-
-        for (int i = 0; i < animaisEncontrados.size(); i++) {
-            System.out.println((i + 1) + " — Dono CPF: " + animaisEncontrados.get(i).getCpfDono());
-        }
-
-        System.out.println("Escolha o número correspondente: ");
-        int escolhaUsuario = ValidadorEntrada.lerInteiroValido(leia, 1, animaisEncontrados.size());
-
-        return animaisEncontrados.get(escolhaUsuario - 1);
-    }
-
-    /**
-     * Método auxiliar para coletar os dados do animal a ser cadastrado.
-     * Solicita ao usuário o nome, peso, altura e CPF do dono do animal.
+     * Busca no repositório de animais por chaves que correspondam ao nome fornecido.
+     * Se encontrar múltiplos animais, solicita ao usuário que escolha qual animal deseja ver os detalhes.
      * 
-     * @return Uma lista contendo os dados do animal,
-     * na ordem: nome, peso, altura e CPF do dono.
-     * */
-    public ArrayList<String> coletaDados(Scanner leia) {
-        System.out.println("Nome do animal: ");
-        String nome = leia.nextLine();
-        float peso = ValidadorEntrada.lerFloatPositivo(leia, "Peso do animal: ");
-        float altura = ValidadorEntrada.lerFloatPositivo(leia, "Altura do animal: ");
-        String cpfDono = ValidadorEntrada.lerCpfValido(leia);
+     * @param nome O nome do animal a ser buscado
+     * @return O animal selecionado ou null se não encontrar nenhum animal.
+     */
+    private Animal selecionarAnimalPorNome(String nome) {
+        List<String> chavesAnimaisEncontrados = animalRepository.acharChavesPeloNome(nome);
 
-        return new ArrayList<String>() {{
-            add(nome);
-            add(String.valueOf(peso));
-            add(String.valueOf(altura));
-            add(cpfDono);
-        }};
+        if (chavesAnimaisEncontrados.isEmpty() || chavesAnimaisEncontrados == null) {
+            ui.mostrarMensagem("Nenhum animal encontrado com o nome: " + nome);
+            return null;
+        } else if (chavesAnimaisEncontrados.size() == 1) {
+            return animalRepository.getByKey(chavesAnimaisEncontrados.get(0));
+        }
+
+        ui.mostrarMensagem("Foram encontrados múltiplos animais com esse nome: " + nome);
+
+        // Exibe os animais encontrados para o usuário
+        int numeroAnimalEscolhido = ui.escolherAnimal(chavesAnimaisEncontrados);
+
+        // Obtém a chave do animal escolhido
+        String animalEscolhido = chavesAnimaisEncontrados.get(numeroAnimalEscolhido - 1);
+
+        return animalRepository.getByKey(animalEscolhido);
     }
 
     /**
-     * Método para inserir dados de um animal diretamente no mapa de animais.
-     * Este método é utilizado para popular o banco de dados em memória com dados iniciais.
-     * @param dadosAnimal Lista contendo os dados do animal,
-     * na ordem: nome, peso, altura e CPF do dono.
+     * Método auxiliar para gerar uma chave única para o animal,
+     * combinando o nome do animal e o CPF do dono.
+     * 
+     * @param nome O nome do animal
+     * @param cpfDono O CPF do dono do animal
+     * @return A chave gerada no formato "nome — cpfDono"
      */
-    public void insereDados(ArrayList<String> dadosAnimal, String chave) {
-        animais.put(chave, new Animal(
-            dadosAnimal.get(0),
-            Float.parseFloat(dadosAnimal.get(1)),
-            Float.parseFloat(dadosAnimal.get(2)),
-            dadosAnimal.get(3)));
-    }
-
     private String gerarChave(String nome, String cpfDono) {
         return nome + " — " + cpfDono;
     }

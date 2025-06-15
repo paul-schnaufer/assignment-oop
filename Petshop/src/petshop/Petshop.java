@@ -2,12 +2,11 @@ package petshop;
 
 import java.util.Scanner;
 
+import petshop.repository.BancoDeDadosEmMemoria;
 import petshop.services.AnimalService;
 import petshop.services.AtendimentoService;
 import petshop.services.ClienteService;
 import petshop.services.FuncionarioService;
-
-import petshop.util.BancoDeDadosEmMemoria;
 import petshop.util.ValidadorEntrada;
 
 /**

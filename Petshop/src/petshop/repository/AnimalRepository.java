@@ -18,40 +18,85 @@ public class AnimalRepository {
         this.animais = BancoDeDadosEmMemoria.animais;
     }
 
+    public boolean isEmpty() {
+        return animais.isEmpty();
+    }
+
+    /**
+     * Obtém um animal pelo identificador (chave).
+     * 
+     * @param chave A chave do animal a ser buscado
+     * @return O animal correspondente à chave, ou null se não encontrado
+     */
     public Animal getByKey(String chave) {
         return animais.get(chave);
     }
 
+    /**
+     * Adiciona um novo animal ao repositório.
+     * 
+     * @param chave A chave do animal a ser adicionado
+     * @param animal O objeto Animal a ser adicionado
+     */
     public void save(String chave, Animal animal) {
         animais.put(chave, animal);
     }
 
-    public void delete(String key) {
-        if (animais.containsKey(key)) {
-            animais.remove(key);
+    /**
+     * Atualiza um animal existente no repositório.
+     * 
+     * @param chave A chave do animal a ser atualizado
+     * @param animal O objeto Animal atualizado
+     */
+    public void delete(String chave) {
+        if (animais.containsKey(chave)) {
+            animais.remove(chave);
         } else {
-            System.out.println("Animal com a chave " + key + " não encontrado.");
+            System.out.println("Animal com a chave " + chave + " não encontrado.");
         }
-    }
-
-    public boolean exists(String key) {
-        return animais.containsKey(key);
     }
 
     /**
-     * Método para buscar um animal pelo nome.
-     * Retorna uma lista de animais que possuem o nome especificado.
-     *
-     * @param nome O nome do animal a ser buscado
-     * @return Lista de animais com o nome especificado
+     * Verifica se um animal existe no repositório.
+     * 
+     * @param chave A chave do animal a ser verificado
+     * @return true se o animal existir, false caso contrário
      */
-    public List<Animal> acharPeloNome(String nome) {
-        List<Animal> resultado = new ArrayList<>();
+    public boolean exists(String chave) {
+        return animais.containsKey(chave);
+    }
+
+    public int size() {
+        return animais.size();
+    }
+
+    /**
+     * Obtém todos os animais do repositório.
+     * 
+     * @return Lista de todos os animais
+     */
+    public List<Animal> getAll() {
+        return new ArrayList<>(animais.values());
+    }
+
+    /**
+     * Busca animais pelo nome.
+     * Este método percorre o repositório de animais e retorna uma lista de animais
+     * que possuem o nome especificado.
+     * 
+     * @param nome O nome do animal a ser buscado
+     * @return Lista de chaves com o nome especificado
+     */
+    public List<String> acharChavesPeloNome(String nome) {
+        List<String> resultado = new ArrayList<>();
         for (Animal animal : animais.values()) {
             if (animal.getNome().equalsIgnoreCase(nome)) {
-                resultado.add(animal);
+                resultado.add(animal.getNome() + " — " + animal.getCpfDono());
             }
         }
+
         return resultado;
     }
+
+    
 }

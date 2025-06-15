@@ -8,8 +8,7 @@ import petshop.model.Animal;
 import petshop.model.Atendimento;
 import petshop.model.Cliente;
 import petshop.model.Funcionario;
-
-import petshop.util.BancoDeDadosEmMemoria;
+import petshop.repository.BancoDeDadosEmMemoria;
 
 /**
  * Classe utilitária para verificar entradas de dados no sistema de Petshop.

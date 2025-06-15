@@ -10,6 +10,8 @@ public class Animal {
     private float peso; // em quilogramas
     private float altura; // em centímetros
     private String cpfDono;
+    // TODO: Implementar uma id única para cada animal,
+    // TODO: possivelmente usando UUID ou outro método de geração de ID.
 
     public Animal(String nome, float peso, float altura, String cpfDono) {
         this.nome = nome;

@@ -11,6 +11,9 @@ public class Funcionario extends Pessoa {
     private String descricaoFuncao;
     private float cargaHoraria;
 
+    // TODO: Implementar uma id única para cada funcionário,
+    // TODO: possivelmente usando UUID ou outro método de geração de ID.
+    
     //Construtores
     public Funcionario(
         String nome,

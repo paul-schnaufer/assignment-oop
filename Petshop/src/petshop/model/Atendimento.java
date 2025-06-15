@@ -12,6 +12,9 @@ public class Atendimento {
     private Animal animal;
     private Funcionario funcionario;
 
+    // TODO: Implementar uma id única para cada atendimento,
+    // TODO: possivelmente usando UUID ou outro método de geração de ID.
+
     public Atendimento() {
     }
 

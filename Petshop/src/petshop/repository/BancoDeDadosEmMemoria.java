@@ -20,3 +20,6 @@ public class BancoDeDadosEmMemoria {
     public static Map<String, Atendimento> atendimentos = new HashMap<>();
     public static Map<String, Funcionario> funcionarios = new HashMap<>();
 }
+
+// TODO: Implementar uma id única para cada elemento do banco de dados,
+// TODO: possivelmente usando UUID ou outro método de geração de ID.
