@@ -224,7 +224,7 @@ public class ClienteService implements Service {
             for (Cliente cliente : clienteRepository.getAll()) {
                 ui.mostrarMensagem("Cliente " + contador + ":");
                 ui.mostrarDetalhesCliente(cliente);
-                ui.mostrarMensagem("-----------------------------------------------------");
+                ui.mostrarMensagem("-----------------------------------");
                 contador++;
             }
         }

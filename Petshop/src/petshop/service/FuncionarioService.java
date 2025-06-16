@@ -243,7 +243,7 @@ public class FuncionarioService implements Service {
             for (Funcionario funcionario : funcionarioRepository.getAll()) {
                 ui.mostrarMensagem("Funcionário " + contador + ":");
                 ui.mostrarDetalhesFuncionario(funcionario);
-                ui.mostrarMensagem("-----------------------------------------------------");
+                ui.mostrarMensagem("-----------------------------------");
                 contador++;
             }
         }
