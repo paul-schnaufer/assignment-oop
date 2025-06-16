@@ -11,6 +11,7 @@ public class Atendimento {
     private Cliente cliente;
     private Animal animal;
     private Funcionario funcionario;
+    String SEPARADOR = "-----------------------------------";
 
     //Construtores
     /**
@@ -43,10 +44,13 @@ public class Atendimento {
         String detalhesAnimal = animal.toStringDetalhado();
         String detalhesFuncionario = funcionario.toStringDetalhado();
     
-        return "\nCodigo: " + codigo + 
+        return "\nCodigo: " + codigo +
                "\nData: " + data +
-               "\nCliente: " + detalhesCliente + 
+               "\n" + SEPARADOR +
+               "\nCliente: " + detalhesCliente +
+               "\n" + SEPARADOR +
                "\nAnimal: " + detalhesAnimal +
+               "\n" + SEPARADOR +
                "\nFuncionario: " + detalhesFuncionario;
     }
 
