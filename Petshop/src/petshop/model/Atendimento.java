@@ -43,7 +43,7 @@ public class Atendimento {
         String detalhesAnimal = animal.toStringDetalhado();
         String detalhesFuncionario = funcionario.toStringDetalhado();
     
-        return "Codigo: " + codigo + 
+        return "\nCodigo: " + codigo + 
                "\nData: " + data +
                "\nCliente: " + detalhesCliente + 
                "\nAnimal: " + detalhesAnimal +
