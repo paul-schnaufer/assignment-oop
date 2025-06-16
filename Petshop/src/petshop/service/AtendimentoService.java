@@ -72,7 +72,7 @@ public class AtendimentoService implements Service {
             return;
         }
 
-        String chaveAnimal = ui.solicitarChaveAnimalAtendimento();
+        String chaveAnimal = ui.solicitarChaveAnimalAtendimento(chaveCliente);
         Animal animal = animalRepository.getByKey(chaveAnimal);
 
         if (animal == null) {
@@ -186,7 +186,8 @@ public class AtendimentoService implements Service {
                 ui.mostrarMensagem("Cliente do atendimento alterado com sucesso.");
             }
             case 4 -> {
-                String novaChaveAnimal = ui.solicitarChaveAnimalAtendimento();
+                String cpfDono = ui.solicitarChaveClienteAtendimento();
+                String novaChaveAnimal = ui.solicitarChaveAnimalAtendimento(cpfDono);
 
                 if (!animalRepository.exists(novaChaveAnimal)) {
                     ui.mostrarMensagem("Nenhum animal encontrado com o nome: " + novaChaveAnimal);
@@ -235,7 +236,7 @@ public class AtendimentoService implements Service {
                     return;
                 }
 
-                String novaChaveAnimal = ui.solicitarChaveAnimalAtendimento();
+                String novaChaveAnimal = ui.solicitarChaveAnimalAtendimento(novaChaveCliente);
                 Animal novoAnimal = animalRepository.getByKey(novaChaveAnimal);
 
                 if (novoAnimal == null) {

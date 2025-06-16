@@ -5,6 +5,7 @@ import java.util.List;
 import petshop.model.Animal;
 import petshop.ui.AnimalConsoleUI;
 import petshop.repository.AnimalRepository;
+import petshop.repository.ClienteRepository;
 
 /**
  * Classe responsável por gerenciar as operações relacionadas aos animais do petshop.
@@ -14,6 +15,7 @@ import petshop.repository.AnimalRepository;
 public class AnimalService implements Service {
     private AnimalConsoleUI ui;
     private AnimalRepository animalRepository;
+    private ClienteRepository clienteRepository;
 
     /**
      * Construtor da classe AnimalService.
@@ -22,9 +24,14 @@ public class AnimalService implements Service {
      * @param ui A interface de usuário para interações com o usuário
      * @param animalRepository O repositório onde os animais serão armazenados
      */
-    public AnimalService(AnimalConsoleUI ui, AnimalRepository animalRepository) {
+    public AnimalService(
+        AnimalConsoleUI ui,
+        AnimalRepository animalRepository, 
+        ClienteRepository clienteRepository
+        ) {
         this.ui = ui;
         this.animalRepository = animalRepository;
+        this.clienteRepository = clienteRepository;
     }
 
     /**
@@ -40,6 +47,11 @@ public class AnimalService implements Service {
         ui.mostrarCabecalho("Cadastro de Animal");
         String nome = ui.solicitarNomeAnimal();
         String cpfDono = ui.solicitarCpfDonoAnimal();
+
+        if (!clienteRepository.exists(cpfDono)) {
+            ui.mostrarMensagem("CPF do dono não cadastrado: " + cpfDono);
+            return;
+        }
 
         String chave = gerarChave(nome, cpfDono);
 

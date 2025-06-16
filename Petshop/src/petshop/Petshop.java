@@ -39,7 +39,9 @@ public class Petshop {
         FuncionarioConsoleUI funcionarioUI = new FuncionarioConsoleUI(leia);
 
         // Inicialização dos serviços com as UIs e Repositories correspondentes
-        AnimalService animalService = new AnimalService(animalUI, animalRepository);
+        AnimalService animalService = new AnimalService(
+            animalUI, animalRepository, clienteRepository
+            );
         AtendimentoService atendimentoService = new AtendimentoService(
             atendimentoUI,
             animalRepository,
