@@ -26,21 +26,133 @@ public class MenuPrincipalGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        animalBtn = new javax.swing.JButton();
+        funcionarioBtn = new javax.swing.JButton();
+        clienteBtn = new javax.swing.JButton();
+        atendimentoBtn = new javax.swing.JButton();
+        tituloLbl = new javax.swing.JLabel();
+        encerrarBtn = new javax.swing.JButton();
+        resetBtn = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Petsistema");
+
+        animalBtn.setFont(new java.awt.Font("OCR A Extended", 0, 14)); // NOI18N
+        animalBtn.setText("Animal");
+        animalBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                animalBtnMouseClicked(evt);
+            }
+        });
+
+        funcionarioBtn.setFont(new java.awt.Font("OCR A Extended", 0, 14)); // NOI18N
+        funcionarioBtn.setText("Funcionário");
+        funcionarioBtn.setAlignmentY(0.0F);
+        funcionarioBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                funcionarioBtnMouseClicked(evt);
+            }
+        });
+
+        clienteBtn.setFont(new java.awt.Font("OCR A Extended", 0, 14)); // NOI18N
+        clienteBtn.setText("Cliente");
+        clienteBtn.setAlignmentY(0.0F);
+        clienteBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        clienteBtn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        clienteBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                clienteBtnMouseClicked(evt);
+            }
+        });
+
+        atendimentoBtn.setFont(new java.awt.Font("OCR A Extended", 0, 14)); // NOI18N
+        atendimentoBtn.setText("Atendimento");
+        atendimentoBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                atendimentoBtnMouseClicked(evt);
+            }
+        });
+
+        tituloLbl.setFont(new java.awt.Font("Bodoni MT Black", 0, 36)); // NOI18N
+        tituloLbl.setText("Petsistema");
+
+        encerrarBtn.setFont(new java.awt.Font("OCR A Extended", 0, 14)); // NOI18N
+        encerrarBtn.setText("Encerrar Execução");
+
+        resetBtn.setFont(new java.awt.Font("OCR A Extended", 0, 12)); // NOI18N
+        resetBtn.setText("Reset");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(124, 124, 124)
+                                .addComponent(tituloLbl))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(146, 146, 146)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                                    .addComponent(clienteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(funcionarioBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(animalBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(encerrarBtn)
+                                    .addComponent(atendimentoBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 132, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(resetBtn)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(38, 38, 38)
+                .addComponent(tituloLbl, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
+                .addGap(30, 30, 30)
+                .addComponent(clienteBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(funcionarioBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(animalBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(encerrarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(atendimentoBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(47, 47, 47)
+                .addComponent(resetBtn)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void clienteBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clienteBtnMouseClicked
+        MenuClienteGUI menuCliente = new MenuClienteGUI(this, clienteService);
+        menuCliente.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_clienteBtnMouseClicked
+
+    private void funcionarioBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_funcionarioBtnMouseClicked
+        MenuFuncionarioGUI menuFuncionario = new MenuFuncionarioGUI(this, funcionarioService);
+        menuFuncionario.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_funcionarioBtnMouseClicked
+
+    private void animalBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_animalBtnMouseClicked
+        MenuAnimalGUI menuAnimal = new MenuAnimalGUI(this, animalService);
+        menuAnimal.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_animalBtnMouseClicked
+
+    private void atendimentoBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_atendimentoBtnMouseClicked
+        MenuAtendimentoGUI menuAtendimento = new MenuAtendimentoGUI(this, atendimentoService);
+        menuAtendimento.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_atendimentoBtnMouseClicked
 
     /**
      * @param args the command line arguments
@@ -78,5 +190,12 @@ public class MenuPrincipalGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton animalBtn;
+    private javax.swing.JButton atendimentoBtn;
+    private javax.swing.JButton clienteBtn;
+    private javax.swing.JButton encerrarBtn;
+    private javax.swing.JButton funcionarioBtn;
+    private javax.swing.JButton resetBtn;
+    private javax.swing.JLabel tituloLbl;
     // End of variables declaration//GEN-END:variables
 }
