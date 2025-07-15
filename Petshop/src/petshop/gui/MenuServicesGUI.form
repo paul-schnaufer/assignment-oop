@@ -26,28 +26,27 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      <Component id="resetBtn" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="voltarBtn" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
-                      <EmptySpace min="133" pref="133" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="141" max="-2" attributes="0"/>
                       <Component id="tituloLbl" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="123" pref="123" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="129" pref="132" max="32767" attributes="0"/>
           </Group>
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="2" attributes="0">
-                  <Component id="encerrarBtn" alignment="2" min="-2" max="-2" attributes="0"/>
-                  <Component id="atendimentoBtn" alignment="2" min="-2" pref="166" max="-2" attributes="0"/>
-                  <Component id="animalBtn" alignment="2" min="-2" pref="166" max="-2" attributes="0"/>
-                  <Component id="funcionarioBtn" alignment="2" min="-2" pref="166" max="-2" attributes="0"/>
-                  <Component id="clienteBtn" alignment="2" min="-2" pref="166" max="-2" attributes="0"/>
+                  <Component id="cadastrarBtn" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="consultarBtn" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="alterarBtn" alignment="2" min="-2" pref="102" max="-2" attributes="0"/>
+                  <Component id="removerBtn" alignment="2" min="-2" pref="102" max="-2" attributes="0"/>
+                  <Component id="relatorioBtn" alignment="2" min="-2" pref="102" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="147" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="181" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -56,53 +55,53 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
               <Component id="tituloLbl" pref="49" max="32767" attributes="0"/>
-              <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
-              <Component id="clienteBtn" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+              <Component id="cadastrarBtn" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-              <Component id="funcionarioBtn" min="-2" pref="23" max="-2" attributes="0"/>
+              <Component id="consultarBtn" min="-2" pref="23" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-              <Component id="animalBtn" min="-2" pref="23" max="-2" attributes="0"/>
+              <Component id="alterarBtn" min="-2" pref="23" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="atendimentoBtn" min="-2" pref="23" max="-2" attributes="0"/>
+              <Component id="removerBtn" min="-2" pref="23" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="encerrarBtn" min="-2" pref="23" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
-              <Component id="resetBtn" min="-2" max="-2" attributes="0"/>
+              <Component id="relatorioBtn" min="-2" pref="23" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
+              <Component id="voltarBtn" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JButton" name="animalBtn">
+    <Component class="javax.swing.JButton" name="alterarBtn">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="OCR A Extended" size="14" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Animal"/>
+        <Property name="text" type="java.lang.String" value="Alterar"/>
       </Properties>
       <Events>
-        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="animalBtnMouseClicked"/>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="alterarBtnMouseClicked"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="funcionarioBtn">
+    <Component class="javax.swing.JButton" name="consultarBtn">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="OCR A Extended" size="14" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Funcion&#xe1;rio"/>
+        <Property name="text" type="java.lang.String" value="Consultar"/>
         <Property name="alignmentY" type="float" value="0.0"/>
       </Properties>
       <Events>
-        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="funcionarioBtnMouseClicked"/>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="consultarBtnMouseClicked"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="clienteBtn">
+    <Component class="javax.swing.JButton" name="cadastrarBtn">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="OCR A Extended" size="14" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Cliente"/>
+        <Property name="text" type="java.lang.String" value="Cadastrar"/>
         <Property name="alignmentY" type="float" value="0.0"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
           <Color id="Cursor Padr&#xe3;o"/>
@@ -110,18 +109,19 @@
         <Property name="horizontalTextPosition" type="int" value="0"/>
       </Properties>
       <Events>
-        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="clienteBtnMouseClicked"/>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="cadastrarBtnMouseClicked"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cadastrarBtnActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="atendimentoBtn">
+    <Component class="javax.swing.JButton" name="removerBtn">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="OCR A Extended" size="14" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Atendimento"/>
+        <Property name="text" type="java.lang.String" value="Remover"/>
       </Properties>
       <Events>
-        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="atendimentoBtnMouseClicked"/>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="removerBtnMouseClicked"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="tituloLbl">
@@ -132,20 +132,20 @@
         <Property name="text" type="java.lang.String" value="Petsistema"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="encerrarBtn">
+    <Component class="javax.swing.JButton" name="relatorioBtn">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="OCR A Extended" size="14" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Encerrar Execu&#xe7;&#xe3;o"/>
+        <Property name="text" type="java.lang.String" value="Relat&#xf3;rio"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="resetBtn">
+    <Component class="javax.swing.JButton" name="voltarBtn">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="OCR A Extended" size="12" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Reset"/>
+        <Property name="text" type="java.lang.String" value="Voltar"/>
       </Properties>
     </Component>
   </SubComponents>
