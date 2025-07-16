@@ -110,7 +110,7 @@ public class MenuPrincipalGUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(40, 40, 40)
-                .addComponent(tituloLbl, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
+                .addComponent(tituloLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(29, 29, 29)
                 .addComponent(clienteBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -130,26 +130,26 @@ public class MenuPrincipalGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void clienteBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clienteBtnMouseClicked
-        MenuClienteGUI menuCliente = new MenuClienteGUI(this, clienteService);
-        menuCliente.setVisible(true);
+        MenuServicesGUI menuServices = new MenuServicesGUI(this, clienteService, "Cliente");
+        menuServices.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_clienteBtnMouseClicked
 
     private void funcionarioBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_funcionarioBtnMouseClicked
-        MenuFuncionarioGUI menuFuncionario = new MenuFuncionarioGUI(this, funcionarioService);
-        menuFuncionario.setVisible(true);
+        MenuServicesGUI menuServices = new MenuServicesGUI(this, funcionarioService, "Funcionário");
+        menuServices.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_funcionarioBtnMouseClicked
 
     private void animalBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_animalBtnMouseClicked
-        MenuAnimalGUI menuAnimal = new MenuAnimalGUI(this, animalService);
-        menuAnimal.setVisible(true);
+        MenuServicesGUI menuServices = new MenuServicesGUI(this, animalService, "Animal");
+        menuServices.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_animalBtnMouseClicked
 
     private void atendimentoBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_atendimentoBtnMouseClicked
-        MenuAtendimentoGUI menuAtendimento = new MenuAtendimentoGUI(this, atendimentoService);
-        menuAtendimento.setVisible(true);
+        MenuServicesGUI menuServices = new MenuServicesGUI(this, atendimentoService, "Atendimento");
+        menuServices.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_atendimentoBtnMouseClicked
 
